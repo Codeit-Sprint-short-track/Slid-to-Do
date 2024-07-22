@@ -3,7 +3,7 @@ name: PR Check
 on:
   pull_request:
     branches:
-      - feature
+      - main
 
 jobs:
   lint-and-test:
