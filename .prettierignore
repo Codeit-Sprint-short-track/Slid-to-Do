@@ -11,11 +11,14 @@
 # 특정 파일 형식
 *.md
 *.svg
+*.yaml
+*.css
 
 # 특정 설정 파일
 .eslintrc
 .gitignore
 .package-lock.json
+.prettierignore
 
 # 특정 디렉토리
 /.husky
