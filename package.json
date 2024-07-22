@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
     "@craco/craco": "^7.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -27,11 +25,13 @@
     "build": "craco build",
     "test": "jest --passWithNoTests",
     "eject": "craco eject",
-    "lint": "eslint --fix **/*.{ts,tsx}",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix **/*.{ts,tsx}",
     "prettier": "prettier --write **/*.{ts,tsx}",
     "tsc": "tsc",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +61,8 @@
     "@babel/plugin-transform-private-methods": "^7.24.7",
     "@babel/plugin-transform-private-property-in-object": "^7.24.7",
     "@chromatic-com/storybook": "^1.6.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@eslint/config-array": "^0.17.0",
     "@eslint/js": "^9.7.0",
     "@eslint/object-schema": "^2.1.4",
@@ -86,7 +88,8 @@
     "eslint-plugin-storybook": "^0.8.0",
     "glob": "^11.0.0",
     "globals": "^15.8.0",
-    "husky": "^9.0.11",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.5",
     "prop-types": "^15.8.1",
@@ -96,5 +99,11 @@
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript-eslint": "^7.16.0",
     "webpack": "^5.93.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }
