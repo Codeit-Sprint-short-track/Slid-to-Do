@@ -7,7 +7,7 @@
     "build": "craco build",
     "test": "jest --passWithNoTests",
     "eject": "craco eject",
-    "lint": "eslint --cache .",
+    "lint": "eslint .",
     "lint:fix": "eslint --cache --fix **/*.{ts,tsx}",
     "prettier": "prettier --write **/*.{ts,tsx}",
     "prettier:check": "prettier --check .",
