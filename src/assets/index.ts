@@ -1,6 +1,6 @@
 export { ReactComponent as FlagIcon } from './flag.svg';
 export { ReactComponent as HomeIcon } from './home.svg';
-export { ReactComponent as ExpendIcon } from './ic_expand.svg';
+export { ReactComponent as FoldIcon } from './ic_fold.svg';
 export { ReactComponent as TextLogoIcon } from './img_logo.svg';
 export {
   ReactComponent as LogoIcon,
