@@ -1,8 +1,9 @@
 import { DeleteIcon } from '@/assets';
 import { useState } from 'react';
 
-interface PopupProps {
+export interface PopupProps {
   message: string;
+  confirmMessage?: string;
   singleButton?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
@@ -10,6 +11,7 @@ interface PopupProps {
 
 function Popup({
   message,
+  confirmMessage = '확인',
   singleButton = false,
   onConfirm,
   onCancel,
@@ -73,7 +75,8 @@ function Popup({
             onClick={handleConfirm}
             aria-label="Confirm"
           >
-            확인
+            <span className="block tablet:hidden">확인</span>
+            <span className="hidden tablet:block">{confirmMessage}</span>
           </button>
         </div>
       </div>
