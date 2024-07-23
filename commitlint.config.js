@@ -22,6 +22,5 @@ module.exports = {
         'hot fix', // Custom type
       ],
     ],
-    'type-separator': [2, 'always', ':'],
   },
 };
