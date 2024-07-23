@@ -35,10 +35,10 @@ jobs:
         uses: tj-actions/changed-files@v39
 
       - name: Prettier check
-        run: npx prettier --check ${{ steps.changed-files.outputs.all_changed_files }}
+        run: npm run prettier:check -- ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Lint check
-        run: npx eslint ${{ steps.changed-files.outputs.all_changed_files }}
+        run: npm run lint -- ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: TS check
         run: npm run tsc
