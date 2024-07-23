@@ -8,7 +8,7 @@
     "test": "jest --passWithNoTests",
     "eject": "craco eject",
     "lint": "eslint .",
-    "lint:fix": "eslint --cache --fix **/*.{ts,tsx}",
+    "lint:fix": "eslint --fix **/*.{ts,tsx}",
     "prettier": "prettier --write **/*.{ts,tsx}",
     "prettier:check": "prettier --check .",
     "tsc": "tsc --noEmit",
