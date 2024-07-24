@@ -1,4 +1,4 @@
-import { TextLogoIcon } from '@/assets';
+import { TextLogoIcon } from '@assets';
 import { Link } from 'react-router-dom';
 
 function SignInPage() {
