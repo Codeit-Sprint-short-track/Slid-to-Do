@@ -14,7 +14,7 @@ const todos = [
     createdAt: '2023-07-20T12:00:00Z',
   },
   {
-    noteId: 2,
+    noteId: 0,
     done: false,
     title: 'Todo with Note',
     id: 2,
