@@ -1,5 +1,4 @@
 import { DeleteIcon } from '@/assets';
-import { useState } from 'react';
 
 export interface PopupProps {
   message: string;
@@ -7,6 +6,7 @@ export interface PopupProps {
   singleButton?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
+  onClose: () => void;
 }
 
 function Popup({
@@ -15,24 +15,25 @@ function Popup({
   singleButton = false,
   onConfirm,
   onCancel,
+  onClose,
 }: PopupProps) {
-  const [isVisible, setIsVisible] = useState(true);
-
   const handleConfirm = () => {
     if (onConfirm) {
       onConfirm();
     }
-    setIsVisible(false);
+    onClose();
   };
 
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
     }
-    setIsVisible(false);
+    onClose();
   };
 
-  if (!isVisible) return null;
+  const handleClose = () => {
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -41,7 +42,7 @@ function Popup({
           <button
             type="button"
             className="flex items-center justify-center"
-            onClick={handleCancel}
+            onClick={handleClose}
             aria-label="Close"
           >
             <DeleteIcon width={24} height={24} />
@@ -52,11 +53,7 @@ function Popup({
             {message}
           </div>
         </div>
-        <div
-          className={`flex justify-center ${
-            singleButton ? 'tablet:justify-end' : 'gap-2'
-          } w-full`}
-        >
+        <div className="flex w-full justify-center gap-2">
           {!singleButton && (
             <button
               type="button"

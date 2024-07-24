@@ -19,7 +19,7 @@ const config: StorybookConfig = {
   core: {
     builder: '@storybook/builder-webpack5',
   },
-  staticDirs: ['..\\public', '..\\src\\assets'],
+  staticDirs: ['../public', '../src/assets'],
   webpackFinal: async (config) => {
     if (config.resolve && config.resolve.alias) {
       config.resolve.alias['@'] = path.resolve(__dirname, '../src');
