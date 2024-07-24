@@ -1,4 +1,4 @@
-import { DeleteIcon } from '@/assets';
+import { DeleteIcon } from '@assets';
 
 export interface PopupProps {
   message: string;

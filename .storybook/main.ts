@@ -1,6 +1,6 @@
-import path from 'path';
-
 import type { StorybookConfig } from '@storybook/react-webpack5';
+import path from 'path';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -21,8 +21,12 @@ const config: StorybookConfig = {
   },
   staticDirs: ['../public', '../src/assets'],
   webpackFinal: async (config) => {
-    if (config.resolve && config.resolve.alias) {
-      config.resolve.alias['@'] = path.resolve(__dirname, '../src');
+    if (config.resolve && config.resolve.plugins) {
+      config.resolve.plugins.push(
+        new TsconfigPathsPlugin({
+          configFile: path.resolve(__dirname, '../tsconfig.json'),
+        }),
+      );
     }
     return config;
   },
