@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 function SignInPage() {
   return (
-    <div className="mt-40 flex flex-col items-center">
-      <div className="flex flex-col items-center" style={{ width: 640 }}>
+    <div className="mt-10 flex flex-col items-center tablet:mt-20 desktop:mt-40">
+      <div className="flex w-[340px] flex-col items-center tablet:w-[640px]">
         <TextLogoIcon width={270} height={90} />
         <div className="mt-4 self-start text-xl text-black">아이디</div>
         <div className="mt-4 h-10 w-full rounded-md bg-slate-200">.</div>
