@@ -20,13 +20,13 @@
   "rules": {
     // "max-len": ["warn", { "code": 80 }],
     "prettier/prettier": "error",
-    "indent": ["error", 2],
+    // "indent": ["error", 2],
     "quotes": ["error", "single", {
       "allowTemplateLiterals":  true
   }],
     "semi": ["error", "always"],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": "error",
     "complexity": ["warn", { "max": 10 }],
     "max-depth": ["warn", 4],
     "comma-dangle": ["error", "always-multiline"],
@@ -46,7 +46,9 @@
       }
     ],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "react/jsx-no-useless-fragment": "off"
+    "react/jsx-no-useless-fragment": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off"
   },
   "overrides": [
     {
