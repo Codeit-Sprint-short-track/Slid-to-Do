@@ -4,9 +4,8 @@ export interface PopupProps {
   message: string;
   confirmMessage?: string;
   singleButton?: boolean;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-  onClose: () => void;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 function Popup({
@@ -15,26 +14,7 @@ function Popup({
   singleButton = false,
   onConfirm,
   onCancel,
-  onClose,
 }: PopupProps) {
-  const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm();
-    }
-    onClose();
-  };
-
-  const handleCancel = () => {
-    if (onCancel) {
-      onCancel();
-    }
-    onClose();
-  };
-
-  const handleClose = () => {
-    onClose();
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="flex h-[203px] w-[300px] flex-col items-center justify-center gap-2.5 rounded-lg bg-white p-6 tablet:h-[216px] tablet:w-[450px]">
@@ -42,7 +22,7 @@ function Popup({
           <button
             type="button"
             className="flex items-center justify-center"
-            onClick={handleClose}
+            onClick={onCancel}
             aria-label="Close"
           >
             <DeleteIcon width={24} height={24} />
@@ -58,7 +38,7 @@ function Popup({
             <button
               type="button"
               className="flex h-12 w-[120px] items-center justify-center rounded-xl border border-blue-500 bg-white text-base font-semibold leading-normal text-blue-500"
-              onClick={handleCancel}
+              onClick={onCancel}
               aria-label="Cancel"
             >
               취소
@@ -67,7 +47,7 @@ function Popup({
           <button
             type="button"
             className="flex h-12 w-[120px] items-center justify-center rounded-xl bg-blue-500 text-base font-semibold leading-normal text-white"
-            onClick={handleConfirm}
+            onClick={onConfirm}
             aria-label="Confirm"
           >
             <span className="block tablet:hidden">확인</span>
