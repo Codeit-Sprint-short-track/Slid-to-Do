@@ -53,10 +53,8 @@ function Popup({
           </div>
         </div>
         <div
-          className={`flex ${
-            singleButton
-              ? 'justify-center tablet:justify-end'
-              : 'justify-center gap-2'
+          className={`flex justify-center ${
+            singleButton ? 'tablet:justify-end' : 'gap-2'
           } w-full`}
         >
           {!singleButton && (
