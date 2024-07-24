@@ -1,5 +1,6 @@
 import {
   BluePlusIcon,
+  DisabledPlusIcon,
   FlagIcon,
   FoldIcon,
   HomeIcon,
@@ -100,7 +101,11 @@ function SideBar() {
               onClick={() => setIsEditing(true)}
               disabled={isEditing}
             >
-              <BluePlusIcon className={`mr-2 ${isEditing && 'opacity-60'}`} />
+              {isEditing ? (
+                <DisabledPlusIcon className="mr-2" />
+              ) : (
+                <BluePlusIcon className="mr-2" />
+              )}
               <span className="mr-2 text-base font-medium">새 목표</span>
             </Button>
           </div>
