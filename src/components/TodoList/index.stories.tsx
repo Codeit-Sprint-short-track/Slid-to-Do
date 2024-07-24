@@ -5,7 +5,6 @@ import TodoList, { Todo, TodoListProps } from '.';
 
 const todos = [
   {
-    noteId: 0,
     done: false,
     title: 'Todo without Note',
     id: 1,
@@ -15,7 +14,7 @@ const todos = [
     createdAt: '2023-07-20T12:00:00Z',
   },
   {
-    noteId: 1,
+    noteId: 2,
     done: false,
     title: 'Todo with Note',
     id: 2,
@@ -25,7 +24,7 @@ const todos = [
     createdAt: '2023-07-21T12:00:00Z',
   },
   {
-    noteId: 2,
+    noteId: 3,
     done: false,
     linkUrl: 'https://example.com',
     title: 'Todo with Link',
@@ -36,7 +35,7 @@ const todos = [
     createdAt: '2023-07-22T12:00:00Z',
   },
   {
-    noteId: 3,
+    noteId: 4,
     done: false,
     linkUrl: 'https://example.com',
     fileUrl: 'https://example.com/file.pdf',
@@ -48,7 +47,7 @@ const todos = [
     createdAt: '2023-07-23T12:00:00Z',
   },
   {
-    noteId: 4,
+    noteId: 5,
     done: false,
     title: 'Todo with Goal',
     id: 5,

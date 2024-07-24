@@ -10,5 +10,6 @@ export { ReactComponent as LinkIcon } from './link.svg';
 export { ReactComponent as LogoIcon } from './logo.svg';
 export { ReactComponent as NoteViewIcon } from './note-view.svg';
 export { ReactComponent as NoteWriteIcon } from './note-write.svg';
+export { ReactComponent as PlusIcon } from './plus.svg';
 export { ReactComponent as ProfileIcon } from './profile.svg';
 export { ReactComponent as TextLogoIcon } from './textLogo.svg';

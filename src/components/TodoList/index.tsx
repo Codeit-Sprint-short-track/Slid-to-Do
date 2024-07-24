@@ -15,7 +15,7 @@ interface Goal {
 }
 
 export interface Todo {
-  noteId: number;
+  noteId?: number;
   done: boolean;
   linkUrl?: string;
   fileUrl?: string;
@@ -35,8 +35,8 @@ export interface TodoListProps {
   showIcons?: boolean;
   hoverBgColor?: string;
   onTodoClick: (todo: Todo) => void;
-  onOpenNoteDetail?: (noteId: number) => void;
-  onOpenNoteWrite?: (noteId: number) => void;
+  onOpenNoteDetail?: (id: number) => void;
+  onOpenNoteWrite?: (id: number) => void;
 }
 
 function TodoList({
@@ -120,13 +120,13 @@ function TodoList({
                   <LinkIcon width={24} height={24} />
                 </Link>
               )}
-              {todo.noteId !== 0 ? (
+              {todo.noteId || todo.noteId === 0 ? (
                 <button
                   type="button"
                   className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (onOpenNoteDetail) onOpenNoteDetail(todo.noteId);
+                    if (onOpenNoteDetail) onOpenNoteDetail(todo.id);
                   }}
                   aria-label="View note"
                 >
