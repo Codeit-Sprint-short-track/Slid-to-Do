@@ -55,7 +55,7 @@ function SideBar() {
             </div>
           </div>
           <div className="my-6 flex justify-center">
-            <Button shape="solid" size="sm" additionalClass="w-[232px]">
+            <Button shape="solid" size="sm" additionalClass="w-full">
               <PlusIcon className="mr-2" />
               <span className="mr-2 text-base font-medium">새 할 일</span>
             </Button>
@@ -96,7 +96,7 @@ function SideBar() {
             <Button
               shape="outlined"
               size="sm"
-              additionalClass="w-[232px]"
+              additionalClass="w-full"
               onClick={() => setIsEditing(true)}
               disabled={isEditing}
             >
