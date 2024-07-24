@@ -8,3 +8,4 @@ export { ReactComponent as FlagIcon } from './flag.svg';
 export { ReactComponent as FoldIcon } from './fold.svg';
 export { ReactComponent as HomeIcon } from './home.svg';
 export { ReactComponent as KebabIcon } from './kebab.svg';
+export { ReactComponent as PlusIcon } from './plus.svg';
