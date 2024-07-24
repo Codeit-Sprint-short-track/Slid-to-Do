@@ -1,15 +1,19 @@
 import {
+  BluePlusIcon,
   FlagIcon,
   FoldIcon,
   HomeIcon,
   LogoIcon,
+  PlusIcon,
   ProfileIcon,
   TextLogoIcon,
 } from '@assets';
+import Button from '@components/Button';
 import { useState } from 'react';
 
 function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -22,7 +26,7 @@ function SideBar() {
 
   return (
     <div
-      className={`absolute left-0 h-dvh w-60 transform p-4 ${isOpen ? 'translate-x-0' : '-translate-x-48'} bg-white transition-transform duration-300 ease-in-out`}
+      className={`absolute left-0 top-0 h-dvh w-[280px] transform p-4 ${isOpen ? 'translate-x-0' : '-translate-x-[230px]'} bg-white transition-transform duration-300 ease-in-out`}
     >
       <button
         type="button"
@@ -46,26 +50,55 @@ function SideBar() {
               </button>
             </div>
           </div>
-          <div className="mb-4 mt-4">
-            <div className="h-10 w-full rounded-lg bg-blue-700"> </div>
+          <div className="mb-4 mt-4 flex justify-center">
+            <Button shape="solid" size="sm" additionalClass="w-[232px]">
+              <PlusIcon className="mr-2" />
+              <span className="mr-2 text-base font-medium">새 할 일</span>
+            </Button>
           </div>
           <div className="absolute left-0 w-full border-b-2"> </div>
           <div className="mb-2 mt-6 flex h-8 flex-row items-center">
             <HomeIcon width={14} height={14} />
-            <div className="ml-4">대시보드</div>
+            <div className="ml-4 font-medium">대시보드</div>
           </div>
           <div className="absolute left-0 w-full border-b-2"> </div>
           <div className="mb-2 mt-4 flex h-8 flex-row items-center">
             <FlagIcon width={14} height={14} />
-            <div className="ml-4">목표</div>
+            <div className="ml-4 font-medium">목표</div>
           </div>
           <ul>
             {mockGoalData.goals.map((item) => (
               <li className="mt-2 text-sm">• {item.title}</li>
             ))}
+            {isEditing && (
+              <li>
+                <span>• </span>
+                <input
+                  className="mt-2 h-8 w-[227px] rounded-md border border-gray-300 p-2 text-sm"
+                  placeholder="새 목표를 입력해주세요"
+                  onKeyDown={(event) => {
+                    // TODO: 엔터키 입력 시 목표 추가
+                    console.log(event.key);
+                    if (event.key === 'Enter') {
+                      setIsEditing(false);
+                    }
+                  }}
+                />
+              </li>
+            )}
           </ul>
-          <div className="mb-4 mt-4">
-            <div className="h-10 w-full rounded-lg bg-blue-700"> </div>
+
+          <div className="mb-4 mt-4 flex justify-center">
+            <Button
+              shape="outlined"
+              size="sm"
+              additionalClass="w-[232px]"
+              onClick={() => setIsEditing(true)}
+              disabled={isEditing}
+            >
+              <BluePlusIcon className="mr-2" />
+              <span className="mr-2 text-base font-medium">새 목표</span>
+            </Button>
           </div>
         </div>
       )}
