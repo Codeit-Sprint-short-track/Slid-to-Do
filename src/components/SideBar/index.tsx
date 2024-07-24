@@ -42,12 +42,14 @@ function SideBar() {
           <div className="mt-4 flex flex-row">
             <ProfileIcon width={64} height={64} />
             <div className="ml-3 flex flex-col items-start justify-between">
-              <div className="h-4 text-sm font-medium leading-5">체다치즈</div>
-              <div className="h-4 text-sm font-normal leading-5">
+              <div className="h-4 text-sm font-semibold leading-5 text-slate-800">
+                체다치즈
+              </div>
+              <div className="h-4 text-sm font-medium leading-5 text-slate-600">
                 chedacheese@slid.kr
               </div>
               <button type="button">
-                <span className="text-xs font-light leading-4 text-slate-400">
+                <span className="text-xs font-normal leading-4 text-slate-400">
                   로그아웃
                 </span>
               </button>
@@ -56,22 +58,22 @@ function SideBar() {
           <div className="my-6 flex justify-center">
             <Button shape="solid" size="sm" additionalClass="w-full">
               <PlusIcon className="mr-2 stroke-white" />
-              <span className="mr-2 text-base font-medium">새 할 일</span>
+              <span className="mr-2 text-base font-semibold">새 할 일</span>
             </Button>
           </div>
           <div className="absolute left-0 w-full border-b-[1px]"> </div>
           <div className="my-4 mt-10 flex h-8 flex-row items-center">
             <HomeIcon width={24} height={24} />
-            <div className="ml-2 font-medium">대시보드</div>
+            <div className="ml-2 text-lg font-medium">대시보드</div>
           </div>
           <div className="absolute left-0 w-full border-b-[1px]"> </div>
           <div className="my-4 mt-8 flex h-8 flex-row items-center">
             <FlagIcon width={24} height={24} />
-            <div className="ml-2 font-medium">목표</div>
+            <div className="ml-2 text-lg font-medium">목표</div>
           </div>
           <ul>
             {mockGoalData.goals.map((item) => (
-              <li className="p-2 text-sm">• {item.title}</li>
+              <li className="p-2 text-sm font-medium">• {item.title}</li>
             ))}
             {isEditing && (
               <li>
@@ -102,7 +104,7 @@ function SideBar() {
                 className={`mr-2 ${isEditing ? 'stroke-slate-400' : 'stroke-blue-500'}`}
               />
 
-              <span className="mr-2 text-base font-medium">새 목표</span>
+              <span className="mr-2 text-base font-semibold">새 목표</span>
             </Button>
           </div>
         </div>
