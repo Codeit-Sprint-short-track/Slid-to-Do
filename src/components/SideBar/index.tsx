@@ -1,6 +1,4 @@
 import {
-  BluePlusIcon,
-  DisabledPlusIcon,
   FlagIcon,
   FoldIcon,
   HomeIcon,
@@ -57,7 +55,7 @@ function SideBar() {
           </div>
           <div className="my-6 flex justify-center">
             <Button shape="solid" size="sm" additionalClass="w-full">
-              <PlusIcon className="mr-2" />
+              <PlusIcon className="mr-2 stroke-white" />
               <span className="mr-2 text-base font-medium">새 할 일</span>
             </Button>
           </div>
@@ -100,11 +98,10 @@ function SideBar() {
               onClick={() => setIsEditing(true)}
               disabled={isEditing}
             >
-              {isEditing ? (
-                <DisabledPlusIcon className="mr-2" />
-              ) : (
-                <BluePlusIcon className="mr-2" />
-              )}
+              <PlusIcon
+                className={`mr-2 ${isEditing ? 'stroke-slate-400' : 'stroke-blue-500'}`}
+              />
+
               <span className="mr-2 text-base font-medium">새 목표</span>
             </Button>
           </div>
