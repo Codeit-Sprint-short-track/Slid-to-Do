@@ -83,7 +83,6 @@ function SideBar() {
                   placeholder="새 목표를 입력해주세요"
                   onKeyDown={(event) => {
                     // TODO: 엔터키 입력 시 목표 추가
-                    console.log(event.key);
                     if (event.key === 'Enter') {
                       setIsEditing(false);
                     }
