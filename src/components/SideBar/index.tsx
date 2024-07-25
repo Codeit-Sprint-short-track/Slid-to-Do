@@ -7,14 +7,19 @@ function SideBar() {
   const width = useWindowWidth();
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  const toggleSidebar = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className="flex">
+    <>
       {width >= 744 ? (
         <>
+          {isOpen && width <= 1902 && (
+            <div className="absolute left-0 top-0 h-dvh w-dvw bg-black opacity-50">
+              {' '}
+            </div>
+          )}
           <div
-            className={`absolute left-0 top-0 h-dvh w-[280px] transform px-6 py-4 ${isOpen ? 'translate-x-0' : '-translate-x-[220px]'} bg-white transition-transform duration-300 ease-in-out`}
+            className={`absolute left-0 top-0 h-dvh w-[280px] px-6 py-4 ${isOpen ? 'translate-x-0' : '-translate-x-[220px]'} border-r-[1px] bg-white transition-transform duration-300 ease-in-out`}
           >
             <div
               className={`fixed ${isOpen ? 'right-6' : 'right-[18px]'} top-5 h-5 w-6`}
@@ -44,7 +49,7 @@ function SideBar() {
             </button>
           </div>
           <div
-            className={`absolute left-0 top-0 h-dvh w-full transform px-6 py-4 ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white transition-transform duration-300 ease-in-out`}
+            className={`absolute left-0 top-0 h-dvh w-full px-6 py-4 ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white transition-transform duration-300 ease-in-out`}
           >
             <button
               type="button"
@@ -58,7 +63,7 @@ function SideBar() {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
 
