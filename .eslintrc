@@ -30,7 +30,7 @@
     "complexity": ["warn", { "max": 10 }],
     "max-depth": ["warn", 4],
     "comma-dangle": ["error", "always-multiline"],
-    "no-console": "off",
+    "no-console": "warn",
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "react/jsx-props-no-spreading": 0, 

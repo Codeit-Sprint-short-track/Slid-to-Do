@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { Todo } from '@customTypes/interface';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
