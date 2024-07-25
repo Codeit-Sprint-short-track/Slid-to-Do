@@ -13,7 +13,7 @@ function SideBar() {
     <>
       {width >= 744 ? (
         <>
-          {isOpen && width <= 1902 && (
+          {isOpen && width <= 1920 && (
             <div className="absolute left-0 top-0 h-dvh w-dvw bg-black opacity-50">
               {' '}
             </div>
