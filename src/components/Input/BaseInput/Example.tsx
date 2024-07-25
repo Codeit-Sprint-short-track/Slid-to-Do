@@ -19,9 +19,7 @@ function ExampleForm() {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-  };
+  const onSubmit = (data: FormValues) => data;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
