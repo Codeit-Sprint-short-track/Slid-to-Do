@@ -1,3 +1,4 @@
+import { Todo } from '@/types/interface';
 import {
   ActiveBlue,
   FileIcon,
@@ -7,7 +8,6 @@ import {
   NoteViewIcon,
   NoteWriteIcon,
 } from '@assets';
-import { Todo } from '@customTypes/interface';
 import { Link } from 'react-router-dom';
 
 export interface TodoListProps {

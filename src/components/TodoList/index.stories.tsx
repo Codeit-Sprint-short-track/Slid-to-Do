@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { Todo } from '@customTypes/interface';
+import { Todo } from '@/types/interface';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
