@@ -5,6 +5,7 @@ import TodoList, { Todo, TodoListProps } from '.';
 
 const todos = [
   {
+    noteId: null,
     done: false,
     title: 'Todo without Note',
     id: 1,

@@ -15,7 +15,7 @@ interface Goal {
 }
 
 export interface Todo {
-  noteId?: number;
+  noteId: number | null;
   done: boolean;
   linkUrl?: string;
   fileUrl?: string;
@@ -120,7 +120,7 @@ function TodoList({
                   <LinkIcon width={24} height={24} />
                 </Link>
               )}
-              {todo.noteId || todo.noteId === 0 ? (
+              {todo.noteId !== null ? (
                 <button
                   type="button"
                   className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50"
