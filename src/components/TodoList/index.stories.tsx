@@ -1,14 +1,18 @@
+import { Todo } from '@customTypes/interface';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import TodoList, { Todo, TodoListProps } from '.';
+import TodoList, { TodoListProps } from '.';
 
 const todos = [
   {
     noteId: null,
     done: false,
+    linkUrl: null,
+    fileUrl: null,
     title: 'Todo without Note',
     id: 1,
+    goal: null,
     userId: 1,
     teamId: 'team1',
     updatedAt: '2023-07-20T12:34:56Z',
@@ -17,7 +21,10 @@ const todos = [
   {
     noteId: 0,
     done: false,
+    linkUrl: null,
+    fileUrl: null,
     title: 'Todo with Note',
+    goal: null,
     id: 2,
     userId: 1,
     teamId: 'team1',
@@ -28,8 +35,10 @@ const todos = [
     noteId: 3,
     done: false,
     linkUrl: 'https://example.com',
+    fileUrl: null,
     title: 'Todo with Link',
     id: 3,
+    goal: null,
     userId: 1,
     teamId: 'team1',
     updatedAt: '2023-07-22T12:34:56Z',
@@ -42,6 +51,7 @@ const todos = [
     fileUrl: 'https://example.com/file.pdf',
     title: 'Todo with Link and File and Long Title',
     id: 4,
+    goal: null,
     userId: 1,
     teamId: 'team1',
     updatedAt: '2023-07-23T12:34:56Z',
@@ -50,6 +60,8 @@ const todos = [
   {
     noteId: 5,
     done: false,
+    linkUrl: null,
+    fileUrl: null,
     title: 'Todo with Goal',
     id: 5,
     userId: 1,
@@ -57,8 +69,12 @@ const todos = [
     updatedAt: '2023-07-24T12:34:56Z',
     createdAt: '2023-07-24T12:00:00Z',
     goal: {
-      id: 1,
+      updatedAt: '2023-07-24T12:34:56Z',
+      createdAt: '2023-07-24T12:00:00Z',
       title: '자바스크립트로 웹 서비스 만들기',
+      id: 5,
+      userId: 1,
+      teamId: 'team1',
     },
   },
 ];

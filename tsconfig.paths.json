@@ -12,7 +12,7 @@
       "@layout/*": ["./src/layout/*"],
       "@pages/*": ["./src/pages/*"],
       "@styles/*": ["./src/styles/*"],
-      "@types/*": ["./src/types/*"],
+      "@customTypes/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"]
     }
   }

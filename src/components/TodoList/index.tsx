@@ -7,26 +7,8 @@ import {
   NoteViewIcon,
   NoteWriteIcon,
 } from '@assets';
+import { Todo } from '@customTypes/interface';
 import { Link } from 'react-router-dom';
-
-interface Goal {
-  id: number;
-  title: string;
-}
-
-export interface Todo {
-  noteId: number | null;
-  done: boolean;
-  linkUrl?: string;
-  fileUrl?: string;
-  title: string;
-  id: number;
-  goal?: Goal;
-  userId: number;
-  teamId: string;
-  updatedAt: string;
-  createdAt: string;
-}
 
 export interface TodoListProps {
   todos: Todo[];
@@ -82,7 +64,7 @@ function TodoList({
               >
                 {todo.title}
               </div>
-              {showGoals && todo.goal && (
+              {showGoals && todo.goal !== null && (
                 <div className="mt-1 flex items-center overflow-hidden">
                   <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50">
                     <GoalIcon width={24} height={24} />
@@ -96,7 +78,7 @@ function TodoList({
           </div>
           {showIcons && (
             <div className="flex flex-shrink-0 items-center space-x-2">
-              {todo.fileUrl && (
+              {todo.fileUrl !== null && (
                 <Link
                   to={todo.fileUrl}
                   target="_blank"
@@ -108,7 +90,7 @@ function TodoList({
                   <FileIcon width={24} height={24} />
                 </Link>
               )}
-              {todo.linkUrl && (
+              {todo.linkUrl !== null && (
                 <Link
                   to={todo.linkUrl}
                   target="_blank"
