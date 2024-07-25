@@ -48,7 +48,11 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "react/jsx-no-useless-fragment": "off",
     "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-static-element-interactions": "off"
+    "jsx-a11y/no-static-element-interactions": "off",
+    // nesting: label이 form control을 직접 감싸는지, id: htmlFor/id로 연결돼있는지
+    "jsx-a11y/label-has-associated-control": [ 2, {
+      "some": [ "nesting", "id" ]
+    }]
   },
   "overrides": [
     {
