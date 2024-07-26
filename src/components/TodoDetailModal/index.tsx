@@ -4,11 +4,11 @@ import { Goal, Todo } from '@/types/interface';
 import {
   ActiveBlue,
   ActiveWhite,
-  ArrowDownIcon,
   DeleteIcon,
   GrayDelete,
   Inactive,
 } from '@assets';
+import Dropdown from '@components/Dropdown';
 import BaseInput from '@components/Input/BaseInput';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
@@ -65,7 +65,7 @@ export interface TodoDetailModalProps {
 function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   const [done, setDone] = useState(todo.done);
   const [title, setTitle] = useState(todo.title);
-  const [goal, setGoal] = useState(todo.goal);
+  const [selectedGoal, setSelectedGoal] = useState(todo.goal);
   const [goals, setGoals] = useState<Goal[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [fileUrl, setFileUrl] = useState(todo.fileUrl);
@@ -80,7 +80,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
 
   useEffect(() => {
     const isTitleChanged = title !== todo.title;
-    const isGoalChanged = goal?.id !== todo.goal?.id;
+    const isGoalChanged = selectedGoal?.id !== todo.goal?.id;
     const isFileUrlChanged = fileUrl !== todo.fileUrl;
     const isLinkUrlChanged = linkUrl !== todo.linkUrl;
     const isDoneChanged = done !== todo.done;
@@ -92,14 +92,21 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
         isLinkUrlChanged ||
         isDoneChanged,
     );
-  }, [title, goal, fileUrl, linkUrl, done, todo]);
+  }, [title, selectedGoal, fileUrl, linkUrl, done, todo]);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleGoalChange = (selectedGoal: Goal | null) => {
-    setGoal(selectedGoal);
+  const handleGoalChange = (
+    selectedOption: { id: number; title: string } | null,
+  ) => {
+    if (selectedOption) {
+      const option = goals.find((goal) => goal.id === selectedOption.id);
+      setSelectedGoal(option || null);
+    } else {
+      setSelectedGoal(null);
+    }
   };
 
   const handleDropdownToggle = () => {
@@ -233,57 +240,16 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                 <div className="text-base font-semibold leading-normal text-slate-800">
                   목표
                 </div>
-                <div className="flex h-12 w-full items-center justify-center self-stretch rounded-xl bg-slate-50 py-3">
-                  <div className="relative flex h-6 w-full cursor-pointer items-center justify-center self-stretch">
-                    <button
-                      type="button"
-                      className="flex w-full justify-between self-stretch bg-slate-50 px-5"
-                      onClick={handleDropdownToggle}
-                    >
-                      <div className="text-start">
-                        {goal !== null
-                          ? goal.title
-                          : '목표를 선택해주세요 (선택 안함)'}
-                      </div>
 
-                      <ArrowDownIcon className="p-[3px]" />
-                    </button>
-                    {dropdownOpen && (
-                      <div className="absolute top-10 z-10 w-full rounded-xl bg-white shadow-md">
-                        {goals.length > 0 ? (
-                          <div className="max-h-32 overflow-y-auto">
-                            <div className="flex flex-col items-start justify-start">
-                              <div
-                                className="w-full cursor-pointer px-5 py-2 hover:bg-slate-100"
-                                onClick={() => {
-                                  handleGoalChange(null);
-                                  setDropdownOpen(false);
-                                }}
-                              >
-                                목표를 선택해주세요 (선택 안함)
-                              </div>
-                              {goals.map((g) => (
-                                <div
-                                  key={g.id}
-                                  className="w-full cursor-pointer px-5 py-2 hover:bg-slate-100"
-                                  onClick={() => {
-                                    handleGoalChange(g);
-                                    setDropdownOpen(false);
-                                  }}
-                                >
-                                  {g.title}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex h-32 items-center justify-center">
-                            목표가 존재하지 않습니다.
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                <div className="flex h-12 w-full items-center justify-center self-stretch rounded-xl bg-slate-50 py-3">
+                  <Dropdown
+                    options={goals}
+                    selectedOption={selectedGoal}
+                    onSelect={handleGoalChange}
+                    placeholder="목표를 선택해주세요 (선택 안함)"
+                    dropdownOpen={dropdownOpen}
+                    onToggle={handleDropdownToggle}
+                  />
                 </div>
               </div>
 
@@ -423,7 +389,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                   >
                     <div className="inline-flex items-start justify-between self-stretch">
                       <div className="flex w-[90%] items-start justify-start gap-2 truncate">
-                        <div className="truncate font-['Pretendard'] text-base font-normal leading-normal text-slate-800">
+                        <div className="truncate text-base font-normal leading-normal text-slate-800">
                           {linkUrl}
                         </div>
                       </div>
