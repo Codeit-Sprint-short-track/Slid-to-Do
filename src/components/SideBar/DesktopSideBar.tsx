@@ -13,7 +13,7 @@ function DesktopSideBar({ isOpen, width, toggleSideBar }: SideBarProps) {
       {isOpen && width <= 1920 && (
         <div
           className="absolute left-0 top-0 h-dvh w-dvw bg-black opacity-50"
-          onClick={() => toggleSideBar()}
+          onClick={toggleSideBar}
         />
       )}
       <div
