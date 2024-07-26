@@ -6,16 +6,25 @@ import {
   TextLogoIcon,
 } from '@assets';
 import Button from '@components/Button';
-import { useState } from 'react';
+import useOutsideClick from '@hooks/useOutsideClick';
+import { MouseEvent, useRef, useState } from 'react';
 
 function MobileSideBarContents() {
   const [isEditing, setIsEditing] = useState(false);
+  const inputRef = useRef(null);
   const mockGoalData = {
     goals: [
       { title: '자바스크립트로 웹 서비스 만들기', id: 1 },
       { title: '디자인 시스템 강의 듣기', id: 2 },
     ],
   };
+  useOutsideClick(inputRef, () => setIsEditing(false));
+
+  const handleAddGoadBtn = (e: MouseEvent) => {
+    e.stopPropagation();
+    setIsEditing(true);
+  };
+
   return (
     <div className="flex-col">
       <TextLogoIcon />
@@ -65,7 +74,7 @@ function MobileSideBarContents() {
         <Button
           shape="outlined"
           size="xs"
-          onClick={() => setIsEditing(true)}
+          onClick={(e) => handleAddGoadBtn(e)}
           disabled={isEditing}
         >
           <PlusIcon
@@ -86,6 +95,7 @@ function MobileSideBarContents() {
           <li className="flex items-center p-2 text-sm font-medium text-slate-700">
             <span>•</span>
             <input
+              ref={inputRef}
               className="ml-1 h-8 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
               placeholder="새 목표를 입력해주세요"
               onKeyDown={(event) => {
