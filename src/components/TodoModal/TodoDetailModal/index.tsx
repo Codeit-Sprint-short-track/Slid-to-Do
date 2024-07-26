@@ -4,13 +4,13 @@ import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
 import useTodoDetail from '@hooks/useTodoDetail';
 import { ChangeEvent, useState } from 'react';
-import FilePreview from './FilePreview';
-import FileUploadButton from './FileUploadButton';
-import GoalSection from './GoalSection';
-import LinkCard from './LinkCard';
-import LinkUploadButton from './LinkUploadButton';
-import StatusSection from './StatusSection';
-import TitleSection from './TitleSection';
+import FilePreview from '../FilePreview';
+import FileUploadButton from '../FileUploadButton';
+import GoalSection from '../GoalSection';
+import LinkCard from '../LinkCard';
+import LinkUploadButton from '../LinkUploadButton';
+import StatusSection from '../StatusSection';
+import TitleSection from '../TitleSection';
 
 const mockGoals: Goal[] = [
   {

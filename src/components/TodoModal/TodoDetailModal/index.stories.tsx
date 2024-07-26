@@ -1,7 +1,7 @@
 import { Todo } from '@/types/interface';
 import TodoDetailModal, {
   TodoDetailModalProps,
-} from '@components/TodoDetailModal';
+} from '@components/TodoModal/TodoDetailModal';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
