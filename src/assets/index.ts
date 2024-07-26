@@ -8,6 +8,7 @@ export { ReactComponent as ActiveBlue } from './activeBlue.svg';
 export { ReactComponent as ActiveWhite } from './activeWhite.svg';
 export { ReactComponent as Inactive } from './inactive.svg';
 
+export { ReactComponent as ArrowDownIcon } from './arrowDown.svg';
 export { ReactComponent as DeleteIcon } from './delete.svg';
 export { ReactComponent as GrayDelete } from './grayDelete.svg';
 export { ReactComponent as PlusIcon } from './plus.svg';

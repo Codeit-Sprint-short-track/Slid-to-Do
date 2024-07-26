@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable complexity */
 
 import { Goal, Todo } from '@/types/interface';
 import {
   ActiveBlue,
   ActiveWhite,
+  ArrowDownIcon,
   DeleteIcon,
   GrayDelete,
   Inactive,
@@ -67,6 +67,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   const [title, setTitle] = useState(todo.title);
   const [goal, setGoal] = useState(todo.goal);
   const [goals, setGoals] = useState<Goal[]>([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [fileUrl, setFileUrl] = useState(todo.fileUrl);
   const [fileType, setFileType] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -76,11 +77,6 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [isUnsavedChangesPopupVisible, setIsUnsavedChangesPopupVisible] =
     useState(false);
-
-  useEffect(() => {
-    // GET
-    setGoals(mockGoals);
-  }, []);
 
   useEffect(() => {
     const isTitleChanged = title !== todo.title;
@@ -104,6 +100,14 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
 
   const handleGoalChange = (selectedGoal: Goal | null) => {
     setGoal(selectedGoal);
+  };
+
+  const handleDropdownToggle = () => {
+    if (!dropdownOpen) {
+      // GET
+      setGoals(mockGoals);
+    }
+    setDropdownOpen(!dropdownOpen);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -229,34 +233,56 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                 <div className="text-base font-semibold leading-normal text-slate-800">
                   목표
                 </div>
-                <div className="flex h-12 w-full items-center justify-center self-stretch rounded-xl bg-slate-50 px-5 py-3">
-                  <div className="flex h-6 w-full items-center justify-center self-stretch">
-                    <select
-                      className="w-full self-stretch bg-slate-50"
-                      value={goal ? goal.id : ''}
-                      onChange={(e) => {
-                        const selectedValue = e.target.value;
-                        if (selectedValue === '') {
-                          handleGoalChange(null);
-                        } else {
-                          const selectedGoal = goals.find(
-                            (g) => g.id === Number(selectedValue),
-                          );
-                          if (selectedGoal !== undefined) {
-                            handleGoalChange(selectedGoal);
-                          } else {
-                            handleGoalChange(null);
-                          }
-                        }
-                      }}
+                <div className="flex h-12 w-full items-center justify-center self-stretch rounded-xl bg-slate-50 py-3">
+                  <div className="relative flex h-6 w-full cursor-pointer items-center justify-center self-stretch">
+                    <button
+                      type="button"
+                      className="flex w-full justify-between self-stretch bg-slate-50 px-5"
+                      onClick={handleDropdownToggle}
                     >
-                      <option value="">목표를 선택해주세요 (선택 안함)</option>
-                      {goals.map((g) => (
-                        <option key={g.id} value={g.id}>
-                          {g.title}
-                        </option>
-                      ))}
-                    </select>
+                      <div className="text-start">
+                        {goal !== null
+                          ? goal.title
+                          : '목표를 선택해주세요 (선택 안함)'}
+                      </div>
+
+                      <ArrowDownIcon className="p-[3px]" />
+                    </button>
+                    {dropdownOpen && (
+                      <div className="absolute top-10 z-10 w-full rounded-xl bg-white shadow-md">
+                        {goals.length > 0 ? (
+                          <div className="max-h-32 overflow-y-auto">
+                            <div className="flex flex-col items-start justify-start">
+                              <div
+                                className="w-full cursor-pointer px-5 py-2 hover:bg-slate-100"
+                                onClick={() => {
+                                  handleGoalChange(null);
+                                  setDropdownOpen(false);
+                                }}
+                              >
+                                목표를 선택해주세요 (선택 안함)
+                              </div>
+                              {goals.map((g) => (
+                                <div
+                                  key={g.id}
+                                  className="w-full cursor-pointer px-5 py-2 hover:bg-slate-100"
+                                  onClick={() => {
+                                    handleGoalChange(g);
+                                    setDropdownOpen(false);
+                                  }}
+                                >
+                                  {g.title}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex h-32 items-center justify-center">
+                            목표가 존재하지 않습니다.
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -382,6 +408,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                       type="button"
                       className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-slate-200"
                       onClick={handleFileDelete}
+                      aria-label="File Delete"
                     >
                       <GrayDelete width={18} height={18} />
                     </button>
@@ -407,6 +434,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                           e.preventDefault();
                           handleLinkDelete();
                         }}
+                        aria-label="Link Delete"
                       >
                         <GrayDelete width={18} height={18} />
                       </button>
