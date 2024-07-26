@@ -1,20 +1,16 @@
-/* eslint-disable complexity */
-
 import { Goal, Todo } from '@/types/interface';
-import {
-  ActiveBlue,
-  ActiveWhite,
-  DeleteIcon,
-  GrayDelete,
-  Inactive,
-} from '@assets';
-import Dropdown from '@components/Dropdown';
-import BaseInput from '@components/Input/BaseInput';
+import { DeleteIcon, GrayDelete } from '@assets';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
-import { ChangeEvent, useEffect, useState } from 'react';
+import useTodoDetail from '@hooks/useTodoDetail';
+import { ChangeEvent, useState } from 'react';
 import FilePreview from './FilePreview';
+import FileUploadButton from './FileUploadButton';
+import GoalSection from './GoalSection';
 import LinkCard from './LinkCard';
+import LinkUploadButton from './LinkUploadButton';
+import StatusSection from './StatusSection';
+import TitleSection from './TitleSection';
 
 const mockGoals: Goal[] = [
   {
@@ -65,36 +61,31 @@ export interface TodoDetailModalProps {
 }
 
 function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
-  const [done, setDone] = useState(todo.done);
-  const [title, setTitle] = useState(todo.title);
-  const [selectedGoal, setSelectedGoal] = useState(todo.goal);
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [fileUrl, setFileUrl] = useState(todo.fileUrl);
-  const [fileType, setFileType] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [linkUrl, setLinkUrl] = useState(todo.linkUrl);
-  const [isModified, setIsModified] = useState(false);
+  const {
+    done,
+    title,
+    selectedGoal,
+    fileUrl,
+    fileType,
+    fileName,
+    linkUrl,
+    isModified,
+    setDone,
+    setTitle,
+    setSelectedGoal,
+    setFileUrl,
+    setFileType,
+    setFileName,
+    setLinkUrl,
+  } = useTodoDetail(todo);
+
   const [isLinkModalVisible, setIsLinkModalVisible] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [isUnsavedChangesPopupVisible, setIsUnsavedChangesPopupVisible] =
     useState(false);
 
-  useEffect(() => {
-    const isTitleChanged = title !== todo.title;
-    const isGoalChanged = selectedGoal?.id !== todo.goal?.id;
-    const isFileUrlChanged = fileUrl !== todo.fileUrl;
-    const isLinkUrlChanged = linkUrl !== todo.linkUrl;
-    const isDoneChanged = done !== todo.done;
-
-    setIsModified(
-      isTitleChanged ||
-        isGoalChanged ||
-        isFileUrlChanged ||
-        isLinkUrlChanged ||
-        isDoneChanged,
-    );
-  }, [title, selectedGoal, fileUrl, linkUrl, done, todo]);
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -176,7 +167,6 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div className="relative flex h-full w-full flex-col gap-2.5 bg-white p-6 tablet:h-auto tablet:w-[520px] tablet:overflow-visible tablet:rounded-xl">
-          {/* 상단 고정 영역 */}
           <div className="fixed left-0 right-0 top-0 z-10 flex w-full items-center justify-between bg-white p-6 tablet:static tablet:p-0">
             <div className="text-lg font-bold leading-7 text-slate-800">
               할 일
@@ -193,161 +183,60 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
             </div>
           </div>
 
-          {/* 가운데 스크롤 가능한 영역 */}
-          <div className="mt-6 flex grow flex-col items-center justify-start overflow-auto pb-20 pt-6 tablet:mt-0 tablet:justify-between tablet:overflow-visible tablet:pb-0 tablet:pt-0">
-            <div className="flex flex-col items-start justify-start gap-2 self-stretch">
-              <div className="flex items-start justify-start gap-0.5">
-                <div className="flex h-6 grow items-start justify-start gap-0.5">
-                  <div
-                    className="flex h-6 w-6 items-center justify-center p-[3px]"
-                    onClick={toggleDone}
-                  >
-                    {done ? (
-                      <ActiveBlue width={24} height={24} />
-                    ) : (
-                      <Inactive width={24} height={24} />
-                    )}
-                  </div>
-                  <div className="text-base font-semibold leading-normal text-slate-600">
-                    {done ? 'Done' : 'Todo'}
-                  </div>
-                </div>
+          <div className="mt-6 flex grow flex-col items-center justify-start gap-y-6 overflow-auto pb-20 pt-6 tablet:mt-0 tablet:justify-between tablet:overflow-visible tablet:pb-0 tablet:pt-0">
+            <StatusSection done={done} toggleDone={toggleDone} />
+            <TitleSection
+              title={title}
+              onTitleChange={handleTitleChange}
+              isTitleValid={isTitleValid}
+            />
+            <GoalSection
+              goals={goals}
+              selectedGoal={selectedGoal}
+              onGoalChange={handleGoalChange}
+              dropdownOpen={dropdownOpen}
+              handleDropdownToggle={handleDropdownToggle}
+            />
+            <div className="flex flex-col items-start justify-start gap-3 self-stretch">
+              <div className="text-base font-semibold leading-normal text-slate-800">
+                파일 및 링크
               </div>
-            </div>
-
-            <div className="mt-6 flex flex-col items-start justify-start gap-6 self-stretch">
-              <div className="flex flex-col items-start justify-start self-stretch">
-                <div className="flex items-center justify-between">
-                  <div className="text-base font-semibold leading-normal text-slate-800">
-                    제목
-                  </div>
-                </div>
-                <div className="mt-3 flex flex-col items-start justify-start self-stretch rounded-xl">
-                  <BaseInput
-                    size="lg"
-                    value={title}
-                    onChange={handleTitleChange}
-                    placeholder="제목을 입력해주세요."
-                    isInvalid={!isTitleValid}
+              <div className="flex items-start justify-start gap-3">
+                <FileUploadButton
+                  fileUrl={fileUrl}
+                  handleFileChange={handleFileChange}
+                />
+                <LinkUploadButton
+                  linkUrl={linkUrl}
+                  setIsLinkModalVisible={setIsLinkModalVisible}
+                />
+              </div>
+              {fileUrl !== null && fileType && (
+                <div className="relative mx-auto mt-2 flex h-[184px] w-full items-center justify-center rounded-[20px] bg-slate-200 p-6">
+                  <FilePreview
+                    fileType={fileType}
+                    fileUrl={fileUrl}
+                    fileName={fileName}
                   />
-                  {!isTitleValid && (
-                    <div className="mt-1.5 items-start justify-start pl-2 text-sm font-normal leading-tight text-red-500">
-                      제목은 30자를 넘을 수 없습니다. (현재 {title.length}자)
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex flex-col items-start justify-start gap-3 self-stretch">
-                <div className="text-base font-semibold leading-normal text-slate-800">
-                  목표
-                </div>
-
-                <div className="flex h-12 w-full items-center justify-center self-stretch rounded-xl bg-slate-50 py-3">
-                  <Dropdown
-                    options={goals}
-                    selectedOption={selectedGoal}
-                    onSelect={handleGoalChange}
-                    placeholder="목표를 선택해주세요 (선택 안함)"
-                    dropdownOpen={dropdownOpen}
-                    onToggle={handleDropdownToggle}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col items-start justify-start gap-3 self-stretch">
-                <div className="text-base font-semibold leading-normal text-slate-800">
-                  파일 및 링크
-                </div>
-                <div className="flex items-start justify-start gap-3">
-                  <div
-                    className={`flex cursor-pointer flex-col items-start justify-start gap-2.5 rounded-lg border ${
-                      fileUrl ? 'bg-slate-900' : 'bg-slate-100'
-                    } w-1/2 py-2 pl-2 pr-3`}
-                    onClick={
-                      !fileUrl
-                        ? () => document.getElementById('fileInput')?.click()
-                        : undefined
-                    }
+                  <button
+                    type="button"
+                    className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-slate-200"
+                    onClick={handleFileDelete}
+                    aria-label="File Delete"
                   >
-                    <div className="flex items-center justify-center gap-0.5">
-                      <div className="relative h-6 w-6 pt-[3px]">
-                        {fileUrl ? (
-                          <ActiveWhite width={18} height={18} />
-                        ) : (
-                          <Inactive width={18} height={18} />
-                        )}
-                      </div>
-                      <div
-                        className={`text-base font-medium leading-normal ${
-                          fileUrl ? 'text-white' : 'text-slate-800'
-                        }`}
-                      >
-                        파일 첨부
-                      </div>
-                    </div>
-                    <input
-                      type="file"
-                      id="fileInput"
-                      className="hidden"
-                      onChange={handleFileChange}
-                    />
-                  </div>
-                  <div
-                    className={`flex cursor-pointer flex-col items-start justify-start gap-2.5 rounded-lg border ${
-                      linkUrl ? 'bg-slate-900' : 'bg-slate-100'
-                    } w-1/2 py-2 pl-2 pr-3`}
-                    onClick={
-                      !linkUrl ? () => setIsLinkModalVisible(true) : undefined
-                    }
-                  >
-                    <div className="flex items-center justify-center gap-0.5">
-                      <div className="relative h-6 w-6 pt-[3px]">
-                        {linkUrl ? (
-                          <ActiveWhite width={18} height={18} />
-                        ) : (
-                          <Inactive width={18} height={18} />
-                        )}
-                      </div>
-                      <div
-                        className={`text-base font-medium leading-normal ${
-                          linkUrl ? 'text-white' : 'text-slate-800'
-                        }`}
-                      >
-                        링크 첨부
-                      </div>
-                    </div>
-                  </div>
+                    <GrayDelete width={18} height={18} />
+                  </button>
                 </div>
-                {fileUrl !== null && fileType && (
-                  <div className="relative mx-auto mt-2 flex h-[184px] w-full items-center justify-center rounded-[20px] bg-slate-200 p-6">
-                    <FilePreview
-                      fileType={fileType}
-                      fileUrl={fileUrl}
-                      fileName={fileName}
-                    />
-
-                    <button
-                      type="button"
-                      className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-slate-200"
-                      onClick={handleFileDelete}
-                      aria-label="File Delete"
-                    >
-                      <GrayDelete width={18} height={18} />
-                    </button>
-                  </div>
-                )}
-                {linkUrl && (
-                  <LinkCard
-                    linkUrl={linkUrl}
-                    handleLinkDelete={handleLinkDelete}
-                  />
-                )}
-              </div>
+              )}
+              {linkUrl && (
+                <LinkCard
+                  linkUrl={linkUrl}
+                  handleLinkDelete={handleLinkDelete}
+                />
+              )}
             </div>
           </div>
 
-          {/* 하단 고정 영역 */}
           <div className="fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center gap-x-2 bg-white px-6 py-3 tablet:static tablet:mt-8 tablet:p-0">
             <button
               type="button"
@@ -358,9 +247,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
             </button>
             <button
               type="button"
-              className={`flex-grow rounded-xl px-6 py-3 text-base font-semibold leading-normal text-white ${
-                canSave ? 'bg-blue-500' : 'bg-slate-400'
-              }`}
+              className={`flex-grow rounded-xl px-6 py-3 text-base font-semibold leading-normal text-white ${canSave ? 'bg-blue-500' : 'bg-slate-400'}`}
               disabled={!canSave}
               onClick={handleSave}
             >
