@@ -2,7 +2,6 @@ import { Goal, Todo } from '@/types/interface';
 import { DeleteIcon, GrayDelete } from '@assets';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
-import useTodoDetail from '@hooks/useTodoDetail';
 import { ChangeEvent, useState } from 'react';
 import FilePreview from '../FilePreview';
 import FileUploadButton from '../FileUploadButton';
@@ -11,6 +10,7 @@ import LinkCard from '../LinkCard';
 import LinkUploadButton from '../LinkUploadButton';
 import StatusSection from '../StatusSection';
 import TitleSection from '../TitleSection';
+import useTodoDetail from './useTodoDetail';
 
 const mockGoals: Goal[] = [
   {
