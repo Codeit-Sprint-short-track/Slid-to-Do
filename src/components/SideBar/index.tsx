@@ -1,7 +1,7 @@
 import useWindowWidth from '@hooks/useWindowWidth';
 import { useState } from 'react';
 import DesktopSideBar from './DesktopSideBar';
-import MobileSideBar from './MoblieSIdeBar';
+import MobileSideBar from './MobileSIdeBar';
 
 function SideBar() {
   const width = useWindowWidth();
