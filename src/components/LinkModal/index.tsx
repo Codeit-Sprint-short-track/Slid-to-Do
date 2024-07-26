@@ -59,16 +59,15 @@ function LinkModal({
             </div>
           </div>
           <div className="flex flex-col items-start justify-start self-stretch">
-            <div className="text-base font-semibold leading-normal text-slate-800">
+            <div className="mb-3 text-base font-semibold leading-normal text-slate-800">
               링크
             </div>
             <BaseInput
+              size="lg"
               value={link}
               onChange={handleLinkChange}
-              className={`mt-3 self-stretch rounded-xl bg-slate-50 px-6 py-3 ${
-                !isValid ? 'border border-red-500' : ''
-              }`}
               placeholder="링크를 입력해주세요."
+              isInvalid={!isValid}
             />
             {!isValid && (
               <div className="mt-1.5 pl-2 text-sm font-normal leading-tight text-red-500">
@@ -79,7 +78,7 @@ function LinkModal({
         </div>
         <div className="invisible flex-grow">grow</div>
         <div
-          className={`mt-3 inline-flex cursor-pointer items-center justify-center self-stretch rounded-xl py-3 ${
+          className={`inline-flex cursor-pointer items-center justify-center self-stretch rounded-xl py-3 ${
             isValid && link.length > 0 ? 'bg-blue-500' : 'bg-slate-400'
           }`}
           onClick={() => isValid && onConfirm(link)}
