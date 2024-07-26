@@ -1,5 +1,5 @@
 import { Goal } from '@/types/interface';
-import Dropdown from '@components/Dropdown';
+import Dropdown from './Dropdown';
 
 interface GoalSectionProps {
   goals: Goal[];
