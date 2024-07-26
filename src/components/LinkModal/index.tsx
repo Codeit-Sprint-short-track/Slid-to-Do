@@ -1,6 +1,7 @@
 import { DeleteIcon } from '@assets';
 import BaseInput from '@components/Input/BaseInput';
-import React, { useEffect, useState } from 'react';
+import { VALID_URL_REGEX } from '@constants/regex';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 interface LinkModalProps {
   onCancel: () => void;
@@ -8,36 +9,42 @@ interface LinkModalProps {
   fullscreen?: boolean;
 }
 
-function LinkModal({ onCancel, onConfirm, fullscreen = true }: LinkModalProps) {
+function LinkModal({
+  onCancel,
+  onConfirm,
+  fullscreen = false,
+}: LinkModalProps) {
   const [link, setLink] = useState('');
   const [isValid, setIsValid] = useState(true);
 
-  const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setLink(value);
-    const isValidLink = /^(ftp|http|https):\/\/[^ "]+$/.test(value);
+    const isValidLink = VALID_URL_REGEX.test(value);
     setIsValid(isValidLink);
   };
 
-  const handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' && isValid && link.length > 0) {
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && isValid && link.length > 0) {
       onConfirm(link);
     }
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress);
+    if (isValid && link.length > 0) {
+      document.addEventListener('keydown', handleKeyPress);
+    } else {
+      document.removeEventListener('keydown', handleKeyPress);
+    }
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [isValid, link]);
+  }, [isValid, link.length > 0]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div
-        className={`flex h-auto flex-col items-start justify-start gap-2.5 rounded-xl bg-white p-6 ${
-          fullscreen ? 'tablet:w-[520px]' : 'tablet:w-[450px]'
-        } ${fullscreen ? 'tablet:overflow-auto' : ''} w-[311px]`}
+        className={`flex h-auto flex-col items-start justify-start gap-2.5 rounded-xl bg-white p-6 ${fullscreen ? 'tablet:w-[520px] tablet:overflow-auto' : 'tablet:w-[450px]'} w-[311px]`}
       >
         <div className="flex flex-col items-start justify-start gap-6 self-stretch">
           <div className="inline-flex w-full items-center justify-between gap-4">

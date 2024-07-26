@@ -13,7 +13,7 @@ import {
 import BaseInput from '@components/Input/BaseInput';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const mockGoals: Goal[] = [
   {
@@ -98,7 +98,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     );
   }, [title, goal, fileUrl, linkUrl, done, todo]);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
@@ -106,7 +106,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     setGoal(selectedGoal);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     // POST
     const file = e.target.files?.[0];
     if (file) {
@@ -218,12 +218,11 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                 </div>
                 <div className="mt-3 flex flex-col items-start justify-start self-stretch rounded-xl">
                   <BaseInput
+                    size="lg"
                     value={title}
                     onChange={handleTitleChange}
-                    className={`self-stretch rounded-xl bg-slate-50 px-6 py-3 ${
-                      !isTitleValid && 'border border-red-500'
-                    }`}
                     placeholder="제목을 입력해주세요."
+                    isInvalid={!isTitleValid}
                   />
                   {!isTitleValid && (
                     <div className="mt-1.5 items-start justify-start pl-2 text-sm font-normal leading-tight text-red-500">
@@ -448,7 +447,6 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
             handleLinkChange(link);
             setIsLinkModalVisible(false);
           }}
-          fullscreen={false}
         />
       )}
       {isDeletePopupVisible && (
