@@ -24,3 +24,4 @@ export { ReactComponent as VisibilityOnIcon } from './visibilityOn.svg';
 
 export { ReactComponent as HamburgerIcon } from './hamburger.svg';
 export { ReactComponent as KebabIcon } from './kebab.svg';
+export { ReactComponent as NoteListIcon } from './noteList.svg';
