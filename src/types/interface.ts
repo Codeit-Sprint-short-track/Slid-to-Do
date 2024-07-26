@@ -7,6 +7,11 @@ export interface Goal {
   teamId: string;
 }
 
+export interface GoalForTodo {
+  id: number;
+  title: string;
+}
+
 export interface Todo {
   noteId: number | null;
   done: boolean;
@@ -14,7 +19,7 @@ export interface Todo {
   fileUrl: string | null;
   title: string;
   id: number;
-  goal: Goal | null;
+  goal: GoalForTodo | null;
   userId: number;
   teamId: string;
   updatedAt: string;
