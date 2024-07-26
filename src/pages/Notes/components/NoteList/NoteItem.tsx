@@ -29,19 +29,19 @@ function NoteItem({ noteData }: NoteItemProps) {
         <Kebab onEdit={handleEditNote} onDelete={handleDeleteNote} isSmall />
       </div>
       <div className="mb-3 border-b-[1px] border-slate-200 pb-3">
-        <h1 className="text-lg font-medium leading-7 text-slate-800">
+        <h3 className="text-lg font-medium leading-7 text-slate-800">
           {noteData.title}
-        </h1>
+        </h3>
       </div>
       <div className="flex items-center gap-2">
-        <div className="rounded-[4px] bg-slate-100 px-[3px] py-[2px]">
-          <h4 className="text-xs font-medium leading-4 text-slate-700">
+        <div className="flex rounded-[4px] bg-slate-100 px-[3px] py-[2px]">
+          <span className="text-xs font-medium leading-4 text-slate-700">
             {noteData.todo.done ? 'Done' : 'To do'}
-          </h4>
+          </span>
         </div>
-        <h3 className="text-xs leading-4 text-slate-700">
+        <p className="text-xs leading-4 text-slate-700">
           {noteData.todo.title}
-        </h3>
+        </p>
       </div>
     </div>
   );
