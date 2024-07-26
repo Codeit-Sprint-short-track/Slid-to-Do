@@ -6,6 +6,7 @@ export { ReactComponent as FlagIcon } from './flag.svg';
 export { ReactComponent as FoldIcon } from './fold.svg';
 export { ReactComponent as GoalIcon } from './goal.svg';
 export { ReactComponent as GrayDelete } from './grayDelete.svg';
+export { ReactComponent as HamburgerIcon } from './hamburger.svg';
 export { ReactComponent as HomeIcon } from './home.svg';
 export { ReactComponent as Inactive } from './inactive.svg';
 export { ReactComponent as KebabIcon } from './kebab.svg';
