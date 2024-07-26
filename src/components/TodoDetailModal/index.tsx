@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable no-alert */
 /* eslint-disable complexity */
 
 import { Goal, Todo } from '@/types/interface';
@@ -70,6 +69,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [fileUrl, setFileUrl] = useState(todo.fileUrl);
   const [fileType, setFileType] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
   const [linkUrl, setLinkUrl] = useState(todo.linkUrl);
   const [isModified, setIsModified] = useState(false);
   const [isLinkModalVisible, setIsLinkModalVisible] = useState(false);
@@ -110,17 +110,10 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     // POST
     const file = e.target.files?.[0];
     if (file) {
-      if (
-        !file.type.startsWith('image/') &&
-        !file.type.startsWith('video/') &&
-        file.type !== 'application/pdf'
-      ) {
-        alert('지원하지 않는 파일 형식입니다.');
-        return;
-      }
       const url = URL.createObjectURL(file);
       setFileUrl(url);
       setFileType(file.type);
+      setFileName(file.name);
     }
   };
 
@@ -376,7 +369,13 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                         );
                       }
 
-                      return <p className="hidden">Unsupported file type</p>;
+                      return (
+                        <div className="max-h-full max-w-full rounded-[20px] text-center text-xs text-slate-400 tablet:text-base">
+                          미리보기가 지원되지 않는 파일 형식입니다.
+                          <br />
+                          {fileName}
+                        </div>
+                      );
                     })()}
 
                     <button
