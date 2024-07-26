@@ -8,12 +8,12 @@ import {
 import Button from '@components/Button';
 import { useState } from 'react';
 
-function SideBarContents() {
+function DesktopSideBarContents() {
   const [isEditing, setIsEditing] = useState(false);
   const mockGoalData = {
     goals: [
-      { title: '자바스크립트로 웹 서비스 만들기' },
-      { title: '디자인 시스템 강의 듣기' },
+      { title: '자바스크립트로 웹 서비스 만들기', id: 1 },
+      { title: '디자인 시스템 강의 듣기', id: 2 },
     ],
   };
   return (
@@ -37,7 +37,7 @@ function SideBarContents() {
       </div>
       <div className="my-6 flex justify-center">
         <Button shape="solid" size="sm" additionalClass="w-full">
-          <PlusIcon className="mr-2 stroke-white" />
+          <PlusIcon width={24} height={24} className="mr-2 stroke-white" />
           <span className="mr-2 text-base font-semibold">새 할 일</span>
         </Button>
       </div>
@@ -53,7 +53,7 @@ function SideBarContents() {
       </div>
       <ul>
         {mockGoalData.goals.map((item) => (
-          <li className="p-2 text-sm font-medium text-slate-700">
+          <li key={item.id} className="p-2 text-sm font-medium text-slate-700">
             • {item.title}
           </li>
         ))}
@@ -83,6 +83,8 @@ function SideBarContents() {
           disabled={isEditing}
         >
           <PlusIcon
+            width={24}
+            height={24}
             className={`mr-2 ${isEditing ? 'stroke-slate-400' : 'stroke-blue-500'}`}
           />
 
@@ -93,4 +95,4 @@ function SideBarContents() {
   );
 }
 
-export default SideBarContents;
+export default DesktopSideBarContents;
