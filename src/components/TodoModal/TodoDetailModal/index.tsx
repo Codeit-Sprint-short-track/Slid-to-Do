@@ -64,7 +64,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   const {
     done,
     title,
-    selectedGoal,
+    goal,
     fileUrl,
     fileType,
     fileName,
@@ -72,7 +72,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     isModified,
     setDone,
     setTitle,
-    setSelectedGoal,
+    setGoal,
     setFileUrl,
     setFileType,
     setFileName,
@@ -95,10 +95,10 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     selectedOption: { id: number; title: string } | null,
   ) => {
     if (selectedOption) {
-      const option = goals.find((goal) => goal.id === selectedOption.id);
-      setSelectedGoal(option || null);
+      const option = goals.find((g) => g.id === selectedOption.id);
+      setGoal(option || null);
     } else {
-      setSelectedGoal(null);
+      setGoal(null);
     }
   };
 
@@ -192,7 +192,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
             />
             <GoalSection
               goals={goals}
-              selectedGoal={selectedGoal}
+              goal={goal}
               onGoalChange={handleGoalChange}
               dropdownOpen={dropdownOpen}
               handleDropdownToggle={handleDropdownToggle}

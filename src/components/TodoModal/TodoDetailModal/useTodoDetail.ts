@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 function useTodoDetail(todo: Todo) {
   const [done, setDone] = useState(todo.done);
   const [title, setTitle] = useState(todo.title);
-  const [selectedGoal, setSelectedGoal] = useState(todo.goal);
+  const [goal, setGoal] = useState(todo.goal);
   const [fileUrl, setFileUrl] = useState(todo.fileUrl);
   const [fileType, setFileType] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -13,7 +13,7 @@ function useTodoDetail(todo: Todo) {
 
   useEffect(() => {
     const isTitleChanged = title !== todo.title;
-    const isGoalChanged = selectedGoal?.id !== todo.goal?.id;
+    const isGoalChanged = goal?.id !== todo.goal?.id;
     const isFileUrlChanged = fileUrl !== todo.fileUrl;
     const isLinkUrlChanged = linkUrl !== todo.linkUrl;
     const isDoneChanged = done !== todo.done;
@@ -25,12 +25,12 @@ function useTodoDetail(todo: Todo) {
         isLinkUrlChanged ||
         isDoneChanged,
     );
-  }, [title, selectedGoal, fileUrl, linkUrl, done, todo]);
+  }, [title, goal, fileUrl, linkUrl, done, todo]);
 
   return {
     done,
     title,
-    selectedGoal,
+    goal,
     fileUrl,
     fileType,
     fileName,
@@ -38,7 +38,7 @@ function useTodoDetail(todo: Todo) {
     isModified,
     setDone,
     setTitle,
-    setSelectedGoal,
+    setGoal,
     setFileUrl,
     setFileType,
     setFileName,

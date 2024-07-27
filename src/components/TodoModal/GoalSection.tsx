@@ -3,7 +3,7 @@ import Dropdown from './Dropdown';
 
 interface GoalSectionProps {
   goals: Goal[];
-  selectedGoal: { id: number; title: string } | null;
+  goal: { id: number; title: string } | null;
   onGoalChange: (selectedOption: { id: number; title: string } | null) => void;
   dropdownOpen: boolean;
   handleDropdownToggle: () => void;
@@ -11,7 +11,7 @@ interface GoalSectionProps {
 
 function GoalSection({
   goals,
-  selectedGoal,
+  goal,
   onGoalChange,
   dropdownOpen,
   handleDropdownToggle,
@@ -24,7 +24,7 @@ function GoalSection({
       <div className="flex h-12 w-full items-center justify-center self-stretch rounded-xl bg-slate-50 py-3">
         <Dropdown
           options={goals}
-          selectedOption={selectedGoal}
+          selectedOption={goal}
           onSelect={onGoalChange}
           placeholder="목표를 선택해주세요 (선택 안함)"
           dropdownOpen={dropdownOpen}
