@@ -43,12 +43,11 @@ function TodosPage() {
     setIsTodoCreateModalVisible(true);
   };
 
-  //   const handleCloseModal = () => {
-  //     setIsTodoCreateModalVisible(false);
-  //   };
+  // const handleCloseModal = () => {
+  //   setIsTodoCreateModalVisible(false);
+  // };
 
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<'All' | 'Todo' | 'Done'>('All');
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const [isTodoDetailModalVisible, setTodoDetailModalVisible] =
@@ -58,26 +57,16 @@ function TodosPage() {
   useEffect(() => {
     // GET
     setTodos(mockTodos);
-    setFilteredTodos(mockTodos);
   }, []);
 
-  const applyFilter = (
-    selectedFilter: 'All' | 'Todo' | 'Done',
-    todosToFilter = todos,
-  ) => {
-    setFilter(selectedFilter);
-    switch (selectedFilter) {
-      case 'All':
-        setFilteredTodos(todosToFilter);
-        break;
+  const getFilteredTodos = () => {
+    switch (filter) {
       case 'Todo':
-        setFilteredTodos(todosToFilter.filter((todo) => !todo.done));
-        break;
+        return todos.filter((todo) => !todo.done);
       case 'Done':
-        setFilteredTodos(todosToFilter.filter((todo) => todo.done));
-        break;
+        return todos.filter((todo) => todo.done);
       default:
-        setFilteredTodos(todosToFilter);
+        return todos;
     }
   };
 
@@ -89,18 +78,8 @@ function TodosPage() {
 
     setTodos(newTodos);
 
-    const newFilteredTodos = newTodos.filter((todo) => {
-      if (filter === 'All') return true;
-      if (filter === 'Todo') return !todo.done;
-      if (filter === 'Done') return todo.done;
-      return true;
-    });
-
-    setFilteredTodos(newFilteredTodos);
-
     // PATCH
-
-    applyFilter(filter, newTodos);
+    // Update backend here if needed
   };
 
   const handleTodoClick = (todo: Todo) => {
@@ -108,10 +87,10 @@ function TodosPage() {
     setTodoDetailModalVisible(true);
   };
 
-  //   const handleCloseTodoDetail = () => {
-  //     setTodoDetailModalVisible(false);
-  //     setSelectedTodo(null);
-  //   };
+  // const handleCloseTodoDetail = () => {
+  //   setTodoDetailModalVisible(false);
+  //   setSelectedTodo(null);
+  // };
 
   const handleOpenNoteDetail = async (id: number) => {
     // GET
@@ -146,10 +125,10 @@ function TodosPage() {
       </div>
       <div className="box-border flex h-full w-full flex-grow flex-col items-start justify-start gap-4 self-stretch rounded-xl border border-slate-100 bg-white p-6">
         <div className="inline-flex h-full w-full flex-col items-start justify-start gap-4">
-          <FilterButtons selectedFilter={filter} onFilterChange={applyFilter} />
+          <FilterButtons selectedFilter={filter} onFilterChange={setFilter} />
           <div className={containerClass} style={style}>
             <TodoList
-              todos={filteredTodos}
+              todos={getFilteredTodos()}
               onToggleDone={handleToggleDone}
               showGoals
               showIcons
