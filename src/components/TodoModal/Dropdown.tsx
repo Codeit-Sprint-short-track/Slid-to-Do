@@ -31,7 +31,7 @@ function Dropdown({
         <ArrowDownIcon className="p-[3px]" />
       </button>
       {dropdownOpen && (
-        <div className="absolute top-10 z-10 w-full rounded-xl bg-white shadow-md">
+        <div className="absolute top-10 z-10 w-full overflow-hidden rounded-xl bg-white shadow-md">
           {options.length > 0 ? (
             <div className="max-h-32 overflow-y-auto">
               <div className="flex flex-col items-start justify-start">
