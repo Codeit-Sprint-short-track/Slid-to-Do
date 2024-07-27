@@ -79,7 +79,6 @@ function TodosPage() {
     setTodos(newTodos);
 
     // PATCH
-    // Update backend here if needed
   };
 
   const handleTodoClick = (todo: Todo) => {
@@ -127,18 +126,39 @@ function TodosPage() {
         <div className="inline-flex h-full w-full flex-col items-start justify-start gap-4">
           <FilterButtons selectedFilter={filter} onFilterChange={setFilter} />
           <div className={containerClass} style={style}>
-            <TodoList
-              todos={getFilteredTodos()}
-              onToggleDone={handleToggleDone}
-              showGoals
-              showIcons
-              onTodoClick={handleTodoClick}
-              onOpenNoteDetail={handleOpenNoteDetail}
-              onOpenNoteWrite={handleOpenNoteWrite}
-            />
+            {getFilteredTodos().length === 0 ? (
+              <div className="flex h-full w-full items-center justify-center">
+                {filter === 'All' && (
+                  <p className="text-sm leading-tight text-slate-500">
+                    등록한 할 일이 없어요
+                  </p>
+                )}
+                {filter === 'Todo' && (
+                  <p className="text-sm leading-tight text-slate-500">
+                    해야할 일이 아직 없어요
+                  </p>
+                )}
+                {filter === 'Done' && (
+                  <p className="text-sm leading-tight text-slate-500">
+                    다 한 일이 아직 없어요
+                  </p>
+                )}
+              </div>
+            ) : (
+              <TodoList
+                todos={getFilteredTodos()}
+                onToggleDone={handleToggleDone}
+                showGoals
+                showIcons
+                onTodoClick={handleTodoClick}
+                onOpenNoteDetail={handleOpenNoteDetail}
+                onOpenNoteWrite={handleOpenNoteWrite}
+              />
+            )}
           </div>
         </div>
       </div>
+
       {isTodoCreateModalVisible && (
         // <TodoCreateModal onClose={handleCloseModal} />
         <div>TodoCreateModal</div>
