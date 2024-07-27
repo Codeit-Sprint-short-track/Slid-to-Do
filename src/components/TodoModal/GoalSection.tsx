@@ -1,10 +1,10 @@
-import { Goal } from '@/types/interface';
+import { Goal, Todo } from '@/types/interface';
 import Dropdown from './Dropdown';
 
 interface GoalSectionProps {
   goals: Goal[];
-  goal: { id: number; title: string } | null;
-  onGoalChange: (selectedOption: { id: number; title: string } | null) => void;
+  goal: Todo['goal'] | null;
+  onGoalChange: (selectedOption: Todo['goal'] | null) => void;
   dropdownOpen: boolean;
   handleDropdownToggle: () => void;
 }
