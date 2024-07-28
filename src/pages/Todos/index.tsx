@@ -71,14 +71,11 @@ function TodosPage() {
   };
 
   const handleToggleDone = async (id: number) => {
-    // 낙관적 업데이트
+    // PATCH
     const newTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, done: !todo.done } : todo,
     );
-
     setTodos(newTodos);
-
-    // PATCH
   };
 
   const handleTodoClick = (todo: Todo) => {
