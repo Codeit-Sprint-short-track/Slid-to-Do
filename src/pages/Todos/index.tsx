@@ -3,7 +3,7 @@ import { PlusBlueIcon } from '@assets';
 import TodoList from '@components/TodoList';
 import useWindowHeight from '@hooks/useWindowHeight';
 import useWindowWidth from '@hooks/useWindowWidth';
-import classNames from 'classnames';
+import cn from '@utils/cn';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterButtons from './components/FilterButtons';
@@ -18,7 +18,7 @@ function TodosPage() {
   const defaultHeight = windowHeight - 196;
   const tabletHeight = windowHeight - 184;
 
-  const containerClass = classNames('w-full overflow-auto rounded-xl', {
+  const containerClass = cn('w-full overflow-auto rounded-xl', {
     'tablet:h-dvh': windowWidth >= 744,
   });
 
@@ -27,7 +27,7 @@ function TodosPage() {
       ? { height: `${tabletHeight}px` }
       : { height: `${defaultHeight}px` };
 
-  const entireContainerClass = classNames(
+  const entireContainerClass = cn(
     'flex w-full flex-col gap-4 p-4 tablet:p-6 desktop:w-[1152px] desktop:py-6 desktop:pl-[360px]',
     {
       'tablet:h-dvh': windowWidth >= 744,
