@@ -5,7 +5,7 @@ interface GoalSectionProps {
   goals: Goal[];
   goal: Todo['goal'] | null;
   onGoalChange: (selectedOption: Todo['goal'] | null) => void;
-  dropdownOpen: boolean;
+  isDropdownOpen: boolean;
   handleDropdownToggle: () => void;
 }
 
@@ -13,7 +13,7 @@ function GoalSection({
   goals,
   goal,
   onGoalChange,
-  dropdownOpen,
+  isDropdownOpen,
   handleDropdownToggle,
 }: GoalSectionProps) {
   return (
@@ -27,7 +27,7 @@ function GoalSection({
           selectedOption={goal}
           onSelect={onGoalChange}
           placeholder="목표를 선택해주세요 (선택 안함)"
-          dropdownOpen={dropdownOpen}
+          isDropdownOpen={isDropdownOpen}
           onToggle={handleDropdownToggle}
         />
       </div>

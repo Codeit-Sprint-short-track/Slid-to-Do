@@ -6,7 +6,7 @@ interface DropdownProps {
   selectedOption: Todo['goal'] | null;
   onSelect: (goal: Todo['goal'] | null) => void;
   placeholder: string;
-  dropdownOpen: boolean;
+  isDropdownOpen: boolean;
   onToggle: () => void;
 }
 
@@ -15,7 +15,7 @@ function Dropdown({
   selectedOption,
   onSelect,
   placeholder,
-  dropdownOpen,
+  isDropdownOpen,
   onToggle,
 }: DropdownProps) {
   return (
@@ -30,7 +30,7 @@ function Dropdown({
         </div>
         <ArrowDownIcon className="p-[3px]" />
       </button>
-      {dropdownOpen && (
+      {isDropdownOpen && (
         <div className="absolute top-10 z-10 w-full overflow-hidden rounded-xl bg-white shadow-md">
           {options.length > 0 ? (
             <div className="max-h-32 overflow-y-auto">

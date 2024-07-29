@@ -85,7 +85,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     useState(false);
 
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -103,11 +103,11 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   };
 
   const handleDropdownToggle = () => {
-    if (!dropdownOpen) {
+    if (!isDropdownOpen) {
       // GET
       setGoals(mockGoals);
     }
-    setDropdownOpen(!dropdownOpen);
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -194,7 +194,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
               goals={goals}
               goal={goal}
               onGoalChange={handleGoalChange}
-              dropdownOpen={dropdownOpen}
+              isDropdownOpen={isDropdownOpen}
               handleDropdownToggle={handleDropdownToggle}
             />
             <div className="flex flex-col items-start justify-start gap-3 self-stretch">

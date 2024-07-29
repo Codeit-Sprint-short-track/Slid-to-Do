@@ -34,8 +34,6 @@ function LinkModal({
   useEffect(() => {
     if (isValid && link.length > 0) {
       document.addEventListener('keydown', handleKeyPress);
-    } else {
-      document.removeEventListener('keydown', handleKeyPress);
     }
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
