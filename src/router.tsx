@@ -3,6 +3,7 @@ import DashboardPage from '@pages/Dashboard';
 import NotesPage from '@pages/Notes';
 import SignInPage from '@pages/SignIn';
 import SignUpPage from '@pages/SignUp';
+import TodosPage from '@pages/Todos';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 
@@ -12,11 +13,11 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: routes.signin,
+        path: routes.signIn,
         element: <SignInPage />,
       },
       {
-        path: routes.signup,
+        path: routes.signUp,
         element: <SignUpPage />,
       },
       {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: routes.notes,
         element: <NotesPage />,
+      },
+      {
+        path: routes.todos,
+        element: <TodosPage />,
       },
     ],
   },
