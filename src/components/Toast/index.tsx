@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-type ToastProps = {
+interface ToastProps {
   message: string;
   type: 'completed' | 'error';
-};
+}
 
 function Toast({ message, type }: ToastProps) {
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setVisible(true);
-    const timer = setTimeout(() => setVisible(false), 3000);
+    setIsVisible(true);
+    const timer = setTimeout(() => setIsVisible(false), 3000);
     return () => clearTimeout(timer);
   }, [message]);
 
   return (
     <div
       className={`fixed bottom-0 left-1/2 -translate-x-1/2 transform font-Pretendard transition-all duration-500 ${
-        visible ? 'bottom-12 opacity-100' : 'bottom-0 opacity-0'
+        isVisible ? 'bottom-12 opacity-100' : 'bottom-0 opacity-0'
       }`}
     >
       <div
