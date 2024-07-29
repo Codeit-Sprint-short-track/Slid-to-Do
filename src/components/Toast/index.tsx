@@ -17,7 +17,7 @@ function Toast({ message, type }: ToastProps) {
 
   return (
     <div
-      className={`fixed bottom-0 left-1/2 -translate-x-1/2 transform font-[Pretendard] transition-all duration-500 ${
+      className={`fixed bottom-0 left-1/2 -translate-x-1/2 transform font-Pretendard transition-all duration-500 ${
         visible ? 'bottom-12 opacity-100' : 'bottom-0 opacity-0'
       }`}
     >
