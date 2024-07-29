@@ -1,9 +1,9 @@
 import { Todo } from '@/types/interface';
 import { ArrowDownIcon, ArrowUpIcon, PlusIcon } from '@assets';
-import TodoList from '@components/TodoList';
 import useWindowWidth from '@hooks/useWindowWidth';
 import { useEffect, useState } from 'react';
 import { mockTodosData } from '../mockData';
+import TodoSection from './TodoSection';
 
 interface TodosByGoalProps {
   title: string;
@@ -56,7 +56,7 @@ function TodosByGoalBox({ title }: TodosByGoalProps) {
   const handleTodoClick = (todo: Todo) => todo;
   return (
     <div
-      className="transition-height mt-4 flex w-full flex-col rounded-[32px] bg-slate-200 p-6 duration-300 ease-in-out first:mt-0"
+      className="transition-height mt-4 flex w-full flex-col rounded-[32px] bg-blue-50 p-6 duration-300 ease-in-out first:mt-0"
       style={{ height: isToggleOpen ? `${expandedHeight}px` : `${height}px` }}
     >
       <div className="flex items-center justify-between">
@@ -81,32 +81,20 @@ function TodosByGoalBox({ title }: TodosByGoalProps) {
         <div className="text-xs font-semibold leading-4">{progress}%</div>
       </div>
       <div className="mt-4 flex flex-col text-sm text-slate-800 tablet:flex-row tablet:gap-4 desktop:gap-6">
-        <div className="tablet:min-w-0 tablet:flex-1">
-          <div className="font-semibold">To do</div>
-          <div className="mt-3">
-            {todos && (
-              <TodoList
-                todos={todos}
-                showIcons
-                onToggleDone={handleToggleDone}
-                onTodoClick={handleTodoClick}
-              />
-            )}
-          </div>
-        </div>
-        <div className="tablet:min-w-0 tablet:flex-1">
-          <div className="font-semibold">Done</div>
-          <div className="mt-3">
-            {dones && (
-              <TodoList
-                todos={dones}
-                showIcons
-                onToggleDone={handleToggleDone}
-                onTodoClick={handleTodoClick}
-              />
-            )}
-          </div>
-        </div>
+        <TodoSection
+          title="To do"
+          placeholder="아직 해야할 일이 없어요"
+          todos={todos}
+          handleToggleDone={handleToggleDone}
+          handleTodoClick={handleTodoClick}
+        />
+        <TodoSection
+          title="Done"
+          placeholder="아직 다 한 일이 없어요"
+          todos={dones}
+          handleToggleDone={handleToggleDone}
+          handleTodoClick={handleTodoClick}
+        />
       </div>
       {(isTodosMoreThanFive || isDonesMoreThanFive) && (
         <button
