@@ -1,4 +1,5 @@
 import { DeleteIcon } from '@assets';
+import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import { VALID_URL_REGEX } from '@constants/regex';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -77,16 +78,15 @@ function LinkModal({
           </div>
         </div>
         <div className="invisible flex-grow">grow</div>
-        <div
-          className={`inline-flex cursor-pointer items-center justify-center self-stretch rounded-xl py-3 ${
-            isValid && link.length > 0 ? 'bg-blue-500' : 'bg-slate-400'
-          }`}
+        <Button
+          shape="solid"
+          size="lg"
+          additionalClass="inline-flex self-stretch py-3 w-full"
+          disabled={!isValid || link.length === 0}
           onClick={() => isValid && onConfirm(link)}
         >
-          <div className="text-base font-semibold leading-normal text-white">
-            확인
-          </div>
-        </div>
+          확인
+        </Button>
       </div>
     </div>
   );
