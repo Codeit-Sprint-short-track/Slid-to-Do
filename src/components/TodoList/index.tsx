@@ -8,8 +8,7 @@ export interface TodoListProps {
   showIcons?: boolean;
   hoverBgColor?: string;
   onTodoClick: (todo: Todo) => void;
-  onOpenNoteDetail?: (id: number | null) => void;
-  onOpenNoteWrite?: (todo: Todo) => void;
+  onOpenNoteDetail?: (noteId: number | null) => void;
 }
 
 function TodoList({
@@ -20,7 +19,6 @@ function TodoList({
   hoverBgColor = 'hover:bg-slate-100',
   onTodoClick,
   onOpenNoteDetail,
-  onOpenNoteWrite,
 }: TodoListProps) {
   return (
     <div className="w-full flex-col overflow-hidden">
@@ -34,7 +32,6 @@ function TodoList({
           hoverBgColor={hoverBgColor}
           onTodoClick={onTodoClick}
           onOpenNoteDetail={onOpenNoteDetail}
-          onOpenNoteWrite={onOpenNoteWrite}
         />
       ))}
     </div>

@@ -7,7 +7,6 @@ import useWindowHeight from '@hooks/useWindowHeight';
 import useWindowWidth from '@hooks/useWindowWidth';
 import cn from '@utils/cn';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import FilterButtons from './components/FilterButtons';
 import mockTodos from './mockTodos';
 
@@ -98,18 +97,6 @@ function TodosPage() {
     // GET
   };
 
-  // const handleCloseNoteDetail = async (id: number|null) => {
-  //   setIsNoteDetailVisible(false)
-  // };
-
-  const navigate = useNavigate();
-
-  const handleOpenNoteWrite = (todo: Todo) => {
-    // 노트 작성 페이지로 이동
-    navigate('/notes'); // 임시
-    return todo;
-  };
-
   return (
     <div className={entireContainerClass} style={entireContainerStyle}>
       <div className="flex w-full items-center justify-between">
@@ -155,7 +142,6 @@ function TodosPage() {
               showIcons
               onTodoClick={handleTodoClick}
               onOpenNoteDetail={handleOpenNoteDetail}
-              onOpenNoteWrite={handleOpenNoteWrite}
             />
           )}
         </div>
