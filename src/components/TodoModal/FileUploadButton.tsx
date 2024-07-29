@@ -11,8 +11,9 @@ function FileUploadButton({
   handleFileChange,
 }: FileUploadButtonProps) {
   return (
-    <div
-      className={`flex cursor-pointer flex-col items-start justify-start gap-2.5 rounded-lg border ${
+    <button
+      type="button"
+      className={`flex flex-col items-start justify-start gap-2.5 rounded-lg border ${
         fileUrl ? 'bg-slate-900' : 'bg-slate-100'
       } w-1/2 py-2 pl-2 pr-3`}
       onClick={
@@ -41,7 +42,7 @@ function FileUploadButton({
         className="hidden"
         onChange={handleFileChange}
       />
-    </div>
+    </button>
   );
 }
 
