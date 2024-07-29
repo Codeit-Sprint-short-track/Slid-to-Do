@@ -15,9 +15,9 @@ function GoalDetailPage() {
   return (
     <div className="flex min-h-screen justify-center bg-slate-100 desktop:min-w-[1920px]">
       <div className="flex w-[375px] flex-col pb-16 text-slate-800 tablet:w-[637px] desktop:w-[1200px]">
-        <div className="mt-6 hidden text-lg font-semibold leading-7 text-slate-900 tablet:block">
+        <h1 className="mt-6 hidden text-lg font-semibold leading-7 text-slate-900 tablet:block">
           목표
-        </div>
+        </h1>
         <div className="mt-4 flex flex-col gap-4 tablet:gap-6">
           <GoalBox />
           <Link
