@@ -119,40 +119,38 @@ function TodosPage() {
           </div>
         </div>
       </div>
-      <div className="box-border flex h-full w-full flex-grow flex-col items-start justify-start gap-4 self-stretch rounded-xl border border-slate-100 bg-white p-6">
-        <div className="inline-flex h-full w-full flex-col items-start justify-start gap-4">
-          <FilterButtons selectedFilter={filter} onFilterChange={setFilter} />
-          <div className={containerClass} style={style}>
-            {getFilteredTodos().length === 0 ? (
-              <div className="flex h-full w-full items-center justify-center">
-                {filter === 'All' && (
-                  <p className="text-sm leading-tight text-slate-500">
-                    등록한 할 일이 없어요
-                  </p>
-                )}
-                {filter === 'Todo' && (
-                  <p className="text-sm leading-tight text-slate-500">
-                    해야할 일이 아직 없어요
-                  </p>
-                )}
-                {filter === 'Done' && (
-                  <p className="text-sm leading-tight text-slate-500">
-                    다 한 일이 아직 없어요
-                  </p>
-                )}
-              </div>
-            ) : (
-              <TodoList
-                todos={getFilteredTodos()}
-                onToggleDone={handleToggleDone}
-                showGoals
-                showIcons
-                onTodoClick={handleTodoClick}
-                onOpenNoteDetail={handleOpenNoteDetail}
-                onOpenNoteWrite={handleOpenNoteWrite}
-              />
-            )}
-          </div>
+      <div className="box-border inline-flex h-full w-full flex-grow flex-col items-start justify-start gap-4 self-stretch rounded-xl border border-slate-100 bg-white p-6">
+        <FilterButtons selectedFilter={filter} onFilterChange={setFilter} />
+        <div className={containerClass} style={style}>
+          {getFilteredTodos().length === 0 ? (
+            <div className="flex h-full w-full items-center justify-center">
+              {filter === 'All' && (
+                <p className="text-sm leading-tight text-slate-500">
+                  등록한 할 일이 없어요
+                </p>
+              )}
+              {filter === 'Todo' && (
+                <p className="text-sm leading-tight text-slate-500">
+                  해야할 일이 아직 없어요
+                </p>
+              )}
+              {filter === 'Done' && (
+                <p className="text-sm leading-tight text-slate-500">
+                  다 한 일이 아직 없어요
+                </p>
+              )}
+            </div>
+          ) : (
+            <TodoList
+              todos={getFilteredTodos()}
+              onToggleDone={handleToggleDone}
+              showGoals
+              showIcons
+              onTodoClick={handleTodoClick}
+              onOpenNoteDetail={handleOpenNoteDetail}
+              onOpenNoteWrite={handleOpenNoteWrite}
+            />
+          )}
         </div>
       </div>
 
