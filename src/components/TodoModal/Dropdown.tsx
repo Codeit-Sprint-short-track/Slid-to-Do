@@ -60,7 +60,7 @@ function Dropdown({
             </div>
           ) : (
             <div className="flex h-32 items-center justify-center">
-              옵션이 존재하지 않습니다.
+              등록한 목표가 없어요
             </div>
           )}
         </div>
