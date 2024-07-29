@@ -8,8 +8,8 @@ export interface TodoListProps {
   showIcons?: boolean;
   hoverBgColor?: string;
   onTodoClick: (todo: Todo) => void;
-  onOpenNoteDetail?: (id: number) => void;
-  onOpenNoteWrite?: (id: number) => void;
+  onOpenNoteDetail?: (id: number | null) => void;
+  onOpenNoteWrite?: (todo: Todo) => void;
 }
 
 function TodoList({

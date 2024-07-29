@@ -1,4 +1,4 @@
-import { Note, Todo } from '@/types/interface';
+import { Todo } from '@/types/interface';
 import { PlusBlueIcon } from '@assets';
 import TodoList from '@components/TodoList';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
@@ -9,7 +9,6 @@ import cn from '@utils/cn';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterButtons from './components/FilterButtons';
-import mockNotes from './mockNotes';
 import mockTodos from './mockTodos';
 
 function TodosPage() {
@@ -54,7 +53,9 @@ function TodosPage() {
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const [isTodoDetailModalVisible, setTodoDetailModalVisible] =
     useState<boolean>(false);
-  const [notes, setNotes] = useState<Note[]>([]);
+  // const [isNoteDetailVisible, setIsNoteDetailVisible] =
+  //   useState<boolean>(false);
+  const [noteId, setNoteId] = useState<number | null>(null);
 
   useEffect(() => {
     // GET
@@ -90,19 +91,23 @@ function TodosPage() {
     setSelectedTodo(null);
   };
 
-  const handleOpenNoteDetail = async (id: number) => {
+  const handleOpenNoteDetail = async (id: number | null) => {
+    // setIsNoteDetailVisible(true);
+    setNoteId(id);
+    return noteId;
     // GET
-    setNotes(mockNotes);
-    const note = notes.find((n) => n.todo.id === id);
-    return note;
   };
+
+  // const handleCloseNoteDetail = async (id: number|null) => {
+  //   setIsNoteDetailVisible(false)
+  // };
 
   const navigate = useNavigate();
 
-  const handleOpenNoteWrite = (id: number) => {
+  const handleOpenNoteWrite = (todo: Todo) => {
     // 노트 작성 페이지로 이동
     navigate('/notes'); // 임시
-    return id;
+    return todo;
   };
 
   return (
@@ -162,6 +167,7 @@ function TodosPage() {
       {isTodoDetailModalVisible && selectedTodo && (
         <TodoDetailModal todo={selectedTodo} onClose={handleCloseTodoDetail} />
       )}
+      {/* {isNoteDetailVisible && <div>{noteId}</div>} */}
     </div>
   );
 }

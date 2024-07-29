@@ -17,8 +17,8 @@ interface TodoItemProps {
   showIcons: boolean;
   hoverBgColor: string;
   onTodoClick: (todo: Todo) => void;
-  onOpenNoteDetail?: (id: number) => void;
-  onOpenNoteWrite?: (id: number) => void;
+  onOpenNoteDetail?: (noteId: number | null) => void;
+  onOpenNoteWrite?: (todo: Todo) => void;
 }
 
 function TodoItem({
@@ -106,7 +106,7 @@ function TodoItem({
               className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50"
               onClick={(e) => {
                 e.stopPropagation();
-                if (onOpenNoteDetail) onOpenNoteDetail(todo.id);
+                if (onOpenNoteDetail) onOpenNoteDetail(todo.noteId);
               }}
               aria-label="View note"
             >
@@ -118,7 +118,7 @@ function TodoItem({
               className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50"
               onClick={(e) => {
                 e.stopPropagation();
-                if (onOpenNoteWrite) onOpenNoteWrite(todo.id);
+                if (onOpenNoteWrite) onOpenNoteWrite(todo);
               }}
               aria-label="Write note"
             >
