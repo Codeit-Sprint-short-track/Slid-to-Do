@@ -218,7 +218,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
               shape="solid"
               size="lg"
               onClick={handleSave}
-              additionalClass={`flex-grow px-6 py-3 text-base leading-normal ${canSave ? '' : 'bg-slate-400'}`}
+              additionalClass="flex-grow px-6 py-3 text-base leading-normal"
               disabled={!canSave}
             >
               확인
