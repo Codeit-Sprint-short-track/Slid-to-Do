@@ -19,7 +19,7 @@ function TodosByGoalBox({ title }: TodosByGoalProps) {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
 
   useEffect(() => {
-    const todosData = mockTodosData.filter((todo) => todo.done === false);
+    const todosData = mockTodosData.filter((todo) => !todo.done);
     if (todosData.length > 5) {
       setIsTodosMoreThanFive(true);
       if (isToggleOpen) {
@@ -29,7 +29,7 @@ function TodosByGoalBox({ title }: TodosByGoalProps) {
       }
     }
 
-    const donesData = mockTodosData.filter((todo) => todo.done === true);
+    const donesData = mockTodosData.filter((todo) => todo.done);
     if (donesData.length > 5) {
       setIsDonesMoreThanFive(true);
       if (isToggleOpen) {
