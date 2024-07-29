@@ -41,7 +41,7 @@ function RecentTodos() {
         </button>
       </div>
       <div className="mt-4 h-[159px] overflow-y-auto">
-        {todosData ? (
+        {todosData && todosData.length > 0 ? (
           <TodoList
             todos={todosState}
             onToggleDone={handleToggleDone}
