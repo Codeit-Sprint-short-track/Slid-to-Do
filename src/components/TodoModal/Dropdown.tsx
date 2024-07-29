@@ -1,5 +1,5 @@
 import { Goal, Todo } from '@/types/interface';
-import { ArrowDownIcon } from '@assets';
+import { ArrowDropdownIcon } from '@assets';
 
 interface DropdownProps {
   options: Goal[];
@@ -28,7 +28,7 @@ function Dropdown({
         <div className="text-start">
           {selectedOption !== null ? selectedOption.title : placeholder}
         </div>
-        <ArrowDownIcon className="p-[3px]" />
+        <ArrowDropdownIcon className="p-[3px]" />
       </button>
       {isDropdownOpen && (
         <div className="absolute top-10 z-10 w-full overflow-hidden rounded-xl bg-white shadow-md">
