@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-// import { showErrorToast, showToast } from '@components/Toast';
 import postFile from '@/api/filesAPI';
+import { showToast } from '@components/Toast';
+import { useMutation } from '@tanstack/react-query';
 
 function usePostFile(handleSuccess?: () => void) {
   return useMutation({
@@ -8,7 +8,7 @@ function usePostFile(handleSuccess?: () => void) {
       return postFile(file);
     },
     onSuccess: () => {
-      // showToast('파일 업로드 성공!');
+      showToast('파일 업로드 완료');
       if (handleSuccess) handleSuccess();
     },
   });

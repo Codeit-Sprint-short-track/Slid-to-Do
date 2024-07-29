@@ -1,7 +1,7 @@
+import { showErrorToast } from '@components/Toast';
+import axios, { AxiosError } from 'axios';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { showErrorToast } from "./toast";
-import axios, { AxiosError } from 'axios';
 
 interface ErrorResponse {
   message: string;
@@ -20,18 +20,18 @@ const useApiError = () => {
           if (message === 'Unauthorized') {
             navigate('/login');
           } else {
-            // showErrorToast(message);
+            showErrorToast(message);
           }
           return;
         }
 
         if (httpStatus >= 500) {
-          // showErrorToast("서버 에러가 발생했습니다.");
+          showErrorToast('서버 에러가 발생했습니다.');
           return;
         }
       }
 
-      // showErrorToast("알 수 없는 에러가 발생했습니다.");
+      showErrorToast('알 수 없는 에러가 발생했습니다.');
     },
     [navigate],
   );
