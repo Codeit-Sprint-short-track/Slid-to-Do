@@ -1,20 +1,20 @@
-import todosAPI from '@/api/todosAPI';
+import notesAPI from '@/api/notesAPI';
 import { QueryFunctionContext, useSuspenseQuery } from '@tanstack/react-query';
 
-// queryKey로 ['todos', 의존성] 넘겨주세요
+// queryKey로 ['notes', 의존성] 넘겨주세요
 
-const useGetTodos = (
+const useGetNotes = (
   queryKey: QueryFunctionContext['queryKey'],
   goalId?: number,
-  done?: boolean,
+  cursor?: number,
   size = 20,
 ) =>
   useSuspenseQuery({
     queryKey: [queryKey],
     queryFn: async () => {
-      const response = await todosAPI.getTodos(goalId, done, 0, size);
+      const response = await notesAPI.getNotes(goalId, cursor, size);
       return response;
     },
   });
 
-export default useGetTodos;
+export default useGetNotes;

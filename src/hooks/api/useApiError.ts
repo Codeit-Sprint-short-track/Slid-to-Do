@@ -1,5 +1,5 @@
 import { showErrorToast } from '@components/Toast';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ const useApiError = () => {
   const navigate = useNavigate();
 
   const handleError = useCallback(
-    (error: AxiosError) => {
+    (error: Error) => {
       if (axios.isAxiosError(error) && error.response) {
         const httpStatus = error.response.status;
         const { message } = error.response.data as ErrorResponse;

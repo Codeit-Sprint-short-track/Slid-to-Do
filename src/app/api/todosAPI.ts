@@ -24,7 +24,7 @@ interface CreateTodo {
   goalId?: number;
 }
 
-interface UpdateTodo {
+export interface UpdateTodo {
   title?: string;
   fileUrl?: string | null;
   linkUrl?: string | null;

@@ -2,14 +2,14 @@ import postFile from '@/api/filesAPI';
 import { showToast } from '@components/Toast';
 import { useMutation } from '@tanstack/react-query';
 
-function usePostFile(handleSuccess?: () => void) {
+function usePostFile(onSuccess?: () => void) {
   return useMutation({
     mutationFn: async (file: File) => {
       return postFile(file);
     },
     onSuccess: () => {
       showToast('파일 업로드 완료');
-      if (handleSuccess) handleSuccess();
+      if (onSuccess) onSuccess();
     },
   });
 }
