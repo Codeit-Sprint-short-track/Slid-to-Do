@@ -1,5 +1,5 @@
 import { Todo } from '@/types/interface';
-import { ArrowRightIcon, TodoRecntlyIcon } from '@assets';
+import { ArrowRightIcon, TodoRecentlyIcon } from '@assets';
 import TodoList from '@components/TodoList';
 import { useState } from 'react';
 import { mockTodosData } from '../mockData';
@@ -28,7 +28,7 @@ function RecentTodos() {
     <div className="h-[250px] rounded-xl bg-white px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <TodoRecntlyIcon className="mr-2" />
+          <TodoRecentlyIcon className="mr-2" />
           <div className="text-lg font-semibold leading-7 text-slate-800">
             최근 등록한 할 일
           </div>
