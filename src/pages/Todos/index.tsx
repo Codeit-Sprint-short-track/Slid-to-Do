@@ -1,6 +1,8 @@
 import { Note, Todo } from '@/types/interface';
 import { PlusBlueIcon } from '@assets';
 import TodoList from '@components/TodoList';
+import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
+import TodoDetailModal from '@components/TodoModal/TodoDetailModal';
 import useWindowHeight from '@hooks/useWindowHeight';
 import useWindowWidth from '@hooks/useWindowWidth';
 import cn from '@utils/cn';
@@ -43,9 +45,9 @@ function TodosPage() {
     setIsTodoCreateModalVisible(true);
   };
 
-  // const handleCloseModal = () => {
-  //   setIsTodoCreateModalVisible(false);
-  // };
+  const handleCloseModal = () => {
+    setIsTodoCreateModalVisible(false);
+  };
 
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<'All' | 'Todo' | 'Done'>('All');
@@ -83,10 +85,10 @@ function TodosPage() {
     setTodoDetailModalVisible(true);
   };
 
-  // const handleCloseTodoDetail = () => {
-  //   setTodoDetailModalVisible(false);
-  //   setSelectedTodo(null);
-  // };
+  const handleCloseTodoDetail = () => {
+    setTodoDetailModalVisible(false);
+    setSelectedTodo(null);
+  };
 
   const handleOpenNoteDetail = async (id: number) => {
     // GET
@@ -155,12 +157,10 @@ function TodosPage() {
       </div>
 
       {isTodoCreateModalVisible && (
-        // <TodoCreateModal onClose={handleCloseModal} />
-        <div>TodoCreateModal</div>
+        <TodoCreateModal onClose={handleCloseModal} />
       )}
       {isTodoDetailModalVisible && selectedTodo && (
-        // <TodoDetailModal todo={selectedTodo} onClose={handleCloseTodoDetail} />
-        <div>TodoDetailModal</div>
+        <TodoDetailModal todo={selectedTodo} onClose={handleCloseTodoDetail} />
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { Goal, Todo } from '@/types/interface';
 import { DeleteIcon, GrayDelete } from '@assets';
+import Button from '@components/Button';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
 import { ChangeEvent, useState } from 'react';
@@ -182,7 +183,6 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
               </button>
             </div>
           </div>
-
           <div className="mt-6 flex grow flex-col items-center justify-start gap-y-6 overflow-auto pb-20 pt-6 tablet:mt-0 tablet:justify-between tablet:overflow-visible tablet:pb-0 tablet:pt-0">
             <StatusSection done={done} toggleDone={toggleDone} />
             <TitleSection
@@ -236,23 +236,24 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
               )}
             </div>
           </div>
-
           <div className="fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center gap-x-2 bg-white px-6 py-3 tablet:static tablet:mt-8 tablet:p-0">
-            <button
-              type="button"
-              className="flex-grow rounded-xl border border-blue-500 bg-white px-6 py-3 text-base font-semibold leading-normal text-blue-500"
+            <Button
+              shape="outlined"
+              size="lg"
               onClick={() => setIsDeletePopupVisible(true)}
+              additionalClass="flex-grow px-6 py-3 text-base leading-normal"
             >
               삭제
-            </button>
-            <button
-              type="button"
-              className={`flex-grow rounded-xl px-6 py-3 text-base font-semibold leading-normal text-white ${canSave ? 'bg-blue-500' : 'bg-slate-400'}`}
-              disabled={!canSave}
+            </Button>
+            <Button
+              shape="solid"
+              size="lg"
               onClick={handleSave}
+              additionalClass="flex-grow px-6 py-3 text-base leading-normal"
+              disabled={!canSave}
             >
               수정
-            </button>
+            </Button>
           </div>
         </div>
       </div>

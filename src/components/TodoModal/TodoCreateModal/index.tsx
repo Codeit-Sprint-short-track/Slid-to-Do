@@ -1,5 +1,6 @@
 import { Goal } from '@/types/interface';
 import { DeleteIcon, GrayDelete } from '@assets';
+import Button from '@components/Button';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
 import { ChangeEvent, useState } from 'react';
@@ -213,14 +214,15 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
           </div>
 
           <div className="fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center gap-x-2 bg-white px-6 py-3 tablet:static tablet:mt-8 tablet:p-0">
-            <button
-              type="button"
-              className={`flex-grow rounded-xl px-6 py-3 text-base font-semibold leading-normal text-white ${canSave ? 'bg-blue-500' : 'bg-slate-400'}`}
-              disabled={!canSave}
+            <Button
+              shape="solid"
+              size="lg"
               onClick={handleSave}
+              additionalClass={`flex-grow px-6 py-3 text-base leading-normal ${canSave ? '' : 'bg-slate-400'}`}
+              disabled={!canSave}
             >
               확인
-            </button>
+            </Button>
           </div>
         </div>
       </div>
