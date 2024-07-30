@@ -2,21 +2,21 @@ import { Todo } from '@/types/interface';
 import { PlusIcon } from '@assets';
 import TodoList from '@components/TodoList';
 
-interface TodoSectionProps {
+interface TodoBoxProps {
   title: 'To do' | 'Done';
   placeholder: string;
   todos: Todo[];
-  handleToggleDone: (id: number) => void;
-  handleTodoClick: (todo: Todo) => void;
+  onToggleDone: (id: number) => void;
+  onTodoClick: (todo: Todo) => void;
 }
 
-function TodoSection({
+function TodoBox({
   title,
   placeholder,
   todos,
-  handleToggleDone,
-  handleTodoClick,
-}: TodoSectionProps) {
+  onToggleDone,
+  onTodoClick,
+}: TodoBoxProps) {
   return (
     <div
       className={`min-h-[221px] rounded-xl desktop:min-w-0 desktop:flex-1 ${title === 'To do' ? 'bg-white' : 'bg-slate-200'} flex flex-col px-6 py-4`}
@@ -35,8 +35,8 @@ function TodoSection({
         <TodoList
           todos={todos}
           showIcons
-          onToggleDone={handleToggleDone}
-          onTodoClick={handleTodoClick}
+          onToggleDone={onToggleDone}
+          onTodoClick={onTodoClick}
         />
       ) : (
         <div className="flex flex-grow items-center justify-center">
@@ -47,4 +47,4 @@ function TodoSection({
   );
 }
 
-export default TodoSection;
+export default TodoBox;

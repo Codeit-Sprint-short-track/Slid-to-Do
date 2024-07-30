@@ -3,10 +3,10 @@ import Kebab from '@components/Kebab';
 
 function GoalBox() {
   const progress = 25;
-  const onEdit = () => {
+  const handleEdit = () => {
     //
   };
-  const onDelete = () => {
+  const handleDelete = () => {
     //
   };
   return (
@@ -20,7 +20,7 @@ function GoalBox() {
             자바스크립트로 웹 서비스 만들기
           </div>
         </div>
-        <Kebab onEdit={onEdit} onDelete={onDelete} />
+        <Kebab onEdit={handleEdit} onDelete={handleDelete} />
       </div>
       <div className="mt-6 text-xs font-semibold text-slate-900">Progress</div>
       <div className="mt-2 flex h-4 w-full items-center justify-between gap-2 bg-white">

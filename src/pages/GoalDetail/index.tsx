@@ -2,7 +2,7 @@ import { Todo } from '@/types/interface';
 import { ArrowRightIcon, NoteIcon } from '@assets';
 import { Link } from 'react-router-dom';
 import GoalBox from './components/GoalBox';
-import TodoSection from './components/TodoSection';
+import TodoBox from './components/TodoBox';
 import mockTodosData from './mockData';
 
 function GoalDetailPage() {
@@ -31,19 +31,19 @@ function GoalDetailPage() {
             <ArrowRightIcon />
           </Link>
           <div className="flex flex-col gap-4 tablet:gap-6 desktop:flex-row">
-            <TodoSection
+            <TodoBox
               title="To do"
               placeholder="아직 해야할 일이 없어요"
               todos={todos}
-              handleToggleDone={handleToggleDone}
-              handleTodoClick={handleTodoClick}
+              onToggleDone={handleToggleDone}
+              onTodoClick={handleTodoClick}
             />
-            <TodoSection
+            <TodoBox
               title="Done"
               placeholder="아직 다 한 일이 없어요"
               todos={dones}
-              handleToggleDone={handleToggleDone}
-              handleTodoClick={handleTodoClick}
+              onToggleDone={handleToggleDone}
+              onTodoClick={handleTodoClick}
             />
           </div>
         </div>
