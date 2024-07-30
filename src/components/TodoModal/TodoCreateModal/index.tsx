@@ -63,8 +63,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
   const [title, setTitle] = useState('');
   const [goal, setGoal] = useState<Goal | null>(initialGoal || null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [fileType, setFileType] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [linkUrl, setLinkUrl] = useState<string | null>(null);
   const [isLinkModalVisible, setIsLinkModalVisible] = useState(false);
   const [isUnsavedChangesPopupVisible, setIsUnsavedChangesPopupVisible] =
@@ -98,12 +97,11 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     // POST
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
+    const uploadedFile = e.target.files?.[0];
+    if (uploadedFile) {
+      const url = URL.createObjectURL(uploadedFile);
       setFileUrl(url);
-      setFileType(file.type);
-      setFileName(file.name);
+      setFile(uploadedFile);
     }
   };
 
@@ -113,7 +111,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
 
   const handleFileDelete = () => {
     setFileUrl(null);
-    setFileType(null);
+    setFile(null);
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
@@ -160,7 +158,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
             </div>
           </div>
 
-          <div className="mt-6 flex grow flex-col items-center justify-start gap-y-6 overflow-auto pb-20 pt-6 tablet:mt-0 tablet:justify-between tablet:overflow-visible tablet:pb-0 tablet:pt-0">
+          <div className="mt-6 flex grow flex-col items-center justify-start gap-y-6 overflow-auto pb-20 pt-6 tablet:mt-0 tablet:justify-between tablet:overflow-visible tablet:py-0">
             <TitleSection
               title={title}
               onTitleChange={handleTitleChange}
@@ -187,13 +185,9 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
                   setIsLinkModalVisible={setIsLinkModalVisible}
                 />
               </div>
-              {fileUrl !== null && fileType && (
+              {fileUrl && file && (
                 <div className="relative mx-auto mt-2 flex h-[184px] w-full items-center justify-center rounded-[20px] bg-slate-200 p-6">
-                  <FilePreview
-                    fileType={fileType}
-                    fileUrl={fileUrl}
-                    fileName={fileName}
-                  />
+                  <FilePreview file={file} fileUrl={fileUrl} />
                   <button
                     type="button"
                     className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-slate-200"
