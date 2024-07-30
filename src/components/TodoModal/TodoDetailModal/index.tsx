@@ -67,16 +67,14 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     title,
     goal,
     fileUrl,
-    fileType,
-    fileName,
+    file,
     linkUrl,
     isModified,
     setDone,
     setTitle,
     setGoal,
     setFileUrl,
-    setFileType,
-    setFileName,
+    setFile,
     setLinkUrl,
   } = useTodoDetail(todo);
 
@@ -113,12 +111,11 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     // POST
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
+    const uploadedFile = e.target.files?.[0];
+    if (uploadedFile) {
+      const url = URL.createObjectURL(uploadedFile);
       setFileUrl(url);
-      setFileType(file.type);
-      setFileName(file.name);
+      setFile(uploadedFile);
     }
   };
 
@@ -128,7 +125,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
 
   const handleFileDelete = () => {
     setFileUrl(null);
-    setFileType(null);
+    setFile(null);
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
@@ -211,13 +208,9 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                   setIsLinkModalVisible={setIsLinkModalVisible}
                 />
               </div>
-              {fileUrl !== null && fileType && (
+              {fileUrl && file && (
                 <div className="relative mx-auto mt-2 flex h-[184px] w-full items-center justify-center rounded-[20px] bg-slate-200 p-6">
-                  <FilePreview
-                    fileType={fileType}
-                    fileUrl={fileUrl}
-                    fileName={fileName}
-                  />
+                  <FilePreview fileUrl={fileUrl} file={file} />
                   <button
                     type="button"
                     className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-slate-200"
