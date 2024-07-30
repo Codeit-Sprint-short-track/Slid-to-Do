@@ -18,7 +18,7 @@ const useApiError = () => {
 
         if (message) {
           if (message === 'Unauthorized') {
-            navigate('/login');
+            navigate('/sign-in');
           } else {
             showErrorToast(message);
           }
