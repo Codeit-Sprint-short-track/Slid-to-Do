@@ -5,9 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 function useDeleteTodo() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (todoId: number) => {
-      await todosAPI.deleteTodo(todoId);
-    },
+    mutationFn: async (todoId: number) => todosAPI.deleteTodo(todoId),
     onSuccess: () => {
       showToast('삭제되었습니다.');
       queryClient.invalidateQueries({ queryKey: ['todos'] });

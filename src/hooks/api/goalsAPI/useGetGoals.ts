@@ -4,10 +4,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 const useGetGoals = (size = 20) =>
   useSuspenseInfiniteQuery({
     queryKey: ['goals', size],
-    queryFn: async ({ pageParam = 0 }) => {
-      const response = await goalsAPI.getGoals(pageParam, size);
-      return response;
-    },
+    queryFn: async ({ pageParam = 0 }) => goalsAPI.getGoals(pageParam, size),
     getNextPageParam: (lastPage) =>
       lastPage.nextCursor !== null ? lastPage.nextCursor : undefined,
     initialPageParam: 0,

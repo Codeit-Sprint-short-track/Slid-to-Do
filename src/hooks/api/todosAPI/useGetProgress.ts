@@ -4,10 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 const useGetProgress = (goalId?: number) =>
   useSuspenseQuery({
     queryKey: ['todos', goalId],
-    queryFn: async () => {
-      const response = await todosAPI.getProgress(goalId);
-      return response;
-    },
+    queryFn: async () => todosAPI.getProgress(goalId),
   });
 
 export default useGetProgress;

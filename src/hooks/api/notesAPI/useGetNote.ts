@@ -4,10 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 const useGetNote = (noteId: number) =>
   useSuspenseQuery({
     queryKey: ['note', noteId],
-    queryFn: async () => {
-      const response = await notesAPI.getNote(noteId);
-      return response;
-    },
+    queryFn: async () => notesAPI.getNote(noteId),
   });
 
 export default useGetNote;
