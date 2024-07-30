@@ -1,8 +1,10 @@
 import routes from '@constants/routes';
 import DashboardPage from '@pages/Dashboard';
+import GoalDetailPage from '@pages/GoalDetail';
 import NotesPage from '@pages/Notes';
 import SignInPage from '@pages/SignIn';
 import SignUpPage from '@pages/SignUp';
+import TodosPage from '@pages/Todos';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 
@@ -24,8 +26,16 @@ const router = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
+        path: routes.goalDetail,
+        element: <GoalDetailPage />,
+      },
+      {
         path: routes.notes,
         element: <NotesPage />,
+      },
+      {
+        path: routes.todos,
+        element: <TodosPage />,
       },
     ],
   },
