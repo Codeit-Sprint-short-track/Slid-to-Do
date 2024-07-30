@@ -46,7 +46,7 @@ interface Note {
   teamId: string;
 }
 
-interface UpdateNote {
+export interface UpdateNote {
   title?: string;
   content?: string;
   linkUrl?: string | null;

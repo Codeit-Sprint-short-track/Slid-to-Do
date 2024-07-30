@@ -1,14 +1,9 @@
 import goalsAPI from '@/api/goalsAPI';
-import {
-  QueryFunctionContext,
-  useSuspenseInfiniteQuery,
-} from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-// queryKey로 [‘goals’, 의존성] 넘겨주세요
-
-const useGetGoals = (queryKey: QueryFunctionContext['queryKey'], size = 20) =>
+const useGetGoals = (size = 20) =>
   useSuspenseInfiniteQuery({
-    queryKey: [queryKey],
+    queryKey: ['goals', size],
     queryFn: async ({ pageParam = 0 }) => {
       const response = await goalsAPI.getGoals(pageParam, size);
       return response;

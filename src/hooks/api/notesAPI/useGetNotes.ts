@@ -1,20 +1,16 @@
 import notesAPI from '@/api/notesAPI';
-import { QueryFunctionContext, useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-// queryKey로 ['notes', 의존성] 넘겨주세요
-
-const useGetNotes = (
-  queryKey: QueryFunctionContext['queryKey'],
-  goalId?: number,
-  cursor?: number,
-  size = 20,
-) =>
-  useSuspenseQuery({
-    queryKey: [queryKey],
-    queryFn: async () => {
-      const response = await notesAPI.getNotes(goalId, cursor, size);
+const useGetNotes = (goalId?: number, size = 20) =>
+  useSuspenseInfiniteQuery({
+    queryKey: ['notes', goalId, size],
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await notesAPI.getNotes(goalId, pageParam, size);
       return response;
     },
+    getNextPageParam: (lastPage) =>
+      lastPage.nextCursor !== null ? lastPage.nextCursor : undefined,
+    initialPageParam: 0,
   });
 
 export default useGetNotes;
