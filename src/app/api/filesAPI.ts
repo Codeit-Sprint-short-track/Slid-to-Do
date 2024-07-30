@@ -1,6 +1,6 @@
 import axiosInstance from './axiosInstance';
 
-interface UploadResponse {
+export interface UploadResponse {
   url: string;
 }
 
