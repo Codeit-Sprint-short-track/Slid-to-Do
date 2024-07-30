@@ -1,8 +1,9 @@
-import postFile, { UploadResponse } from '@/api/filesAPI';
+import postFile from '@/api/filesAPI';
 import { showToast } from '@components/Toast';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 
-function usePostFile(onSuccess?: (data: UploadResponse) => void) {
+function usePostFile(onSuccess?: (data: AxiosResponse) => void) {
   return useMutation({
     mutationFn: async (file: File) => postFile(file),
 

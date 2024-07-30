@@ -1,95 +1,47 @@
 import axiosInstance from './axiosInstance';
 
-interface GetNotesResponseNote {
-  todo: {
-    done: boolean;
-    title: string;
-    id: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-  title: string;
-  id: number;
-  goal: {
-    title: string;
-    id: number;
-  } | null;
-  userId: number;
-  teamId: string;
-}
-
-interface GetNotesResponse {
-  nextCursor: number | null;
-  totalCount: number;
-  notes: GetNotesResponseNote[];
-}
-
-interface Note {
-  todo: {
-    done: boolean;
-    fileUrl: string | null;
-    linkUrl: string | null;
-    title: string;
-    id: number;
-  };
-  linkUrl: string | null;
-  content: string;
-  updatedAt: string;
-  createdAt: string;
-  title: string;
-  id: number;
-  goal: {
-    title: string;
-    id: number;
-  } | null;
-  userId: number;
-  teamId: string;
-}
-
 export interface UpdateNote {
   title?: string;
   content?: string;
   linkUrl?: string | null;
 }
 
-const getNotes = async (
-  goalId?: number,
-  cursor?: number,
-  size = 20,
-): Promise<GetNotesResponse> => {
-  const response = await axiosInstance.get<GetNotesResponse>('/notes', {
+const getNotes = async (goalId?: number, cursor?: number, size = 20) =>
+  axiosInstance({
+    url: '/notes',
+    method: 'get',
     params: { goalId, cursor, size },
   });
-  return response.data;
-};
 
 const postNote = async (
   todoId: number,
   title: string,
   content: string,
   linkUrl?: string,
-): Promise<Note> => {
-  const response = await axiosInstance.post<Note>('/notes', {
-    todoId,
-    title,
-    content,
-    linkUrl,
+) =>
+  axiosInstance({
+    url: '/notes',
+    method: 'post',
+    data: { todoId, title, content, linkUrl },
   });
-  return response.data;
-};
 
-const getNote = async (noteId: number): Promise<Note> => {
-  const response = await axiosInstance.get<Note>(`/notes/${noteId}`);
-  return response.data;
-};
+const getNote = async (noteId: number) =>
+  axiosInstance({
+    url: `/notes/${noteId}`,
+    method: 'get',
+  });
 
-const patchNote = async (noteId: number, note: UpdateNote): Promise<Note> => {
-  const response = await axiosInstance.patch<Note>(`/notes/${noteId}`, note);
-  return response.data;
-};
+const patchNote = async (noteId: number, note: UpdateNote) =>
+  axiosInstance({
+    url: `/notes/${noteId}`,
+    method: 'patch',
+    data: note,
+  });
 
-const deleteNote = async (noteId: number): Promise<void> => {
-  await axiosInstance.delete(`/notes/${noteId}`);
-};
+const deleteNote = async (noteId: number) =>
+  axiosInstance({
+    url: `/notes/${noteId}`,
+    method: 'delete',
+  });
 
 export default { getNotes, postNote, getNote, patchNote, deleteNote };

@@ -32,58 +32,43 @@ export interface UpdateTodo {
   done?: boolean;
 }
 
-interface GetTodosResponse {
-  totalCount: number;
-  nextCursor: number | null;
-  todos: Todo[];
-}
-
-interface GetTodosProgressResponse {
-  progress: number;
-}
-
 const getTodos = async (
   goalId?: number,
   done?: boolean,
   cursor?: number,
   size = 20,
-): Promise<GetTodosResponse> => {
-  const response = await axiosInstance.get<GetTodosResponse>('/todos', {
+) =>
+  axiosInstance({
+    url: '/todos',
+    method: 'get',
     params: { goalId, done, cursor, size },
   });
-  return response.data;
-};
 
-const postTodo = async (todo: CreateTodo): Promise<Todo> => {
-  const response = await axiosInstance.post<Todo>('/todos', todo);
-  return response.data;
-};
+const postTodo = async (todo: CreateTodo) =>
+  axiosInstance({
+    url: '/todos',
+    method: 'post',
+    data: todo,
+  });
 
-const patchTodo = async (todoId: number, todo: UpdateTodo): Promise<Todo> => {
-  const response = await axiosInstance.patch<Todo>(`/todos/${todoId}`, todo);
-  return response.data;
-};
+const patchTodo = async (todoId: number, todo: UpdateTodo) =>
+  axiosInstance({
+    url: `/todos/${todoId}`,
+    method: 'patch',
+    data: todo,
+  });
 
-const deleteTodo = async (todoId: number): Promise<void> => {
-  await axiosInstance.delete(`/todos/${todoId}`);
-};
+const deleteTodo = async (todoId: number) =>
+  axiosInstance({
+    url: `/todos/${todoId}`,
+    method: 'delete',
+  });
 
-const getProgress = async (
-  goalId?: number,
-): Promise<GetTodosProgressResponse> => {
-  const response = await axiosInstance.get<GetTodosProgressResponse>(
-    '/todos/progress',
-    {
-      params: { goalId },
-    },
-  );
-  return response.data;
-};
+const getProgress = async (goalId?: number) =>
+  axiosInstance({
+    url: '/todos/progress',
+    method: 'get',
+    params: { goalId },
+  });
 
-export default {
-  getTodos,
-  postTodo,
-  patchTodo,
-  deleteTodo,
-  getProgress,
-};
+export default { getTodos, postTodo, patchTodo, deleteTodo, getProgress };

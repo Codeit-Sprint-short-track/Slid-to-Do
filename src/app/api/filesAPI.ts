@@ -1,23 +1,11 @@
 import axiosInstance from './axiosInstance';
 
-export interface UploadResponse {
-  url: string;
-}
-
-const postFile = async (file: File): Promise<UploadResponse> => {
-  const formData = new FormData();
-  formData.append('file', file);
-  const response = await axiosInstance.post<UploadResponse>(
-    '/files',
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
-  );
-
-  return response.data;
-};
+const postFile = async (file: File) =>
+  axiosInstance({
+    url: '/files',
+    method: 'post',
+    data: file,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 
 export default postFile;

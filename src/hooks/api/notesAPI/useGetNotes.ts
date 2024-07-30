@@ -7,7 +7,7 @@ const useGetNotes = (goalId?: number, size = 20) =>
     queryFn: async ({ pageParam = 0 }) =>
       notesAPI.getNotes(goalId, pageParam, size),
     getNextPageParam: (lastPage) =>
-      lastPage.nextCursor !== null ? lastPage.nextCursor : undefined,
+      lastPage.data.nextCursor !== null ? lastPage.data.nextCursor : undefined,
     initialPageParam: 0,
   });
 

@@ -7,7 +7,7 @@ const useGetTodos = (goalId?: number, done?: boolean, size = 20) =>
     queryFn: async ({ pageParam = 0 }) =>
       todosAPI.getTodos(goalId, done, pageParam, size),
     getNextPageParam: (lastPage) =>
-      lastPage.nextCursor !== null ? lastPage.nextCursor : undefined,
+      lastPage.data.nextCursor !== null ? lastPage.data.nextCursor : undefined,
     initialPageParam: 0,
   });
 
