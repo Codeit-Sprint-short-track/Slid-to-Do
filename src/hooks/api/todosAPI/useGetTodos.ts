@@ -1,8 +1,8 @@
 import todosAPI from '@/api/todosAPI';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 const useGetTodos = (goalId?: number, done?: boolean, size = 20) =>
-  useSuspenseInfiniteQuery({
+  useInfiniteQuery({
     queryKey: ['todos', goalId, done, size],
     queryFn: async ({ pageParam = 0 }) =>
       todosAPI.getTodos(goalId, done, pageParam, size),
