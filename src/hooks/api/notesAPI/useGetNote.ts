@@ -1,8 +1,8 @@
 import notesAPI from '@/api/notesAPI';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const useGetNote = (noteId: number) =>
-  useSuspenseQuery({
+  useQuery({
     queryKey: ['note', noteId],
     queryFn: async () => notesAPI.getNote(noteId),
   });

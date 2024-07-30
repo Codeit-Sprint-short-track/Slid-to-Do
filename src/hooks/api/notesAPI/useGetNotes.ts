@@ -1,8 +1,8 @@
 import notesAPI from '@/api/notesAPI';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 const useGetNotes = (goalId?: number, size = 20) =>
-  useSuspenseInfiniteQuery({
+  useInfiniteQuery({
     queryKey: ['notes', goalId, size],
     queryFn: async ({ pageParam = 0 }) =>
       notesAPI.getNotes(goalId, pageParam, size),

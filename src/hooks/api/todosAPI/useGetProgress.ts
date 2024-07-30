@@ -1,8 +1,8 @@
 import todosAPI from '@/api/todosAPI';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const useGetProgress = (goalId?: number) =>
-  useSuspenseQuery({
+  useQuery({
     queryKey: ['todos', goalId],
     queryFn: async () => todosAPI.getProgress(goalId),
   });
