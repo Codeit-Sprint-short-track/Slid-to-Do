@@ -17,7 +17,7 @@ export interface Todo {
   createdAt: string;
 }
 
-interface CreateTodo {
+export interface CreateTodo {
   title: string;
   fileUrl?: string;
   linkUrl?: string;

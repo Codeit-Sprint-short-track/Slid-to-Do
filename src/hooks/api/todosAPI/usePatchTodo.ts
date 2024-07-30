@@ -15,7 +15,7 @@ function usePatchTodo() {
       return todosAPI.patchTodo(todoId, todo);
     },
     onSuccess: () => {
-      showToast('할 일 수정 완료');
+      showToast('수정되었습니다');
       queryClient.invalidateQueries({ queryKey: ['todos'] });
     },
   });
