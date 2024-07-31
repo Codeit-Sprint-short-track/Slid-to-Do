@@ -17,6 +17,7 @@ function LinkModal({
 }: LinkModalProps) {
   const [link, setLink] = useState('');
   const [isValid, setIsValid] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -25,12 +26,21 @@ function LinkModal({
     setIsValid(isValidLink);
   };
 
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === 'Enter' && isValid && link.length > 0) {
-      onConfirm(link);
-    }
+  const handleCancel = () => {
+    setIsOpen(false);
+    setTimeout(onCancel, 300);
   };
 
+  const handleConfirm = () => {
+    setIsOpen(false);
+    setTimeout(() => onConfirm(link), 300);
+  };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && isValid && link.length > 0) {
+      handleConfirm();
+    }
+  };
   useEffect(() => {
     if (isValid && link.length > 0) {
       document.addEventListener('keydown', handleKeyPress);
@@ -40,10 +50,22 @@ function LinkModal({
     };
   }, [isValid, link.length > 0]);
 
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+        isOpen ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       <div
-        className={`flex h-auto flex-col items-start justify-start gap-2.5 rounded-xl bg-white p-6 ${fullscreen ? 'tablet:w-[520px] tablet:overflow-auto' : 'tablet:w-[450px]'} w-[311px]`}
+        className={`flex h-auto flex-col items-start justify-start gap-2.5 rounded-xl bg-white p-6 transition-transform duration-300 ${
+          fullscreen
+            ? 'tablet:w-[520px] tablet:overflow-auto'
+            : 'tablet:w-[450px]'
+        } w-[311px] transform ${isOpen ? 'translate-y-0' : '-translate-y-10'}`}
       >
         <div className="flex flex-col items-start justify-start gap-6 self-stretch">
           <div className="inline-flex w-full items-center justify-between gap-4">
@@ -52,7 +74,7 @@ function LinkModal({
             </div>
             <div
               className="inline-flex h-6 w-6 cursor-pointer items-center justify-center"
-              onClick={onCancel}
+              onClick={handleCancel}
             >
               <DeleteIcon />
             </div>
@@ -81,7 +103,7 @@ function LinkModal({
           size="lg"
           additionalClass="inline-flex self-stretch py-3 w-full"
           disabled={!isValid || link.length === 0}
-          onClick={() => isValid && onConfirm(link)}
+          onClick={handleConfirm}
         >
           확인
         </Button>
