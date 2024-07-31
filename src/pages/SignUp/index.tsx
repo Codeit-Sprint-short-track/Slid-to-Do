@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { TextLogoIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
@@ -18,7 +17,7 @@ function SignInPage() {
     register,
     handleSubmit,
     control,
-    formState: formState,
+    formState: { errors, isValid },
   } = useForm<FormValues>({
     defaultValues: {
       name: '',
@@ -28,11 +27,10 @@ function SignInPage() {
     },
     mode: 'onChange',
   });
-  const { errors, isValid } = formState;
 
   const onSubmit = (data: FormValues) => data;
 
-  const password = useWatch({ control: control, name: 'password' });
+  const password = useWatch({ control, name: 'password' });
 
   return (
     <div className="flex flex-col items-center pt-[48px] tablet:pt-[64px] desktop:pt-[120px]">

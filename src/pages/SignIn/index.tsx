@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { TextLogoIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
@@ -16,7 +15,7 @@ function SignInPage() {
     register,
     handleSubmit,
     control,
-    formState: formState,
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
       id: '',
@@ -26,10 +25,8 @@ function SignInPage() {
 
   const onSubmit = (data: FormValues) => data;
 
-  const { errors, touchedFields } = formState;
-
-  const password = useWatch({ control: control, name: 'password' });
-  const id = useWatch({ control: control, name: 'id' });
+  const password = useWatch({ control, name: 'password' });
+  const id = useWatch({ control, name: 'id' });
 
   return (
     <div className="flex flex-col items-center pt-[48px] tablet:pt-[64px] desktop:pt-[120px]">
@@ -38,7 +35,7 @@ function SignInPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-[40px] w-full">
           <div>
             <label htmlFor="id" className="self-start text-base font-semibold">
-              아이디
+              이메일
             </label>
             <BaseInput
               {...register('id', {
