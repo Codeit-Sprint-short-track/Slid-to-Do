@@ -17,10 +17,11 @@ function Popup({
   onConfirm,
   onCancel,
 }: PopupProps) {
-  const { isVisible, handleClose, handleConfirm } = useVisibility(
-    onCancel,
-    onConfirm,
-  );
+  const {
+    isVisible,
+    handleClose: handleCancel,
+    handleConfirm,
+  } = useVisibility(onCancel, onConfirm);
 
   return (
     <div
@@ -37,7 +38,7 @@ function Popup({
           <button
             type="button"
             className="flex items-center justify-center"
-            onClick={handleClose}
+            onClick={handleCancel}
             aria-label="Close"
           >
             <DeleteIcon width={24} height={24} />
@@ -53,7 +54,7 @@ function Popup({
             <Button
               shape="outlined"
               size="lg"
-              onClick={handleClose}
+              onClick={handleCancel}
               additionalClass="text-base leading-normal"
               aria-label="Cancel"
             >

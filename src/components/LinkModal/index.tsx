@@ -2,6 +2,7 @@ import { DeleteIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import { VALID_URL_REGEX } from '@constants/regex';
+import useVisibility from '@hooks/useVisibility';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 interface LinkModalProps {
@@ -17,7 +18,12 @@ function LinkModal({
 }: LinkModalProps) {
   const [link, setLink] = useState('');
   const [isValid, setIsValid] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    isVisible: isOpen,
+    handleClose: handleCancel,
+    handleConfirm,
+  } = useVisibility(onCancel, () => onConfirm(link));
 
   const handleLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -26,21 +32,12 @@ function LinkModal({
     setIsValid(isValidLink);
   };
 
-  const handleCancel = () => {
-    setIsOpen(false);
-    setTimeout(onCancel, 300);
-  };
-
-  const handleConfirm = () => {
-    setIsOpen(false);
-    setTimeout(() => onConfirm(link), 300);
-  };
-
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === 'Enter' && isValid && link.length > 0) {
+    if (e.key === 'Enter' && isValid && link.length > 0 && handleConfirm) {
       handleConfirm();
     }
   };
+
   useEffect(() => {
     if (isValid && link.length > 0) {
       document.addEventListener('keydown', handleKeyPress);
@@ -49,10 +46,6 @@ function LinkModal({
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [isValid, link.length > 0]);
-
-  useEffect(() => {
-    setIsOpen(true);
-  }, []);
 
   return (
     <div
