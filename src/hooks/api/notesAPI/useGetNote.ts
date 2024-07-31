@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 const useGetNote = (noteId: number) =>
   useQuery({
     queryKey: ['note', noteId],
-    queryFn: async () => notesAPI.getNote(noteId),
+    queryFn: () => notesAPI.getNote(noteId),
   });
 
 export default useGetNote;

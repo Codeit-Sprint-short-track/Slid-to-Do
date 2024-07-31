@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 
 function usePostFile(onSuccess?: (data: AxiosResponse) => void) {
   return useMutation({
-    mutationFn: async (file: File) => postFile(file),
+    mutationFn: (file: File) => postFile(file),
 
     onSuccess: (data) => {
       showToast('파일 업로드 완료');

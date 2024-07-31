@@ -37,38 +37,48 @@ const getTodos = async (
   done?: boolean,
   cursor?: number,
   size = 20,
-) =>
-  axiosInstance({
+) => {
+  const response = await axiosInstance({
     url: '/todos',
     method: 'get',
     params: { goalId, done, cursor, size },
   });
+  return response;
+};
 
-const postTodo = async (todo: CreateTodo) =>
-  axiosInstance({
+const postTodo = async (todo: CreateTodo) => {
+  const response = await axiosInstance({
     url: '/todos',
     method: 'post',
     data: todo,
   });
+  return response;
+};
 
-const patchTodo = async (todoId: number, todo: UpdateTodo) =>
-  axiosInstance({
+const patchTodo = async (todoId: number, todo: UpdateTodo) => {
+  const response = await axiosInstance({
     url: `/todos/${todoId}`,
     method: 'patch',
     data: todo,
   });
+  return response;
+};
 
-const deleteTodo = async (todoId: number) =>
-  axiosInstance({
+const deleteTodo = async (todoId: number) => {
+  const response = await axiosInstance({
     url: `/todos/${todoId}`,
     method: 'delete',
   });
+  return response;
+};
 
-const getProgress = async (goalId?: number) =>
-  axiosInstance({
+const getProgress = async (goalId?: number) => {
+  const response = await axiosInstance({
     url: '/todos/progress',
     method: 'get',
     params: { goalId },
   });
+  return response;
+};
 
 export default { getTodos, postTodo, patchTodo, deleteTodo, getProgress };
