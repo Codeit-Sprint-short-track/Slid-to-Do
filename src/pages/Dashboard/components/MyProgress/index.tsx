@@ -10,9 +10,6 @@ function MyProgress() {
       { value: 100 - progress, color: '#F8FAFC' },
     ],
     innerRadius: 55,
-    stroke: {
-      width: 0,
-    },
     animationDuration: '2000ms',
   };
 
