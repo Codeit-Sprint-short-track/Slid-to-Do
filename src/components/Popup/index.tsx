@@ -1,6 +1,6 @@
 import { DeleteIcon } from '@assets';
 import Button from '@components/Button';
-import { useEffect, useState } from 'react';
+import useVisibility from '@hooks/useVisibility';
 
 export interface PopupProps {
   message: string;
@@ -17,21 +17,10 @@ function Popup({
   onConfirm,
   onCancel,
 }: PopupProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const handleCancel = () => {
-    setIsVisible(false);
-    setTimeout(onCancel, 300);
-  };
-
-  const handleConfirm = () => {
-    setIsVisible(false);
-    setTimeout(onConfirm, 300);
-  };
+  const { isVisible, handleClose, handleConfirm } = useVisibility(
+    onCancel,
+    onConfirm,
+  );
 
   return (
     <div
@@ -48,7 +37,7 @@ function Popup({
           <button
             type="button"
             className="flex items-center justify-center"
-            onClick={handleCancel}
+            onClick={handleClose}
             aria-label="Close"
           >
             <DeleteIcon width={24} height={24} />
@@ -64,7 +53,7 @@ function Popup({
             <Button
               shape="outlined"
               size="lg"
-              onClick={handleCancel}
+              onClick={handleClose}
               additionalClass="text-base leading-normal"
               aria-label="Cancel"
             >
