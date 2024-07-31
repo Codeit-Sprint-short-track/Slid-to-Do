@@ -1,10 +1,9 @@
-/* eslint-disable */
 import { TextLogoIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
 import { VALID_MAIL_REGEX } from '@constants/regex';
-import useRegister from '@hooks/api/registerAPI/useRegister';
+import useRegister from '@hooks/api/authAPI/useRegister';
 import { KeyboardEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -32,9 +31,7 @@ function SignInPage() {
     mode: 'onChange',
   });
 
-  const onSuccess = (res: any) => {
-    return res;
-  };
+  const onSuccess = (res: any) => res;
   const onError = (err: any) => {
     if (err.response.status === 409) {
       setError('email', {
@@ -46,6 +43,7 @@ function SignInPage() {
   const { mutate } = useRegister(onSuccess, onError);
 
   const onSubmit = async (data: FormValues) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordConfirm, ...registerData } = data;
     mutate(registerData);
   };
