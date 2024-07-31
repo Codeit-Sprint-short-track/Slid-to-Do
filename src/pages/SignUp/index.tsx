@@ -2,11 +2,12 @@ import { TextLogoIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
+import Popup from '@components/Popup';
 import { VALID_MAIL_REGEX } from '@constants/regex';
 import useRegister from '@hooks/api/authAPI/useRegister';
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface FormValues {
   name: string;
@@ -31,7 +32,12 @@ function SignInPage() {
     mode: 'onChange',
   });
 
-  const onSuccess = (res: any) => res;
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const onSuccess = () => {
+    setIsRegisterSuccess(true);
+  };
   const onError = (err: any) => {
     if (err.response.status === 409) {
       setError('email', {
@@ -192,6 +198,14 @@ function SignInPage() {
           </Link>
         </div>
       </div>
+      {isRegisterSuccess && (
+        <Popup
+          message="가입이 완료되었습니다!"
+          singleButton
+          onConfirm={() => navigate('/sign-in')}
+          onCancel={() => navigate('/sign-in')}
+        />
+      )}
     </div>
   );
 }
