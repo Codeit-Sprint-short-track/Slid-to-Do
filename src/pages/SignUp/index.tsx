@@ -3,6 +3,7 @@ import { TextLogoIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
+import { VALID_MAIL_REGEX } from '@constants/regex';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -73,7 +74,7 @@ function SignInPage() {
               {...register('id', {
                 required: '이메일을 입력해주세요.',
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  value: VALID_MAIL_REGEX,
                   message: '유효한 이메일 주소를 입력해주세요.',
                 },
               })}
