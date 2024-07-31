@@ -3,6 +3,7 @@ import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
 import { VALID_MAIL_REGEX } from '@constants/regex';
+import { KeyboardEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -24,6 +25,12 @@ function SignInPage() {
   });
 
   const onSubmit = (data: FormValues) => data;
+
+  const preventSpace = (e: KeyboardEvent) => {
+    if (e.key === ' ') {
+      e.preventDefault();
+    }
+  };
 
   const password = useWatch({ control, name: 'password' });
   const id = useWatch({ control, name: 'id' });
@@ -50,6 +57,7 @@ function SignInPage() {
               isInvalid={!!errors.id}
               placeholder="이메일을 입력해주세요."
               additionalClass="mt-3"
+              onKeyDown={preventSpace}
             />
             {errors.id && (
               <p className="ml-4 mt-2 text-sm font-normal text-red-700">
@@ -73,6 +81,7 @@ function SignInPage() {
               isInvalid={!!errors.password}
               placeholder="비밀번호를 입력해주세요."
               additionalClass="w-full mt-3"
+              onKeyDown={preventSpace}
             />
             {errors.password && (
               <p className="ml-4 mt-2 text-sm font-normal text-red-700">
