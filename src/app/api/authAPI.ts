@@ -12,4 +12,17 @@ const login = async (loginData: LoginData) => {
   return res;
 };
 
-export default { login };
+const getTokens = async (refreshToken: string) => {
+  const res = await axios.post(
+    `${process.env.REACT_APP_BASE_URL}/auth/tokens`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    },
+  );
+  return res;
+};
+
+export default { login, getTokens };

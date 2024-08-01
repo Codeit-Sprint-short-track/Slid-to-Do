@@ -7,7 +7,7 @@ import useLogin from '@hooks/api/authAPI/useLogin';
 import { AxiosResponse } from 'axios';
 import { KeyboardEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface FormValues {
   email: string;
@@ -26,14 +26,13 @@ function SignInPage() {
       password: '',
     },
   });
-
+  const navigate = useNavigate();
   const onSuccess = (res: AxiosResponse) => {
-    console.log(res);
     localStorage.setItem('accessToken', res.data.accessToken);
     localStorage.setItem('refreshToken', res.data.refreshToken);
+    navigate('/dashboard');
   };
   const onError = (err: any) => {
-    console.log(err);
     if (err.response) {
       if (err.response.status === 404) {
         setError('email', {
@@ -55,7 +54,6 @@ function SignInPage() {
   const { mutate } = useLogin(onSuccess, onError);
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     mutate(data);
   };
 

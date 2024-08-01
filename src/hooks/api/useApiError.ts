@@ -9,7 +9,6 @@ interface ErrorResponse {
 
 const useApiError = () => {
   const navigate = useNavigate();
-
   const handleError = useCallback(
     (error: Error) => {
       if (axios.isAxiosError(error) && error.code === 'ERR_CANCELED') {
@@ -23,7 +22,8 @@ const useApiError = () => {
 
         if (message) {
           if (message === 'Unauthorized') {
-            console.log(error);
+            showErrorToast('로그인이 필요합니다.');
+            navigate('/sign-in');
           } else {
             showErrorToast(message);
           }

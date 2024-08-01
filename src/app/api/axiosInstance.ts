@@ -1,8 +1,10 @@
 import axios, {
+  AxiosRequestConfig,
   AxiosRequestHeaders,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import authAPI from './authAPI';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -10,9 +12,9 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
-// ts-ignore
-const mockResponse: AxiosResponse = {
-  data: { message: 'NoLocalToken' },
+
+const unauthorizedResponse: AxiosResponse = {
+  data: { message: 'Unauthorized' },
   status: 401,
   statusText: 'Unauthorized',
   headers: {},
@@ -25,6 +27,7 @@ axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const newConfig = { ...config };
     const token = localStorage.getItem('accessToken');
+
     if (token) {
       newConfig.headers = newConfig.headers || {};
       (newConfig.headers as AxiosRequestHeaders).Authorization =
@@ -34,7 +37,7 @@ axiosInstance.interceptors.request.use(
       newConfig.cancelToken = source.token;
       source.cancel(
         JSON.stringify({
-          response: mockResponse,
+          response: unauthorizedResponse,
         }),
       );
     }
@@ -45,7 +48,23 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error),
+  (error) => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    const originalRequest = error.config as AxiosRequestConfig;
+    if (refreshToken) {
+      return authAPI
+        .getTokens(refreshToken)
+        .then(async (res) => {
+          // 실패한 호출 재실행
+          localStorage.setItem('accessToken', res.data.accessToken);
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+          const retry = await axiosInstance(originalRequest);
+          return retry;
+        })
+        .catch(() => Promise.reject(error));
+    }
+    return Promise.reject(error);
+  },
 );
 
 export default axiosInstance;
