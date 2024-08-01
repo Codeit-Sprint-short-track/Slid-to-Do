@@ -6,23 +6,23 @@ interface LoginData {
 }
 
 const login = async (loginData: LoginData) => {
-  const res = await authInstance({
+  const response = await authInstance({
     url: '/auth/login',
     method: 'post',
     data: loginData,
   });
-  return res;
+  return response;
 };
 
 const getTokens = async (refreshToken: string) => {
-  const res = await authInstance({
+  const response = await authInstance({
     url: '/auth/tokens',
     method: 'post',
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
   });
-  return res;
+  return response;
 };
 
 export default { login, getTokens };

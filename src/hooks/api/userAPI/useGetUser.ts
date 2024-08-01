@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 function useGetUser() {
   return useQuery({
     queryKey: ['user'],
-    queryFn: () => userAPI.getUser(),
+    queryFn: userAPI.getUser,
   });
 }
 
