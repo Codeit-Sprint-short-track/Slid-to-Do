@@ -1,27 +1,27 @@
-import axios from 'axios';
+import authInstance from './authInstance';
 
 interface LoginData {
   email: string;
   password: string;
 }
+
 const login = async (loginData: LoginData) => {
-  const res = await axios.post(
-    `${process.env.REACT_APP_BASE_URL}/auth/login`,
-    loginData,
-  );
+  const res = await authInstance({
+    url: '/auth/login',
+    method: 'post',
+    data: loginData,
+  });
   return res;
 };
 
 const getTokens = async (refreshToken: string) => {
-  const res = await axios.post(
-    `${process.env.REACT_APP_BASE_URL}/auth/tokens`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
+  const res = await authInstance({
+    url: '/auth/tokens',
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
     },
-  );
+  });
   return res;
 };
 

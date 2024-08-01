@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosInstance from './axiosInstance';
 
 interface RegisterData {
@@ -6,11 +5,13 @@ interface RegisterData {
   email: string;
   password: string;
 }
+
 const register = async (registerData: RegisterData) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BASE_URL}/user`,
-    registerData,
-  );
+  const response = await axiosInstance({
+    url: '/user',
+    method: 'post',
+    data: registerData,
+  });
   return response;
 };
 
