@@ -5,6 +5,7 @@ import PasswordInput from '@components/Input/PasswordInput';
 import Popup from '@components/Popup';
 import { VALID_MAIL_REGEX } from '@constants/regex';
 import useRegister from '@hooks/api/userAPI/useRegister';
+import { isAxiosError } from 'axios';
 import { KeyboardEvent, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -38,12 +39,14 @@ function SignInPage() {
   const onSuccess = () => {
     setIsRegisterSuccess(true);
   };
-  const onError = (err: any) => {
-    if (err.response.status === 409) {
-      setError('email', {
-        type: 'manual',
-        message: '이미 사용중인 이메일입니다.',
-      });
+  const onError = (err: Error) => {
+    if (isAxiosError(err) && err.response) {
+      if (err.response.status === 409) {
+        setError('email', {
+          type: 'manual',
+          message: '이미 사용중인 이메일입니다.',
+        });
+      }
     }
   };
   const { mutate } = useRegister(onSuccess, onError);

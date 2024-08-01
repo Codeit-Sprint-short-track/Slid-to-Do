@@ -4,7 +4,7 @@ import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
 import { VALID_MAIL_REGEX } from '@constants/regex';
 import useLogin from '@hooks/api/authAPI/useLogin';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, isAxiosError } from 'axios';
 import { KeyboardEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -32,8 +32,8 @@ function SignInPage() {
     localStorage.setItem('refreshToken', res.data.refreshToken);
     navigate('/dashboard');
   };
-  const onError = (err: any) => {
-    if (err.response) {
+  const onError = (err: Error) => {
+    if (isAxiosError(err) && err.response) {
       if (err.response.status === 404) {
         setError('email', {
           type: 'manual',
