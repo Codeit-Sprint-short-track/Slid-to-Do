@@ -4,7 +4,7 @@ interface LoginData {
   email: string;
   password: string;
 }
-const Login = async (loginData: LoginData) => {
+const login = async (loginData: LoginData) => {
   const res = await axios.post(
     `${process.env.REACT_APP_BASE_URL}/auth/login`,
     loginData,
@@ -12,4 +12,4 @@ const Login = async (loginData: LoginData) => {
   return res;
 };
 
-export default Login;
+export default { login };

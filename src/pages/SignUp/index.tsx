@@ -4,7 +4,7 @@ import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
 import Popup from '@components/Popup';
 import { VALID_MAIL_REGEX } from '@constants/regex';
-import useRegister from '@hooks/api/authAPI/useRegister';
+import useRegister from '@hooks/api/userAPI/useRegister';
 import { KeyboardEvent, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';

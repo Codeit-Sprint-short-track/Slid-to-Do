@@ -1,4 +1,4 @@
-import Login from '@app/api/loginAPI';
+import authAPI from '@app/api/authAPI';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
@@ -12,7 +12,7 @@ function useLogin(
   onError: (err: Error) => void,
 ) {
   return useMutation({
-    mutationFn: (loginData: LoginData) => Login(loginData),
+    mutationFn: (loginData: LoginData) => authAPI.login(loginData),
     onSuccess: (res) => onSuccess(res),
     onError: (err) => onError(err),
   });

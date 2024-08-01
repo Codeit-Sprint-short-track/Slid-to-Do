@@ -1,4 +1,4 @@
-import Register from '@app/api/registerAPI';
+import userAPI from '@app/api/userAPI';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
@@ -13,7 +13,7 @@ function useRegister(
   onError: (err: Error) => void,
 ) {
   return useMutation({
-    mutationFn: (registerData: RegisterData) => Register(registerData),
+    mutationFn: (registerData: RegisterData) => userAPI.register(registerData),
     onSuccess: (res) => onSuccess(res),
     onError: (err) => onError(err),
   });

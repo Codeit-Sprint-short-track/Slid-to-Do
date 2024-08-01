@@ -4,6 +4,7 @@ import BaseInput from '@components/Input/BaseInput';
 import PasswordInput from '@components/Input/PasswordInput';
 import { VALID_MAIL_REGEX } from '@constants/regex';
 import useLogin from '@hooks/api/authAPI/useLogin';
+import { AxiosResponse } from 'axios';
 import { KeyboardEvent } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -26,25 +27,29 @@ function SignInPage() {
     },
   });
 
-  const onSuccess = (res: any) => {
+  const onSuccess = (res: AxiosResponse) => {
     console.log(res);
+    localStorage.setItem('accessToken', res.data.accessToken);
+    localStorage.setItem('refreshToken', res.data.refreshToken);
   };
   const onError = (err: any) => {
     console.log(err);
-    if (err.response.status === 404) {
-      setError('email', {
-        type: 'manual',
-        message: '가입되지 않은 이메일입니다.',
-      });
-    }
-    if (
-      err.response.status === 400 &&
-      err.response.data.message === '비밀번호가 올바르지 않습니다.'
-    ) {
-      setError('password', {
-        type: 'manual',
-        message: '비밀번호가 올바르지 않습니다.',
-      });
+    if (err.response) {
+      if (err.response.status === 404) {
+        setError('email', {
+          type: 'manual',
+          message: '가입되지 않은 이메일입니다.',
+        });
+      }
+      if (
+        err.response.status === 400 &&
+        err.response.data.message === '비밀번호가 올바르지 않습니다.'
+      ) {
+        setError('password', {
+          type: 'manual',
+          message: '비밀번호가 올바르지 않습니다.',
+        });
+      }
     }
   };
   const { mutate } = useLogin(onSuccess, onError);
