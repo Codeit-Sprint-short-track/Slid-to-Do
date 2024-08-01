@@ -97,7 +97,7 @@ function TodoItem({
               onClick={(e) => e.stopPropagation()}
               aria-label="Open link"
             >
-              <LinkIcon className="cursor-pointer fill-blue-100 stroke-blue-400" />
+              <LinkIcon width={24} height={24} />
             </Link>
           )}
           {todo.noteId !== null ? (
