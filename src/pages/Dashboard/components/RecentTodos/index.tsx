@@ -1,7 +1,5 @@
-import { Todo } from '@/types/interface';
 import { ArrowRightIcon, TodoRecentlyIcon } from '@assets';
-import TodoList from '@components/TodoList';
-import { useState } from 'react';
+import TodoItem from '@components/TodoItem';
 import { mockTodosData } from '../mockData';
 
 function RecentTodos() {
@@ -12,17 +10,6 @@ function RecentTodos() {
       return dateA - dateB;
     })
     .slice(0, 4);
-  const [todosState, setTodosState] = useState(todosData);
-
-  const handleToggleDone = (id: number) => {
-    setTodosState(
-      todosState.map((todo) =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo,
-      ),
-    );
-  };
-
-  const handleTodoClick = (todo: Todo) => todo;
 
   return (
     <div className="h-[250px] rounded-xl bg-white px-6 py-4">
@@ -42,12 +29,11 @@ function RecentTodos() {
       </div>
       <div className="mt-4 h-[159px] overflow-y-auto">
         {todosData && todosData.length > 0 ? (
-          <TodoList
-            todos={todosState}
-            onToggleDone={handleToggleDone}
-            showGoals
-            onTodoClick={handleTodoClick}
-          />
+          <div className="w-full flex-col overflow-hidden">
+            {todosData.map((todo) => (
+              <TodoItem todo={todo} showGoals />
+            ))}
+          </div>
         ) : (
           <div className="mt-16 flex w-full justify-center text-sm font-normal text-slate-500">
             최근에 등록한 할 일이 없어요

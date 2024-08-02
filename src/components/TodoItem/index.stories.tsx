@@ -1,10 +1,6 @@
-/* eslint-disable no-console */
-
-import { Todo } from '@/types/interface';
 import { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import TodoList, { TodoListProps } from '.';
+import TodoItem, { TodoItemProps } from '.';
 
 const todos = [
   {
@@ -77,41 +73,24 @@ const todos = [
   },
 ];
 
-const meta: Meta<typeof TodoList> = {
+const meta: Meta<typeof TodoItem> = {
   title: 'Components/TodoList',
-  component: TodoList,
-  render: (args: TodoListProps) => {
-    const [todosState, setTodosState] = useState(todos);
-
-    const handleToggleDone = (id: number) => {
-      setTodosState(
-        todosState.map((todo) =>
-          todo.id === id ? { ...todo, done: !todo.done } : todo,
-        ),
-      );
-    };
-
-    const handleTodoClick = (todo: Todo) => {
-      console.log('Todo clicked:', todo);
-    };
-
-    return (
-      <BrowserRouter>
-        <div className="rounded-lg bg-white px-6 py-4">
-          <TodoList
-            {...args}
-            todos={todosState}
-            onToggleDone={handleToggleDone}
-            onTodoClick={handleTodoClick}
-          />
+  component: TodoItem,
+  render: (args: TodoItemProps) => (
+    <BrowserRouter>
+      <div className="rounded-lg bg-white px-6 py-4">
+        <div className="w-full flex-col overflow-hidden">
+          {todos.map((todo) => (
+            <TodoItem {...args} todo={todo} />
+          ))}
         </div>
-      </BrowserRouter>
-    );
-  },
+      </div>
+    </BrowserRouter>
+  ),
 };
 export default meta;
 
-type Story = StoryObj<typeof TodoList>;
+type Story = StoryObj<typeof TodoItem>;
 
 export const Default: Story = {
   args: {
@@ -147,32 +126,15 @@ export const BlueContainer: Story = {
     showIcons: true,
     hoverBgColor: 'hover:bg-slate-50',
   },
-  render: (args) => {
-    const [todosState, setTodosState] = useState(todos);
-
-    const handleToggleDone = (id: number) => {
-      setTodosState(
-        todosState.map((todo) =>
-          todo.id === id ? { ...todo, done: !todo.done } : todo,
-        ),
-      );
-    };
-
-    const handleTodoClick = (todo: Todo) => {
-      console.log('Todo clicked:', todo);
-    };
-
-    return (
-      <BrowserRouter>
-        <div className="rounded-lg bg-blue-50 px-6 pb-4 pt-3">
-          <TodoList
-            {...args}
-            todos={todosState}
-            onToggleDone={handleToggleDone}
-            onTodoClick={handleTodoClick}
-          />
+  render: (args) => (
+    <BrowserRouter>
+      <div className="rounded-lg bg-blue-50 px-6 pb-4 pt-3">
+        <div className="w-full flex-col overflow-hidden">
+          {todos.map((todo) => (
+            <TodoItem {...args} todo={todo} />
+          ))}
         </div>
-      </BrowserRouter>
-    );
-  },
+      </div>
+    </BrowserRouter>
+  ),
 };

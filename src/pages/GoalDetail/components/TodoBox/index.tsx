@@ -1,22 +1,14 @@
 import { Todo } from '@/types/interface';
 import { PlusIcon } from '@assets';
-import TodoList from '@components/TodoList';
+import TodoItem from '@components/TodoItem';
 
 interface TodoBoxProps {
   title: 'To do' | 'Done';
   placeholder: string;
   todos: Todo[];
-  onToggleDone: (id: number) => void;
-  onTodoClick: (todo: Todo) => void;
 }
 
-function TodoBox({
-  title,
-  placeholder,
-  todos,
-  onToggleDone,
-  onTodoClick,
-}: TodoBoxProps) {
+function TodoBox({ title, placeholder, todos }: TodoBoxProps) {
   return (
     <div
       className={`min-h-[221px] rounded-xl desktop:min-w-0 desktop:flex-1 ${title === 'To do' ? 'bg-white' : 'bg-slate-200'} flex flex-col px-6 py-4`}
@@ -32,12 +24,11 @@ function TodoBox({
         </button>
       </div>
       {todos && todos.length > 0 ? (
-        <TodoList
-          todos={todos}
-          showIcons
-          onToggleDone={onToggleDone}
-          onTodoClick={onTodoClick}
-        />
+        <div className="w-full flex-col overflow-hidden">
+          {todos.map((todo) => (
+            <TodoItem todo={todo} showIcons />
+          ))}
+        </div>
       ) : (
         <div className="flex flex-grow items-center justify-center">
           <p className="text-sm font-normal text-slate-500">{placeholder}</p>

@@ -1,8 +1,7 @@
 import { Todo } from '@/types/interface';
 import { PlusBlueIcon } from '@assets';
-import TodoList from '@components/TodoList';
+import TodoItem from '@components/TodoItem';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
-import TodoDetailModal from '@components/TodoModal/TodoDetailModal';
 import useWindowHeight from '@hooks/useWindowHeight';
 import useWindowWidth from '@hooks/useWindowWidth';
 import cn from '@utils/cn';
@@ -49,12 +48,6 @@ function TodosPage() {
 
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<'All' | 'Todo' | 'Done'>('All');
-  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
-  const [isTodoDetailModalVisible, setTodoDetailModalVisible] =
-    useState<boolean>(false);
-  // const [isNoteDetailVisible, setIsNoteDetailVisible] =
-  //   useState<boolean>(false);
-  const [noteId, setNoteId] = useState<number | null>(null);
 
   useEffect(() => {
     // GET
@@ -70,31 +63,6 @@ function TodosPage() {
       default:
         return todos;
     }
-  };
-
-  const handleToggleDone = async (id: number) => {
-    // PATCH
-    const newTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, done: !todo.done } : todo,
-    );
-    setTodos(newTodos);
-  };
-
-  const handleTodoClick = (todo: Todo) => {
-    setSelectedTodo(todo);
-    setTodoDetailModalVisible(true);
-  };
-
-  const handleCloseTodoDetail = () => {
-    setTodoDetailModalVisible(false);
-    setSelectedTodo(null);
-  };
-
-  const handleOpenNoteDetail = async (id: number | null) => {
-    // setIsNoteDetailVisible(true);
-    setNoteId(id);
-    return noteId;
-    // GET
   };
 
   return (
@@ -135,14 +103,11 @@ function TodosPage() {
               )}
             </div>
           ) : (
-            <TodoList
-              todos={getFilteredTodos()}
-              onToggleDone={handleToggleDone}
-              showGoals
-              showIcons
-              onTodoClick={handleTodoClick}
-              onOpenNoteDetail={handleOpenNoteDetail}
-            />
+            <div className="w-full flex-col overflow-hidden">
+              {getFilteredTodos().map((todo) => (
+                <TodoItem key={todo.id} todo={todo} showGoals showIcons />
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -150,10 +115,6 @@ function TodosPage() {
       {isTodoCreateModalVisible && (
         <TodoCreateModal onClose={handleCloseModal} />
       )}
-      {isTodoDetailModalVisible && selectedTodo && (
-        <TodoDetailModal todo={selectedTodo} onClose={handleCloseTodoDetail} />
-      )}
-      {/* {isNoteDetailVisible && <div>{noteId}</div>} */}
     </div>
   );
 }
