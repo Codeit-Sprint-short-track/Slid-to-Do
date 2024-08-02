@@ -9,7 +9,7 @@ function SideBar() {
 
   const toggleSidebar = () => setIsOpen((prev) => !prev);
   useEffect(() => {
-    if (width > 1920) {
+    if (width >= 1920) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
