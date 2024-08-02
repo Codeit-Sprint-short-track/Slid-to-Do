@@ -6,7 +6,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Outlet, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 function App() {
   const { handleError } = useApiError();
@@ -30,6 +31,14 @@ function App() {
     pathname === '/sign-in' || pathname === '/sign-up'
       ? 'bg-white'
       : 'bg-slate-200';
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (pathname === '/') {
+      navigate('dashboard');
+    }
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
