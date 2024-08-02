@@ -56,9 +56,6 @@ function TodosByGoalBox({ title }: TodosByGoalProps) {
     }
   }
 
-  const handleToggleDone = (id: number) => id;
-
-  const handleTodoClick = (todo: Todo) => todo;
   return (
     <div
       className="transition-height mt-4 flex w-full flex-col rounded-[32px] bg-blue-50 p-6 duration-300 ease-in-out first:mt-0"
@@ -94,15 +91,11 @@ function TodosByGoalBox({ title }: TodosByGoalProps) {
           title="To do"
           placeholder="아직 해야할 일이 없어요"
           todos={todos}
-          handleToggleDone={handleToggleDone}
-          handleTodoClick={handleTodoClick}
         />
         <TodoSection
           title="Done"
           placeholder="아직 다 한 일이 없어요"
           todos={dones}
-          handleToggleDone={handleToggleDone}
-          handleTodoClick={handleTodoClick}
         />
       </div>
       {(isTodosMoreThanFive || isDonesMoreThanFive) && (
