@@ -4,9 +4,16 @@ import MobileSideBarContents from './MobileSideBarContents';
 interface MobileSideBarProps {
   isOpen: boolean;
   toggleSideBar: () => void;
+  userData: { name: string; email: string };
+  goalData: { title: string; id: number }[];
 }
 
-function MobileSideBar({ isOpen, toggleSideBar }: MobileSideBarProps) {
+function MobileSideBar({
+  isOpen,
+  toggleSideBar,
+  userData,
+  goalData,
+}: MobileSideBarProps) {
   return (
     <>
       <div className="h-12 w-full bg-white">
@@ -30,7 +37,9 @@ function MobileSideBar({ isOpen, toggleSideBar }: MobileSideBarProps) {
         >
           <FoldIcon />
         </button>
-        {isOpen && <MobileSideBarContents />}
+        {isOpen && (
+          <MobileSideBarContents userData={userData} goalData={goalData} />
+        )}
       </div>
     </>
   );

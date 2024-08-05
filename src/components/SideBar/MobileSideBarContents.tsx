@@ -6,24 +6,34 @@ import {
   TextLogoIcon,
 } from '@assets';
 import Button from '@components/Button';
+import usePostGoals from '@hooks/api/goalsAPI/usePostGoals';
 import useOutsideClick from '@hooks/useOutsideClick';
+import { useQueryClient } from '@tanstack/react-query';
 import { MouseEvent, useRef, useState } from 'react';
 
-function MobileSideBarContents() {
+function MobileSideBarContents({
+  userData,
+  goalData,
+}: {
+  userData: { name: string; email: string };
+  goalData: { title: string; id: number }[];
+}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef(null);
-  const mockGoalData = {
-    goals: [
-      { title: '자바스크립트로 웹 서비스 만들기', id: 1 },
-      { title: '디자인 시스템 강의 듣기', id: 2 },
-    ],
-  };
+  const queryClient = useQueryClient();
+
   useOutsideClick(inputRef, () => setIsEditing(false));
 
   const handleAddGoalBtn = (e: MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);
   };
+
+  const onSettled = () =>
+    queryClient.invalidateQueries({ queryKey: ['goals'] });
+
+  const { mutate, isPending } = usePostGoals(onSettled);
 
   return (
     <div className="flex-col">
@@ -33,10 +43,10 @@ function MobileSideBarContents() {
           <ProfileIcon width={32} height={32} />
           <div className="ml-3 flex flex-col items-start justify-between">
             <div className="h-4 text-xs font-semibold leading-5 text-slate-800">
-              체다치즈
+              {userData.name}
             </div>
             <div className="h-4 text-xs font-medium leading-5 text-slate-600">
-              chedacheese@slid.kr
+              {userData.email}
             </div>
           </div>
         </div>
@@ -86,11 +96,16 @@ function MobileSideBarContents() {
         </Button>
       </div>
       <ul>
-        {mockGoalData.goals.map((item) => (
+        {goalData.map((item) => (
           <li key={item.id} className="p-2 text-sm font-medium text-slate-700">
             • {item.title}
           </li>
         ))}
+        {isPending && (
+          <li className="p-2 text-sm font-medium text-slate-700">
+            • {newGoal}
+          </li>
+        )}
         {isEditing && (
           <li className="flex items-center p-2 text-sm font-medium text-slate-700">
             <span>•</span>
@@ -98,10 +113,12 @@ function MobileSideBarContents() {
               ref={inputRef}
               className="ml-1 h-8 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
               placeholder="새 목표를 입력해주세요"
+              value={newGoal}
+              onChange={(e) => setNewGoal(e.target.value)}
               onKeyDown={(event) => {
-                // TODO: 엔터키 입력 시 목표 추가
                 if (event.key === 'Enter') {
                   setIsEditing(false);
+                  mutate(newGoal);
                 }
               }}
             />

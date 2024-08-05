@@ -5,9 +5,23 @@ interface SideBarProps {
   isOpen: boolean;
   width: number;
   toggleSideBar: () => void;
+  userData: {
+    name: string;
+    email: string;
+  };
+  goalData: {
+    title: string;
+    id: number;
+  }[];
 }
 
-function DesktopSideBar({ isOpen, width, toggleSideBar }: SideBarProps) {
+function DesktopSideBar({
+  isOpen,
+  width,
+  toggleSideBar,
+  userData,
+  goalData,
+}: SideBarProps) {
   return (
     <>
       {isOpen && width < 1920 && (
@@ -31,7 +45,9 @@ function DesktopSideBar({ isOpen, width, toggleSideBar }: SideBarProps) {
             <FoldIcon className={`${isOpen ? 'rotate-0' : 'rotate-180'}`} />
           </button>
         </div>
-        {isOpen && <DesktopSideBarContents />}
+        {isOpen && (
+          <DesktopSideBarContents userData={userData} goalData={goalData} />
+        )}
       </div>
     </>
   );
