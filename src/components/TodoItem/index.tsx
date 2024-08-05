@@ -12,7 +12,7 @@ import NoteDetail from '@components/NoteDetail';
 import TodoDetailModal from '@components/TodoModal/TodoDetailModal';
 import usePatchDone from '@hooks/api/todosAPI/usePatchDone';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export interface TodoItemProps {
   todo: Todo;
@@ -24,14 +24,9 @@ export interface TodoItemProps {
 interface IconButtonsProps {
   todo: Todo;
   setIsNoteDetailOpen: (open: boolean) => void;
-  navigate: ReturnType<typeof useNavigate>;
 }
 
-function IconButtons({
-  todo,
-  setIsNoteDetailOpen,
-  navigate,
-}: IconButtonsProps) {
+function IconButtons({ todo, setIsNoteDetailOpen }: IconButtonsProps) {
   return (
     <div className="flex flex-shrink-0 items-center space-x-2">
       {todo.fileUrl !== null && (
@@ -71,17 +66,16 @@ function IconButtons({
           <NoteViewIcon width={24} height={24} />
         </button>
       ) : (
-        <button
-          type="button"
+        <Link
+          to="/notes/new"
+          state={todo}
           className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50"
           onClick={(e) => {
             e.stopPropagation();
-            navigate('/notes/new', { state: todo });
           }}
-          aria-label="Write note"
         >
           <NoteWriteIcon width={24} height={24} />
-        </button>
+        </Link>
       )}
     </div>
   );
@@ -95,7 +89,6 @@ function TodoItem({
 }: TodoItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNoteDetailOpen, setIsNoteDetailOpen] = useState(false);
-  const navigate = useNavigate();
   const { mutate: toggleDone } = usePatchDone();
 
   return (
@@ -143,11 +136,7 @@ function TodoItem({
           </div>
         </div>
         {showIcons && (
-          <IconButtons
-            todo={todo}
-            setIsNoteDetailOpen={setIsNoteDetailOpen}
-            navigate={navigate}
-          />
+          <IconButtons todo={todo} setIsNoteDetailOpen={setIsNoteDetailOpen} />
         )}
       </div>
       {isModalOpen && (

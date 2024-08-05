@@ -74,7 +74,7 @@ const todos = [
 ];
 
 const meta: Meta<typeof TodoItem> = {
-  title: 'Components/TodoList',
+  title: 'Components/TodoItem',
   component: TodoItem,
   render: (args: TodoItemProps) => (
     <BrowserRouter>
