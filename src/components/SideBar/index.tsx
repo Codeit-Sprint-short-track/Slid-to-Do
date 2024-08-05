@@ -21,10 +21,6 @@ function SideBar() {
   const { data: userData } = useGetUser();
   const { data: goalData } = useGetGoals();
 
-  useEffect(() => {
-    console.log(goalData?.pages[0].data.goals);
-  }, [goalData]);
-
   if (!userData || !goalData) return null;
 
   return (
