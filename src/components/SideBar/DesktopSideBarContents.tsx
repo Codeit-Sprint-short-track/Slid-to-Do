@@ -6,7 +6,7 @@ import {
   TextLogoIcon,
 } from '@assets';
 import Button from '@components/Button';
-import usePostGoals from '@hooks/api/goalsAPI/usePostGoals';
+import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
@@ -37,7 +37,7 @@ function DesktopSideBarContents({
   const onSettled = () =>
     queryClient.invalidateQueries({ queryKey: ['goals'] });
 
-  const { mutate, isPending } = usePostGoals(onSettled);
+  const { mutate, isPending } = usePostGoal(onSettled);
 
   return (
     <div className="flex-col">
