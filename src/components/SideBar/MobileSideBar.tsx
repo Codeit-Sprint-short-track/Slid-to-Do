@@ -27,7 +27,9 @@ function MobileSideBar({
         </button>
       </div>
       <div
-        className={`fixed left-0 top-0 z-50 h-dvh w-full px-6 py-4 ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white transition-transform duration-300 ease-in-out`}
+        // 프리티어 설정이랑 린트 설정이랑 안맞는지 scrollbar-hide 위치때문에 린트 에러가 나서 주석처리 했습니다.
+        // eslint-disable-next-line
+        className={`fixed left-0 top-0 z-50 h-dvh w-full overflow-y-scroll px-6 py-4 scrollbar-hide ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white transition-transform duration-300 ease-in-out`}
       >
         <button
           type="button"

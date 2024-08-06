@@ -21,6 +21,14 @@ function SideBar() {
   const { data: userData } = useGetUser();
   const { data: goalData } = useGetGoals();
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
+
   if (!userData || !goalData) return null;
 
   return (
