@@ -64,7 +64,14 @@ function MobileSideBarContents({
           </div>
         </div>
         <div className="flex items-end">
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              navigate('/sign-in');
+            }}
+          >
             <span className="text-xs font-normal leading-4 text-slate-400">
               로그아웃
             </span>

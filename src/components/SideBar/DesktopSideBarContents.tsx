@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import {
   FlagIcon,
   HomeIcon,
@@ -10,7 +9,7 @@ import Button from '@components/Button';
 import usePostGoals from '@hooks/api/goalsAPI/usePostGoals';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { useQueryClient } from '@tanstack/react-query';
-import { MouseEvent, useRef, useState } from 'react';
+import { Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function DesktopSideBarContents({
@@ -22,7 +21,7 @@ function DesktopSideBarContents({
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  setShowTodoModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowTodoModal: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
@@ -58,7 +57,14 @@ function DesktopSideBarContents({
           <div className="h-4 text-sm font-medium leading-5 text-slate-600">
             {userData.email}
           </div>
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              navigate('/sign-in');
+            }}
+          >
             <span className="text-xs font-normal leading-4 text-slate-400">
               로그아웃
             </span>
