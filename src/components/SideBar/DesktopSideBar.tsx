@@ -25,6 +25,7 @@ function DesktopSideBar({
   goalData,
 }: SideBarProps) {
   const [showTodoModal, setShowTodoModal] = useState(false);
+  const handleShowTodoModal = () => setShowTodoModal(true);
   return (
     <>
       {isOpen && width < 1920 && (
@@ -53,7 +54,7 @@ function DesktopSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
-            setShowTodoModal={setShowTodoModal}
+            handleShowTodoModal={handleShowTodoModal}
           />
         )}
       </div>

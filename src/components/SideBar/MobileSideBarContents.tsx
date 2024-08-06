@@ -6,7 +6,6 @@ import {
   TextLogoIcon,
 } from '@assets';
 import Button from '@components/Button';
-import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
@@ -16,12 +15,14 @@ interface MobileSideBarContentsProps {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
+  handleShowTodoModal: () => void;
 }
 
 function MobileSideBarContents({
   userData,
   goalData,
   toggleSideBar,
+  handleShowTodoModal,
 }: MobileSideBarContentsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
@@ -42,8 +43,6 @@ function MobileSideBarContents({
   }, [isEditing]);
 
   const { mutate, isPending } = usePostGoal();
-
-  const [showTodoModal, setShowTodoModal] = useState(false);
 
   return (
     <div className="flex-col">
@@ -97,13 +96,7 @@ function MobileSideBarContents({
             대시보드
           </div>
         </div>
-        <Button
-          shape="solid"
-          size="xs"
-          onClick={() => {
-            setShowTodoModal(true);
-          }}
-        >
+        <Button shape="solid" size="xs" onClick={handleShowTodoModal}>
           <PlusIcon width={16} height={16} className="stroke-white" />
           <span className="ml-0.5 text-sm font-semibold">새 할 일</span>
         </Button>
@@ -171,14 +164,6 @@ function MobileSideBarContents({
           </li>
         )}
       </ul>
-      {showTodoModal && (
-        <TodoCreateModal
-          onClose={() => {
-            setShowTodoModal(false);
-            toggleSideBar();
-          }}
-        />
-      )}
     </div>
   );
 }

@@ -8,28 +8,21 @@ import {
 import Button from '@components/Button';
 import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
 import useOutsideClick from '@hooks/useOutsideClick';
-import {
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface DesktopSideBarContentsProps {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  setShowTodoModal: Dispatch<SetStateAction<boolean>>;
+  handleShowTodoModal: () => void;
 }
 
 function DesktopSideBarContents({
   userData,
   goalData,
   toggleSideBar,
-  setShowTodoModal,
+  handleShowTodoModal,
 }: DesktopSideBarContentsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
@@ -87,9 +80,7 @@ function DesktopSideBarContents({
           shape="solid"
           size="sm"
           additionalClass="w-full"
-          onClick={() => {
-            setShowTodoModal(true);
-          }}
+          onClick={handleShowTodoModal}
         >
           <PlusIcon width={24} height={24} className="mr-2 stroke-white" />
           <span className="mr-2 text-base font-semibold">새 할 일</span>

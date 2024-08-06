@@ -1,4 +1,6 @@
 import { FoldIcon, HamburgerIcon } from '@assets';
+import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
+import { useState } from 'react';
 import MobileSideBarContents from './MobileSideBarContents';
 
 interface MobileSideBarProps {
@@ -14,6 +16,9 @@ function MobileSideBar({
   userData,
   goalData,
 }: MobileSideBarProps) {
+  const [showTodoModal, setShowTodoModal] = useState(false);
+  const handleShowTodoModal = () => setShowTodoModal(true);
+
   return (
     <>
       <div className="h-12 w-full bg-white">
@@ -44,9 +49,18 @@ function MobileSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
+            handleShowTodoModal={handleShowTodoModal}
           />
         )}
       </div>
+      {showTodoModal && (
+        <TodoCreateModal
+          onClose={() => {
+            setShowTodoModal(false);
+            toggleSideBar();
+          }}
+        />
+      )}
     </>
   );
 }
