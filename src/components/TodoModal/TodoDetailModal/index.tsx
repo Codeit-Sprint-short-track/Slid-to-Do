@@ -1,5 +1,5 @@
 import { Goal, Todo } from '@/types/interface';
-import { DeleteIcon, GrayDelete } from '@assets';
+import { DeleteIcon, GrayDeleteIcon } from '@assets';
 import Button from '@components/Button';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
@@ -217,7 +217,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
                     onClick={handleFileDelete}
                     aria-label="File Delete"
                   >
-                    <GrayDelete width={18} height={18} />
+                    <GrayDeleteIcon width={18} height={18} />
                   </button>
                 </div>
               )}
