@@ -18,17 +18,19 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+interface DesktopSideBarContentsProps {
+  userData: { name: string; email: string };
+  goalData: { title: string; id: number }[];
+  toggleSideBar: () => void;
+  setShowTodoModal: Dispatch<SetStateAction<boolean>>;
+}
+
 function DesktopSideBarContents({
   userData,
   goalData,
   toggleSideBar,
   setShowTodoModal,
-}: {
-  userData: { name: string; email: string };
-  goalData: { title: string; id: number }[];
-  toggleSideBar: () => void;
-  setShowTodoModal: Dispatch<SetStateAction<boolean>>;
-}) {
+}: DesktopSideBarContentsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);

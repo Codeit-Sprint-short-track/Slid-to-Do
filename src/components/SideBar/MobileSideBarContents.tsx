@@ -12,15 +12,17 @@ import useOutsideClick from '@hooks/useOutsideClick';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+interface MobileSideBarContentsProps {
+  userData: { name: string; email: string };
+  goalData: { title: string; id: number }[];
+  toggleSideBar: () => void;
+}
+
 function MobileSideBarContents({
   userData,
   goalData,
   toggleSideBar,
-}: {
-  userData: { name: string; email: string };
-  goalData: { title: string; id: number }[];
-  toggleSideBar: () => void;
-}) {
+}: MobileSideBarContentsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
