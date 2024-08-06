@@ -10,7 +10,7 @@ import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import usePostGoals from '@hooks/api/goalsAPI/usePostGoals';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { useQueryClient } from '@tanstack/react-query';
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function MobileSideBarContents({
@@ -24,7 +24,7 @@ function MobileSideBarContents({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -34,6 +34,12 @@ function MobileSideBarContents({
     e.stopPropagation();
     setIsEditing(true);
   };
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
 
   const onSettled = () =>
     queryClient.invalidateQueries({ queryKey: ['goals'] });
@@ -161,6 +167,7 @@ function MobileSideBarContents({
                 if (event.key === 'Enter') {
                   setIsEditing(false);
                   mutate(newGoal);
+                  setNewGoal('');
                 }
               }}
             />
