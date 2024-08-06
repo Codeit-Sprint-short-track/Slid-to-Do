@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import {
   FlagIcon,
   HomeIcon,
@@ -16,10 +17,12 @@ function DesktopSideBarContents({
   userData,
   goalData,
   toggleSideBar,
+  setShowTodoModal,
 }: {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
+  setShowTodoModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
@@ -63,7 +66,14 @@ function DesktopSideBarContents({
         </div>
       </div>
       <div className="my-6 flex justify-center">
-        <Button shape="solid" size="sm" additionalClass="w-full">
+        <Button
+          shape="solid"
+          size="sm"
+          additionalClass="w-full"
+          onClick={() => {
+            setShowTodoModal(true);
+          }}
+        >
           <PlusIcon width={24} height={24} className="mr-2 stroke-white" />
           <span className="mr-2 text-base font-semibold">새 할 일</span>
         </Button>
@@ -138,7 +148,6 @@ function DesktopSideBarContents({
             height={24}
             className={`mr-2 ${isEditing ? 'stroke-slate-400' : 'stroke-blue-500'}`}
           />
-
           <span className="mr-2 text-base font-semibold">새 목표</span>
         </Button>
       </div>

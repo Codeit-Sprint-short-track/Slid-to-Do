@@ -6,6 +6,7 @@ import {
   TextLogoIcon,
 } from '@assets';
 import Button from '@components/Button';
+import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import usePostGoals from '@hooks/api/goalsAPI/usePostGoals';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { useQueryClient } from '@tanstack/react-query';
@@ -38,6 +39,8 @@ function MobileSideBarContents({
     queryClient.invalidateQueries({ queryKey: ['goals'] });
 
   const { mutate, isPending } = usePostGoals(onSettled);
+
+  const [showTodoModal, setShowTodoModal] = useState(false);
 
   return (
     <div className="flex-col">
@@ -84,7 +87,13 @@ function MobileSideBarContents({
             대시보드
           </div>
         </div>
-        <Button shape="solid" size="xs">
+        <Button
+          shape="solid"
+          size="xs"
+          onClick={() => {
+            setShowTodoModal(true);
+          }}
+        >
           <PlusIcon width={16} height={16} className="stroke-white" />
           <span className="ml-0.5 text-sm font-semibold">새 할 일</span>
         </Button>
@@ -151,6 +160,14 @@ function MobileSideBarContents({
           </li>
         )}
       </ul>
+      {showTodoModal && (
+        <TodoCreateModal
+          onClose={() => {
+            setShowTodoModal(false);
+            toggleSideBar();
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import { FoldIcon, LogoIcon } from '@assets';
+import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
+import { useState } from 'react';
 import DesktopSideBarContents from './DesktopSideBarContents';
 
 interface SideBarProps {
@@ -22,6 +24,7 @@ function DesktopSideBar({
   userData,
   goalData,
 }: SideBarProps) {
+  const [showTodoModal, setShowTodoModal] = useState(false);
   return (
     <>
       {isOpen && width < 1920 && (
@@ -50,9 +53,13 @@ function DesktopSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
+            setShowTodoModal={setShowTodoModal}
           />
         )}
       </div>
+      {showTodoModal && (
+        <TodoCreateModal onClose={() => setShowTodoModal(false)} />
+      )}
     </>
   );
 }
