@@ -39,7 +39,13 @@ function DesktopSideBarContents({
 
   return (
     <div className="flex-col">
-      <TextLogoIcon />
+      <TextLogoIcon
+        className="cursor-pointer"
+        onClick={() => {
+          navigate('/dashboard');
+          toggleSideBar();
+        }}
+      />
       <div className="mt-4 flex flex-row">
         <ProfileIcon width={64} height={64} />
         <div className="ml-3 flex flex-col items-start justify-between">
@@ -63,7 +69,13 @@ function DesktopSideBarContents({
         </Button>
       </div>
       <div className="absolute left-0 w-full border-b-[1px]"> </div>
-      <div className="my-4 mt-10 flex h-8 flex-row items-center">
+      <div
+        className="my-4 mt-10 flex h-8 cursor-pointer flex-row items-center"
+        onClick={() => {
+          navigate('/dashboard');
+          toggleSideBar();
+        }}
+      >
         <HomeIcon width={24} height={24} />
         <div className="ml-2 text-lg font-medium text-slate-800">대시보드</div>
       </div>

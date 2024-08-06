@@ -41,7 +41,13 @@ function MobileSideBarContents({
 
   return (
     <div className="flex-col">
-      <TextLogoIcon />
+      <TextLogoIcon
+        className="cursor-pointer"
+        onClick={() => {
+          navigate('/dashboard');
+          toggleSideBar();
+        }}
+      />
       <div className="mb-6 mt-4 flex flex-row justify-between">
         <div className="flex flex-row">
           <ProfileIcon width={32} height={32} />
@@ -66,7 +72,13 @@ function MobileSideBarContents({
       <div className="absolute left-0 w-full border-b-[1px]" />
 
       <div className="my-3 mt-9 flex h-8 flex-row items-center justify-between">
-        <div className="flex flex-row">
+        <div
+          className="flex cursor-pointer flex-row"
+          onClick={() => {
+            navigate('/dashboard');
+            toggleSideBar();
+          }}
+        >
           <HomeIcon width={24} height={24} />
           <div className="ml-2 text-lg font-medium text-slate-800">
             대시보드
