@@ -40,7 +40,11 @@ function MobileSideBar({
           <FoldIcon />
         </button>
         {isOpen && (
-          <MobileSideBarContents userData={userData} goalData={goalData} />
+          <MobileSideBarContents
+            userData={userData}
+            goalData={goalData}
+            toggleSideBar={toggleSideBar}
+          />
         )}
       </div>
     </>

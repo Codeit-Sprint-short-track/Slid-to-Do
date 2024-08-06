@@ -10,18 +10,22 @@ import usePostGoals from '@hooks/api/goalsAPI/usePostGoals';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { useQueryClient } from '@tanstack/react-query';
 import { MouseEvent, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function DesktopSideBarContents({
   userData,
   goalData,
+  toggleSideBar,
 }: {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
+  toggleSideBar: () => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef(null);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   useOutsideClick(inputRef, () => setIsEditing(false));
 
   const handleAddGoalBtn = (e: MouseEvent) => {
@@ -70,9 +74,19 @@ function DesktopSideBarContents({
       </div>
       <ul>
         {goalData.map((item) => (
-          <li key={item.id} className="p-2 text-sm font-medium text-slate-700">
-            • {item.title}
-          </li>
+          <div
+            onClick={() => {
+              navigate('/goal-detail');
+              toggleSideBar();
+            }}
+          >
+            <li
+              key={item.id}
+              className="cursor-pointer p-2 text-sm font-medium text-slate-700"
+            >
+              • {item.title}
+            </li>
+          </div>
         ))}
         {isPending && (
           <li className="p-2 text-sm font-medium text-slate-700">

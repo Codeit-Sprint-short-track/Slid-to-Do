@@ -46,7 +46,11 @@ function DesktopSideBar({
           </button>
         </div>
         {isOpen && (
-          <DesktopSideBarContents userData={userData} goalData={goalData} />
+          <DesktopSideBarContents
+            userData={userData}
+            goalData={goalData}
+            toggleSideBar={toggleSideBar}
+          />
         )}
       </div>
     </>
