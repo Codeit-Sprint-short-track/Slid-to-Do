@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 리눅스 환경에 checkout, 다른 사람이 만들어 놓은 Action 사용
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -34,6 +33,7 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      # aws 자격 증명 설정
       - name: Aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -41,6 +41,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+      # 빌드된 파일 aws s3 버킷에 동기화
       - name: Deploy to S3
         run: aws s3 sync build/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete
         working-directory: ./
