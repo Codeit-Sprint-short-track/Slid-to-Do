@@ -40,8 +40,8 @@ jobs:
       - name: Aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY_ID }}
           aws-region: ap-northeast-2
 
       # 빌드된 파일 aws s3 버킷에 동기화
