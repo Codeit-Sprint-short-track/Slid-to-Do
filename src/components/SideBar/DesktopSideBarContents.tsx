@@ -8,7 +8,6 @@ import {
 import Button from '@components/Button';
 import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
 import useOutsideClick from '@hooks/useOutsideClick';
-import { useQueryClient } from '@tanstack/react-query';
 import { Dispatch, MouseEvent, SetStateAction, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +25,6 @@ function DesktopSideBarContents({
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef(null);
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   useOutsideClick(inputRef, () => setIsEditing(false));
 
@@ -34,10 +32,8 @@ function DesktopSideBarContents({
     e.stopPropagation();
     setIsEditing(true);
   };
-  const onSettled = () =>
-    queryClient.invalidateQueries({ queryKey: ['goals'] });
 
-  const { mutate, isPending } = usePostGoal(onSettled);
+  const { mutate, isPending } = usePostGoal();
 
   return (
     <div className="flex-col">
