@@ -39,7 +39,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
     <>
       {isOpen && (
         <div
-          className="absolute left-0 top-0 z-20 h-dvh w-dvw opacity-50 tablet:bg-black"
+          className="fixed left-0 top-0 z-20 h-dvh w-dvw opacity-50 tablet:bg-black"
           onClick={handleClose}
         />
       )}
