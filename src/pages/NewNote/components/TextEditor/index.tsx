@@ -15,14 +15,13 @@ import './index.css';
 
 interface TextEditorProps {
   prevContent: string;
-  onContentChange: (text: string, content: string) => void;
+  onChangeContent: (text: string, content: string) => void;
   onChangeLink: (link: string) => void;
 }
 
 function TextEditor({
   prevContent,
-
-  onContentChange,
+  onChangeContent,
   onChangeLink,
 }: TextEditorProps) {
   const editor = useEditor({
@@ -55,7 +54,7 @@ function TextEditor({
     const handleUpdate = () => {
       const text = editor.getText();
       const content = editor.getHTML();
-      onContentChange(text, content);
+      onChangeContent(text, content);
     };
 
     editor.on('update', handleUpdate);
@@ -63,7 +62,7 @@ function TextEditor({
     return () => {
       editor.off('update', handleUpdate);
     };
-  }, [editor, onContentChange]);
+  }, [editor, onChangeContent]);
 
   return (
     <div className="mb-8 flex-grow">
