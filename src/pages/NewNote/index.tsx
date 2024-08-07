@@ -39,6 +39,7 @@ function NewNotePage() {
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
   const [draftTitle, setDraftTitle] = useState('');
   const [isDraftSaved, setIsDraftSaved] = useState(false);
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
   const noteRef = useRef({
     title: '',
@@ -48,6 +49,7 @@ function NewNotePage() {
 
   useEffect(() => {
     noteRef.current = { title, content, link };
+    setIsSubmitEnabled(title.trim().length > 0 && content.trim().length > 0);
   }, [title, content, link]);
 
   const handleChangeLink = (newLink: string) => {
@@ -135,7 +137,10 @@ function NewNotePage() {
       <div className="flex h-screen items-center justify-center desktop:block">
         <div className="mx-4 h-screen w-full max-w-[792px] desktop:ml-[360px]">
           <div className="flex h-screen flex-col bg-white">
-            <Header onDraftSave={handleSaveDraft} />
+            <Header
+              isSubmitEnabled={isSubmitEnabled}
+              onDraftSave={handleSaveDraft}
+            />
             {isDraftExist && (
               <DraftNotification
                 onCloseDraftNotification={handleCloseDraftNotification}

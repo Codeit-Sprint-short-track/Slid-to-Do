@@ -1,10 +1,11 @@
 import Button from '@components/Button';
 
 interface HeaderProps {
+  isSubmitEnabled: boolean;
   onDraftSave: () => void;
 }
 
-function Header({ onDraftSave }: HeaderProps) {
+function Header({ isSubmitEnabled, onDraftSave }: HeaderProps) {
   return (
     <div className="mb-4 mt-[17px] flex items-center justify-between tablet:mt-6">
       <h1 className="text-lg font-semibold leading-7 text-slate-900">
@@ -23,6 +24,7 @@ function Header({ onDraftSave }: HeaderProps) {
           shape="solid"
           size="xs"
           additionalClass="border-none tablet:w-[96px] tablet:h-[44px]"
+          disabled={!isSubmitEnabled}
         >
           작성 완료
         </Button>
