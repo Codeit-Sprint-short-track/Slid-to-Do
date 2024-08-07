@@ -8,18 +8,18 @@ import LinkUploadButton from './LinkUploadButton';
 interface FileLinkSectionProps {
   fileUrl: string | null;
   linkUrl: string | null;
-  handleFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleFileDelete: () => void;
-  handleLinkDelete: () => void;
+  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFileDelete: () => void;
+  onLinkDelete: () => void;
   setIsLinkModalVisible: (visible: boolean) => void;
 }
 
 function FileLinkSection({
   fileUrl,
   linkUrl,
-  handleFileChange,
-  handleFileDelete,
-  handleLinkDelete,
+  onFileChange,
+  onFileDelete,
+  onLinkDelete,
   setIsLinkModalVisible,
 }: FileLinkSectionProps) {
   return (
@@ -28,10 +28,7 @@ function FileLinkSection({
         파일 및 링크
       </div>
       <div className="flex items-start justify-start gap-3">
-        <FileUploadButton
-          fileUrl={fileUrl}
-          handleFileChange={handleFileChange}
-        />
+        <FileUploadButton fileUrl={fileUrl} onFileChange={onFileChange} />
         <LinkUploadButton
           linkUrl={linkUrl}
           setIsLinkModalVisible={setIsLinkModalVisible}
@@ -43,16 +40,14 @@ function FileLinkSection({
           <button
             type="button"
             className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-slate-200"
-            onClick={handleFileDelete}
+            onClick={onFileDelete}
             aria-label="File Delete"
           >
             <GrayDelete width={18} height={18} />
           </button>
         </div>
       )}
-      {linkUrl && (
-        <LinkCard linkUrl={linkUrl} handleLinkDelete={handleLinkDelete} />
-      )}
+      {linkUrl && <LinkCard linkUrl={linkUrl} onLinkDelete={onLinkDelete} />}
     </div>
   );
 }

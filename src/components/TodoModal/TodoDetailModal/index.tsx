@@ -195,9 +195,9 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
             <FileLinkSection
               fileUrl={fileUrl}
               linkUrl={linkUrl}
-              handleFileChange={handleFileChange}
-              handleFileDelete={handleFileDelete}
-              handleLinkDelete={handleLinkDelete}
+              onFileChange={handleFileChange}
+              onFileDelete={handleFileDelete}
+              onLinkDelete={handleLinkDelete}
               setIsLinkModalVisible={setIsLinkModalVisible}
             />
           </div>
