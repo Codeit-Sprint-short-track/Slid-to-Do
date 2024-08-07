@@ -1,0 +1,35 @@
+import { GrayDeleteIcon } from '@assets';
+import Button from '@components/Button';
+
+interface DraftNotificationProps {
+  onDraftNotificationClose: () => void;
+  onDraftModalOpen: (value: boolean) => void;
+}
+
+function DraftNotification({
+  onDraftNotificationClose,
+  onDraftModalOpen,
+}: DraftNotificationProps) {
+  return (
+    <div className="mb-6 flex items-center justify-between rounded-[28px] bg-blue-50 py-[10px] pl-4 pr-3 tablet:py-[18px]">
+      <div className="rounded- flex items-center gap-4 font-semibold leading-5 text-blue-500">
+        <GrayDeleteIcon
+          className="flex-shrink-0 cursor-pointer"
+          onClick={onDraftNotificationClose}
+        />
+        임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?
+      </div>
+      <Button
+        shape="outlined"
+        size="xs"
+        round="3xl"
+        additionalClass="bg-white ml-3 flex-shrink-0"
+        onClick={() => onDraftModalOpen(true)}
+      >
+        불러오기
+      </Button>
+    </div>
+  );
+}
+
+export default DraftNotification;

@@ -14,11 +14,19 @@ import Toolbar from './Toolbar';
 import './index.css';
 
 interface TextEditorProps {
+  prevContent: string;
   onContentChange: (text: string, content: string) => void;
+  onChangeLink: (link: string) => void;
 }
 
-function TextEditor({ onContentChange }: TextEditorProps) {
+function TextEditor({
+  prevContent,
+
+  onContentChange,
+  onChangeLink,
+}: TextEditorProps) {
   const editor = useEditor({
+    content: prevContent,
     extensions: [
       StarterKit,
       Typography,
@@ -34,6 +42,12 @@ function TextEditor({ onContentChange }: TextEditorProps) {
       }),
     ],
   });
+
+  useEffect(() => {
+    if (editor && prevContent !== editor.getHTML()) {
+      editor.commands.setContent(prevContent);
+    }
+  }, [editor, prevContent]);
 
   useEffect(() => {
     if (!editor) return undefined;
@@ -53,7 +67,8 @@ function TextEditor({ onContentChange }: TextEditorProps) {
 
   return (
     <div className="mb-8 flex-grow">
-      {editor && <Toolbar editor={editor} />}
+      {editor && <Toolbar editor={editor} onChangeLink={onChangeLink} />}
+
       <EditorContent
         editor={editor}
         className="overflow-auto bg-white text-slate-700"

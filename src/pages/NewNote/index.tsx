@@ -1,6 +1,9 @@
-import { FlagIcon } from '@assets';
-import Button from '@components/Button';
-import { ChangeEvent, useState } from 'react';
+import { NoteDraft } from '@/types/interface';
+import { EmbedIcon, FlagIcon, GrayDeleteIcon } from '@assets';
+import Popup from '@components/Popup';
+import { ChangeEvent, useEffect, useState } from 'react';
+import DraftNotification from './components/DraftNotification';
+import Header from './components/Header';
 import TextEditor from './components/TextEditor';
 
 const MOCK_TODO = {
@@ -26,100 +29,168 @@ function NewNotePage() {
   const [titleCount, setTitleCount] = useState(0);
   const [contentWithSpaces, setContentWithSpaces] = useState(0);
   const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
-  const [noteTitle, setNoteTitle] = useState('');
-  const [noteContent, setNoteContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [link, setLink] = useState('');
+  const [isDraftExist, setIsDraftExist] = useState(false);
+  const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
+  const [draftTitle, setDraftTitle] = useState('');
+
+  useEffect(() => {
+    const drafts = localStorage.getItem('draft-notes');
+
+    if (drafts) {
+      const currentDraft = JSON.parse(drafts).find(
+        (draft: NoteDraft) => draft.todo.id === MOCK_TODO.id,
+      );
+      if (currentDraft) {
+        setIsDraftExist(true);
+        setDraftTitle(currentDraft.title);
+      }
+    }
+  }, []);
+
+  const handleChangeLink = (newLink: string) => {
+    setLink(newLink);
+  };
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (value.length <= TITLE_MAX_LENGTH) {
-      setNoteTitle(value);
+      setTitle(value);
       setTitleCount(value.length);
     }
   };
 
-  const handleContentChange = (text: string, content: string) => {
-    setNoteContent(content);
+  const handleContentChange = (text: string, newContent: string) => {
+    setContent(newContent);
     setContentWithSpaces(text.length);
     setContentWithoutSpaces(text.replace(/\s/g, '').length);
+  };
 
-    // 아직 쓰이는 곳이 없어서 임시로 해둡니다
-    /* eslint-disable no-console */
-    console.log(noteContent);
+  const handleDraftSave = () => {
+    const note = { todo: MOCK_TODO, title, content, link };
+
+    const prevDrafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
+
+    const newDrafts = [
+      note,
+      ...prevDrafts.filter(
+        (draft: NoteDraft) => draft.todo.id !== MOCK_TODO.id,
+      ),
+    ];
+    localStorage.setItem('draft-notes', JSON.stringify(newDrafts));
+  };
+
+  const handleGetDraft = () => {
+    const drafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
+    const currentDraft = drafts.find(
+      (draft: NoteDraft) => draft.todo.id === MOCK_TODO.id,
+    );
+
+    if (currentDraft) {
+      setTitle(currentDraft.title);
+      setContent(currentDraft.content);
+      setLink(currentDraft.link);
+    }
+  };
+
+  const handleDraftNotificationClose = () => {
+    setIsDraftExist(false);
+  };
+
+  const handleDraftModalOpen = (value: boolean) => {
+    setIsDraftModalOpen(value);
   };
 
   return (
-    <div className="flex h-screen items-center justify-center desktop:block">
-      <div className="mx-4 h-screen w-full max-w-[792px] desktop:ml-[360px]">
-        <div className="flex h-screen flex-col bg-white">
-          <div className="mb-4 mt-[17px] flex items-center justify-between tablet:mt-6">
-            <h1 className="text-lg font-semibold leading-7 text-slate-900">
-              노트 작성
-            </h1>
-            <div className="flex gap-2">
-              <Button
-                shape="outlined"
-                size="xs"
-                additionalClass="border-none tablet:w-[96px] tablet:h-[44px]"
-              >
-                임시 저장
-              </Button>
-              <Button
-                shape="solid"
-                size="xs"
-                additionalClass="border-none tablet:w-[96px] tablet:h-[44px]"
-              >
-                작성 완료
-              </Button>
+    <>
+      <div className="flex h-screen items-center justify-center desktop:block">
+        <div className="h-screen w-full max-w-[792px] desktop:ml-[360px]">
+          <div className="mx-4 flex h-screen flex-col bg-white">
+            <Header onDraftSave={handleDraftSave} />
+            {isDraftExist && (
+              <DraftNotification
+                onDraftNotificationClose={handleDraftNotificationClose}
+                onDraftModalOpen={handleDraftModalOpen}
+              />
+            )}
+            <div className="mb-3 flex gap-[6px]">
+              <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-slate-800">
+                <FlagIcon className="h-[14.4px] w-[14.4px] fill-white" />
+              </div>
+              <h3 className="font-medium leading-6 text-slate-800">
+                {MOCK_TODO.goal.title}
+              </h3>
             </div>
-          </div>
-
-          <div className="mb-3 flex gap-[6px]">
-            <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-slate-800">
-              <FlagIcon className="h-[14.4px] w-[14.4px] fill-white" />
+            <div className="flex items-center gap-2 border-b border-b-slate-200 pb-6">
+              <div className="flex rounded-[4px] bg-slate-100 px-[3px] py-[2px]">
+                <span className="text-xs font-medium leading-4 text-slate-700">
+                  {MOCK_TODO.done ? 'Done' : 'To do'}
+                </span>
+              </div>
+              <p className="text-sm leading-5 text-slate-700">
+                {MOCK_TODO.title}
+              </p>
             </div>
-            <h3 className="font-medium leading-6 text-slate-800">
-              {MOCK_TODO.goal.title}
-            </h3>
-          </div>
-          <div className="flex items-center gap-2 border-b border-b-slate-200 pb-6">
-            <div className="flex rounded-[4px] bg-slate-100 px-[3px] py-[2px]">
-              <span className="text-xs font-medium leading-4 text-slate-700">
-                {MOCK_TODO.done ? 'Done' : 'To do'}
-              </span>
+            <div className="flex w-full items-center justify-between border-b border-b-slate-200 px-1 py-[2px]">
+              <input
+                placeholder="노트의 제목을 입력해주세요"
+                className="w-full py-3 text-lg font-medium leading-7 text-slate-800 outline-none"
+                value={title}
+                onChange={handleChangeInput}
+                maxLength={TITLE_MAX_LENGTH}
+              />
+              <div className="text-xs font-medium text-slate-800">
+                <span
+                  className={`${
+                    titleCount === TITLE_MAX_LENGTH
+                      ? 'text-red-500'
+                      : 'text-blue-500'
+                  }`}
+                >
+                  {titleCount}
+                </span>
+                /{TITLE_MAX_LENGTH}
+              </div>
             </div>
-            <p className="text-sm leading-5 text-slate-700">
-              {MOCK_TODO.title}
-            </p>
-          </div>
-          <div className="flex w-full items-center justify-between border-b border-b-slate-200 px-1 py-[2px]">
-            <input
-              placeholder="노트의 제목을 입력해주세요"
-              className="w-full py-3 text-lg font-medium leading-7 text-slate-800 outline-none"
-              value={noteTitle}
-              onChange={handleChangeInput}
-              maxLength={TITLE_MAX_LENGTH}
+            <div className="mb-2 mt-3 text-xs font-medium text-slate-800">
+              공백 포함 : 총 {contentWithSpaces}자 | 공백 제외: 총{' '}
+              {contentWithoutSpaces}자
+            </div>
+            {link && (
+              <div className="mb-5 flex w-full items-center rounded-[20px] bg-slate-200 px-[6px] py-1">
+                <div className="flex min-w-0 items-center gap-2">
+                  <EmbedIcon className="flex-shrink-0" />
+                  <span className="truncate text-slate-800">{link}</span>
+                </div>
+                <GrayDeleteIcon
+                  className="ml-2 flex-shrink-0 cursor-pointer"
+                  onClick={() => setLink('')}
+                />
+              </div>
+            )}
+            <TextEditor
+              prevContent={content}
+              onContentChange={handleContentChange}
+              onChangeLink={handleChangeLink}
             />
-            <div className="text-xs font-medium text-slate-800">
-              <span
-                className={`${
-                  titleCount === TITLE_MAX_LENGTH
-                    ? 'text-red-500'
-                    : 'text-blue-500'
-                }`}
-              >
-                {titleCount}
-              </span>
-              /{TITLE_MAX_LENGTH}
-            </div>
           </div>
-          <div className="mb-2 mt-3 text-xs font-medium text-slate-800">
-            공백 포함 : 총 {contentWithSpaces}자 | 공백 제외: 총{' '}
-            {contentWithoutSpaces}자
-          </div>
-          <TextEditor onContentChange={handleContentChange} />
         </div>
       </div>
-    </div>
+      {isDraftModalOpen && (
+        <Popup
+          message={`'${draftTitle || '제목 없음'}'\n 제목의 노트를 불러오시겠어요?`}
+          confirmMessage="불러오기"
+          onCancel={() => handleDraftModalOpen(false)}
+          onConfirm={() => {
+            handleGetDraft();
+            handleDraftModalOpen(false);
+            handleDraftNotificationClose();
+          }}
+        />
+      )}
+    </>
   );
 }
 
