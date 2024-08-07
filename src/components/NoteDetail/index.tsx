@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { DeleteIcon, FlagIcon, GrayDelete } from '@assets';
 import Kebab from '@components/Kebab';
 import useDeleteNote from '@hooks/api/notesAPI/useDeleteNote';
@@ -19,8 +18,11 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
   const { mutate } = useDeleteNote();
 
   useEffect(() => {
-    setIsOpen(true);
-  }, []);
+    if (noteData) {
+      // 애니메이션 효과를 위해 일정 시간 후에 isOpen을 true로 변경 (안그러면 애니메이션이 제대로 적용이 안됨)
+      setTimeout(() => setIsOpen(true), 10);
+    }
+  }, [noteData]);
 
   const handleClose = () => {
     setIsOpen(false);
