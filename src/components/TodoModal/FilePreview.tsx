@@ -1,3 +1,4 @@
+import getFileType from '@utils/getFileType';
 import { Document, Page, pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -5,17 +6,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 interface FilePreviewProps {
   fileUrl: string;
 }
-
-const getFileType = (fileUrl: string) => {
-  const extension = fileUrl.split('.').pop()?.toLowerCase();
-  if (!extension) return 'unknown';
-
-  if (extension === 'pdf') return 'pdf';
-  if (['jpeg', 'jpg', 'png', 'gif'].includes(extension)) return 'image';
-  if (['mp4', 'avi'].includes(extension)) return 'video';
-
-  return 'unknown';
-};
 
 function FilePreview({ fileUrl }: FilePreviewProps) {
   const fileType = getFileType(fileUrl);
