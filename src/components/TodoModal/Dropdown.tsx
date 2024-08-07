@@ -20,7 +20,7 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
         title,
       })),
     ) || [];
-  const { ref, inView } = useInView();
+  const { ref: intersectionRef, inView } = useInView();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<HTMLDivElement>(null);
@@ -30,20 +30,13 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
   };
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
+    if ((inView || isOpen) && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [inView, isOpen, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   useEffect(() => {
-    if (isOpen && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [isOpen, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  useEffect(() => {
-    if (isOpen && dropdownRef.current) {
-      dropdownRef.current.scrollTop = 0; // 드롭다운 열릴 때 스크롤 위치 초기화
+    if (isOpen) {
       const dropdown = animationRef.current;
       if (dropdown) {
         dropdown.style.display = 'block';
@@ -51,6 +44,9 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
           dropdown.style.opacity = '1';
           dropdown.style.transform = 'translateY(0)';
         }, 0);
+      }
+      if (dropdownRef.current) {
+        dropdownRef.current.scrollTop = 0; // 드롭다운 열릴 때 스크롤 위치 초기화
       }
     } else {
       const dropdown = animationRef.current;
@@ -110,7 +106,7 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
               불러오는 중...
             </div>
           )}
-          <div ref={ref} className="h-1" />
+          <div ref={intersectionRef} />
         </div>
       </div>
     );
