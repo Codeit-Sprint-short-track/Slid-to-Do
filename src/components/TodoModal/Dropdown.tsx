@@ -1,7 +1,7 @@
 import { Goal } from '@/types/interface';
 import { ArrowDropdownIcon } from '@assets';
 import useGetGoals from '@hooks/api/goalsAPI/useGetGoals';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 interface DropdownProps {
@@ -22,22 +22,12 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
     ) || [];
   const { ref, inView } = useInView();
   const [isOpen, setIsOpen] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<HTMLDivElement>(null);
 
-  const handleToggleDropdown = useCallback(() => {
-    if (isOpen) {
-      setIsOpen(false);
-      setTimeout(() => {
-        setShouldRender(false);
-      }, 300);
-    } else {
-      setShouldRender(true);
-      setTimeout(() => {
-        setIsOpen(true);
-      }, 0);
-    }
-  }, [isOpen]);
+  const handleToggleDropdown = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -54,6 +44,17 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
   useEffect(() => {
     if (isOpen && dropdownRef.current) {
       dropdownRef.current.scrollTop = 0; // 드롭다운 열릴 때 스크롤 위치 초기화
+      const dropdown = animationRef.current;
+      if (dropdown) {
+        dropdown.style.opacity = '1';
+        dropdown.style.transform = 'translateY(0)';
+      }
+    } else {
+      const dropdown = animationRef.current;
+      if (dropdown) {
+        dropdown.style.opacity = '0';
+        dropdown.style.transform = 'translateY(-10px)';
+      }
     }
   }, [isOpen]);
 
@@ -81,10 +82,7 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
             className="w-full cursor-pointer px-5 py-2 hover:bg-slate-100"
             onClick={() => {
               onSelect(null);
-              setIsOpen(false);
-              setTimeout(() => {
-                setShouldRender(false);
-              }, 300);
+              handleToggleDropdown();
             }}
           >
             {placeholder}
@@ -95,10 +93,7 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
               className="w-full cursor-pointer px-5 py-2 hover:bg-slate-100"
               onClick={() => {
                 onSelect(option);
-                setIsOpen(false);
-                setTimeout(() => {
-                  setShouldRender(false);
-                }, 300);
+                handleToggleDropdown();
               }}
             >
               {option.title}
@@ -127,17 +122,14 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
         </div>
         <ArrowDropdownIcon className="p-[3px]" />
       </button>
-      {shouldRender && (
-        <div
-          className={`absolute top-10 z-10 w-full transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out ${
-            isOpen
-              ? 'h-auto translate-y-0 opacity-100'
-              : 'h-0 translate-y-[-10px] opacity-0'
-          }`}
-        >
-          {renderDropdownContent()}
-        </div>
-      )}
+      <div
+        ref={animationRef}
+        className={`absolute top-10 z-10 w-full transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out ${
+          isOpen ? 'translate-y-0 opacity-100' : 'translate-y-[-10px] opacity-0'
+        }`}
+      >
+        {renderDropdownContent()}
+      </div>
     </div>
   );
 }
