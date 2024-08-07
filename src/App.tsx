@@ -38,7 +38,11 @@ function App() {
 
   useEffect(() => {
     if (pathname === '/') {
-      navigate('dashboard');
+      if (localStorage.getItem('accessToken') === null) {
+        navigate('sign-in');
+      } else {
+        navigate('dashboard');
+      }
     }
   }, []);
 
