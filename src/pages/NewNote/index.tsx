@@ -1,9 +1,11 @@
 import { NoteDraft } from '@/types/interface';
-import { EmbedIcon, FlagIcon, GrayDeleteIcon } from '@assets';
+import { FlagIcon } from '@assets';
 import Popup from '@components/Popup';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import DraftNotification from './components/DraftNotification';
+import DraftSavedToast from './components/DraftSavedToast';
 import Header from './components/Header';
+import LinkDisplay from './components/LinkDisplay';
 import TextEditor from './components/TextEditor';
 
 const MOCK_TODO = {
@@ -24,6 +26,7 @@ const MOCK_TODO = {
 };
 
 const TITLE_MAX_LENGTH = 30;
+const DURATION = 5;
 
 function NewNotePage() {
   const [titleCount, setTitleCount] = useState(0);
@@ -35,20 +38,17 @@ function NewNotePage() {
   const [isDraftExist, setIsDraftExist] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
   const [draftTitle, setDraftTitle] = useState('');
+  const [isDraftSaved, setIsDraftSaved] = useState(false);
+
+  const noteRef = useRef({
+    title: '',
+    content: '',
+    link: '',
+  });
 
   useEffect(() => {
-    const drafts = localStorage.getItem('draft-notes');
-
-    if (drafts) {
-      const currentDraft = JSON.parse(drafts).find(
-        (draft: NoteDraft) => draft.todo.id === MOCK_TODO.id,
-      );
-      if (currentDraft) {
-        setIsDraftExist(true);
-        setDraftTitle(currentDraft.title);
-      }
-    }
-  }, []);
+    noteRef.current = { title, content, link };
+  }, [title, content, link]);
 
   const handleChangeLink = (newLink: string) => {
     setLink(newLink);
@@ -62,14 +62,14 @@ function NewNotePage() {
     }
   };
 
-  const handleContentChange = (text: string, newContent: string) => {
+  const handleChangeContent = (text: string, newContent: string) => {
     setContent(newContent);
     setContentWithSpaces(text.length);
     setContentWithoutSpaces(text.replace(/\s/g, '').length);
   };
 
-  const handleDraftSave = () => {
-    const note = { todo: MOCK_TODO, title, content, link };
+  const handleSaveDraft = () => {
+    const note = { todo: MOCK_TODO, ...noteRef.current };
 
     const prevDrafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
 
@@ -80,6 +80,8 @@ function NewNotePage() {
       ),
     ];
     localStorage.setItem('draft-notes', JSON.stringify(newDrafts));
+
+    setIsDraftSaved(true);
   };
 
   const handleGetDraft = () => {
@@ -95,24 +97,49 @@ function NewNotePage() {
     }
   };
 
-  const handleDraftNotificationClose = () => {
+  const handleCloseDraftNotification = () => {
     setIsDraftExist(false);
   };
 
-  const handleDraftModalOpen = (value: boolean) => {
+  const handleOpenDraftModal = (value: boolean) => {
     setIsDraftModalOpen(value);
   };
+
+  useEffect(() => {
+    const drafts = localStorage.getItem('draft-notes');
+
+    // 임시 저장 불러오기 위함
+    if (drafts) {
+      const currentDraft = JSON.parse(drafts).find(
+        (draft: NoteDraft) => draft.todo.id === MOCK_TODO.id,
+      );
+      if (currentDraft) {
+        setIsDraftExist(true);
+        setDraftTitle(currentDraft.title);
+      }
+    }
+
+    // 5분마다 저장하기 위함
+    const interval = setInterval(
+      () => {
+        handleSaveDraft();
+      },
+      DURATION * 300 * 1000, // 5분
+    );
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
       <div className="flex h-screen items-center justify-center desktop:block">
-        <div className="h-screen w-full max-w-[792px] desktop:ml-[360px]">
-          <div className="mx-4 flex h-screen flex-col bg-white">
-            <Header onDraftSave={handleDraftSave} />
+        <div className="mx-4 h-screen w-full max-w-[792px] desktop:ml-[360px]">
+          <div className="flex h-screen flex-col bg-white">
+            <Header onDraftSave={handleSaveDraft} />
             {isDraftExist && (
               <DraftNotification
-                onDraftNotificationClose={handleDraftNotificationClose}
-                onDraftModalOpen={handleDraftModalOpen}
+                onCloseDraftNotification={handleCloseDraftNotification}
+                onOpenDraftModal={handleOpenDraftModal}
               />
             )}
             <div className="mb-3 flex gap-[6px]">
@@ -158,35 +185,31 @@ function NewNotePage() {
               공백 포함 : 총 {contentWithSpaces}자 | 공백 제외: 총{' '}
               {contentWithoutSpaces}자
             </div>
-            {link && (
-              <div className="mb-5 flex w-full items-center rounded-[20px] bg-slate-200 px-[6px] py-1">
-                <div className="flex min-w-0 items-center gap-2">
-                  <EmbedIcon className="flex-shrink-0" />
-                  <span className="truncate text-slate-800">{link}</span>
-                </div>
-                <GrayDeleteIcon
-                  className="ml-2 flex-shrink-0 cursor-pointer"
-                  onClick={() => setLink('')}
-                />
-              </div>
-            )}
+            {link && <LinkDisplay link={link} onDelete={() => setLink('')} />}
             <TextEditor
               prevContent={content}
-              onContentChange={handleContentChange}
+              onChangeContent={handleChangeContent}
               onChangeLink={handleChangeLink}
             />
+            {isDraftSaved && (
+              <DraftSavedToast
+                isVisible={isDraftSaved}
+                onHide={() => setIsDraftSaved(false)}
+              />
+            )}
           </div>
         </div>
       </div>
+
       {isDraftModalOpen && (
         <Popup
           message={`'${draftTitle || '제목 없음'}'\n 제목의 노트를 불러오시겠어요?`}
           confirmMessage="불러오기"
-          onCancel={() => handleDraftModalOpen(false)}
+          onCancel={() => handleOpenDraftModal(false)}
           onConfirm={() => {
             handleGetDraft();
-            handleDraftModalOpen(false);
-            handleDraftNotificationClose();
+            handleOpenDraftModal(false);
+            handleCloseDraftNotification();
           }}
         />
       )}

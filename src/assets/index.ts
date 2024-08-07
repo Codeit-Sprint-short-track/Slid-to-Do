@@ -47,6 +47,7 @@ export { ReactComponent as AlignLeftIcon } from './alignLeft.svg';
 export { ReactComponent as AlignRightIcon } from './alignRight.svg';
 export { ReactComponent as BoldIcon } from './bold.svg';
 export { ReactComponent as BulletIcon } from './bullet.svg';
+export { ReactComponent as CheckIcon } from './check.svg';
 export { ReactComponent as EmbedIcon } from './embed.svg';
 export { ReactComponent as FontColorIcon } from './fontColor.svg';
 export { ReactComponent as ItalicIcon } from './italic.svg';
