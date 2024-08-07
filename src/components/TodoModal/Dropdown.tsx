@@ -46,14 +46,20 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
       dropdownRef.current.scrollTop = 0; // 드롭다운 열릴 때 스크롤 위치 초기화
       const dropdown = animationRef.current;
       if (dropdown) {
-        dropdown.style.opacity = '1';
-        dropdown.style.transform = 'translateY(0)';
+        dropdown.style.display = 'block';
+        setTimeout(() => {
+          dropdown.style.opacity = '1';
+          dropdown.style.transform = 'translateY(0)';
+        }, 0);
       }
     } else {
       const dropdown = animationRef.current;
       if (dropdown) {
         dropdown.style.opacity = '0';
         dropdown.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          dropdown.style.display = 'none';
+        }, 300);
       }
     }
   }, [isOpen]);
@@ -124,9 +130,7 @@ function Dropdown({ selectedOption, onSelect, placeholder }: DropdownProps) {
       </button>
       <div
         ref={animationRef}
-        className={`absolute top-10 z-10 w-full transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out ${
-          isOpen ? 'translate-y-0 opacity-100' : 'translate-y-[-10px] opacity-0'
-        }`}
+        className="absolute top-10 z-10 w-full transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out"
       >
         {renderDropdownContent()}
       </div>
