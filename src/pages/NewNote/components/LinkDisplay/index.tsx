@@ -1,4 +1,4 @@
-import { EmbedIcon, GrayDeleteIcon } from '@assets';
+import { CircleDeleteIcon, EmbedIcon } from '@assets';
 
 interface LinkDisplayProps {
   link: string;
@@ -12,8 +12,8 @@ function LinkDisplay({ link, onDelete }: LinkDisplayProps) {
         <EmbedIcon className="flex-shrink-0 cursor-pointer" />
         <span className="truncate text-slate-800">{link}</span>
       </div>
-      <GrayDeleteIcon
-        className="ml-2 flex-shrink-0 cursor-pointer"
+      <CircleDeleteIcon
+        className="ml-2 flex-shrink-0 cursor-pointer fill-slate-500"
         onClick={onDelete}
       />
     </div>

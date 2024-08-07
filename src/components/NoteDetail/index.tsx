@@ -1,4 +1,4 @@
-import { DeleteIcon, FlagIcon, GrayDeleteIcon } from '@assets';
+import { CircleDeleteIcon, DeleteIcon, FlagIcon } from '@assets';
 import Kebab from '@components/Kebab';
 import formatDate from '@utils/formatDate';
 
@@ -109,7 +109,7 @@ function NoteDetail({ onClose }: NoteDetailProps) {
           {MOCK_NOTE_DETAIL.linkUrl ? (
             <div className="mb-4 flex justify-between rounded-[20px] bg-slate-200 py-1 pl-4 pr-[6px]">
               {MOCK_NOTE_DETAIL.linkUrl}
-              <GrayDeleteIcon className="cursor-pointer" />
+              <CircleDeleteIcon className="cursor-pointer fill-slate-500" />
             </div>
           ) : (
             <div className="pt-1" />
