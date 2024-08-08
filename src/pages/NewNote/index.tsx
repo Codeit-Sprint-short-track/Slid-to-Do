@@ -29,26 +29,36 @@ const TITLE_MAX_LENGTH = 30;
 const DURATION = 5;
 
 function NewNotePage() {
-  const [titleCount, setTitleCount] = useState(0);
-  const [contentWithSpaces, setContentWithSpaces] = useState(0);
-  const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [link, setLink] = useState('');
+  const [titleCount, setTitleCount] = useState(0);
+  const [contentWithSpaces, setContentWithSpaces] = useState(0);
+  const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
+
   const [isDraftExist, setIsDraftExist] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
   const [draftTitle, setDraftTitle] = useState('');
   const [isDraftSaved, setIsDraftSaved] = useState(false);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+  const [isLinkEmbedOpen, setIsLinkEmbedOpen] = useState(false);
 
   const noteRef = useRef({
     title: '',
     content: '',
     link: '',
+    contentWithSpaces: 0,
+    contentWithoutSpaces: 0,
   });
 
   useEffect(() => {
-    noteRef.current = { title, content, link };
+    noteRef.current = {
+      title,
+      content,
+      link,
+      contentWithSpaces,
+      contentWithoutSpaces,
+    };
     setIsSubmitEnabled(title.trim().length > 0 && content.trim().length > 0);
   }, [title, content, link]);
 
@@ -96,6 +106,9 @@ function NewNotePage() {
       setTitle(currentDraft.title);
       setContent(currentDraft.content);
       setLink(currentDraft.link);
+      setTitleCount(currentDraft.title.length);
+      setContentWithSpaces(currentDraft.contentWithSpaces);
+      setContentWithoutSpaces(currentDraft.contentWithoutSpaces);
     }
   };
 
@@ -110,7 +123,7 @@ function NewNotePage() {
   useEffect(() => {
     const drafts = localStorage.getItem('draft-notes');
 
-    // 임시 저장 불러오기 위함
+    // 임시 저장 불러올 때 제목을 보여주기 위함
     if (drafts) {
       const currentDraft = JSON.parse(drafts).find(
         (draft: NoteDraft) => draft.todo.id === MOCK_TODO.id,
@@ -126,7 +139,7 @@ function NewNotePage() {
       () => {
         handleSaveDraft();
       },
-      DURATION * 300 * 1000, // 5분
+      DURATION * 300 * 1000,
     );
 
     return () => clearInterval(interval);
@@ -135,6 +148,7 @@ function NewNotePage() {
   return (
     <>
       <div className="flex h-screen items-center justify-center desktop:block">
+        {isLinkEmbedOpen && <iframe src={link} title="link embed" />}
         <div className="mx-4 h-screen w-full max-w-[792px] desktop:ml-[360px]">
           <div className="flex h-screen flex-col bg-white">
             <Header
@@ -147,6 +161,7 @@ function NewNotePage() {
                 onOpenDraftModal={handleOpenDraftModal}
               />
             )}
+
             <div className="mb-3 flex gap-[6px]">
               <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-slate-800">
                 <FlagIcon className="h-[14.4px] w-[14.4px] fill-white" />
@@ -190,7 +205,16 @@ function NewNotePage() {
               공백 포함 : 총 {contentWithSpaces}자 | 공백 제외: 총{' '}
               {contentWithoutSpaces}자
             </div>
-            {link && <LinkDisplay link={link} onDelete={() => setLink('')} />}
+            {link && (
+              <LinkDisplay
+                link={link}
+                onDelete={() => {
+                  setLink('');
+                  setIsLinkEmbedOpen(false);
+                }}
+                onClickEmbed={() => setIsLinkEmbedOpen((prev) => !prev)}
+              />
+            )}
             <TextEditor
               prevContent={content}
               onChangeContent={handleChangeContent}
