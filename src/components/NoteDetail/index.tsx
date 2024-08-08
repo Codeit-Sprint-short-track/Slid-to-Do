@@ -15,7 +15,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: noteData } = useGetNote(noteId);
-  const { mutate } = useDeleteNote();
+  const { mutate: deleteNote } = useDeleteNote();
 
   useEffect(() => {
     if (noteData) {
@@ -34,7 +34,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
   };
 
   const handleDeleteNote = () => {
-    mutate(noteId);
+    deleteNote(noteId);
   };
 
   return (

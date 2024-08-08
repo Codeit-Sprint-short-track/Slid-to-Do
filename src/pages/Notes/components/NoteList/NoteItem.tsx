@@ -11,7 +11,7 @@ interface NoteItemProps {
 
 function NoteItem({ noteData }: NoteItemProps) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const { mutate } = useDeleteNote();
+  const { mutate: deleteNote } = useDeleteNote();
   const handleClickNote = () => {
     setIsDetailOpen(true);
   };
@@ -25,7 +25,7 @@ function NoteItem({ noteData }: NoteItemProps) {
   };
 
   const handleDeleteNote = () => {
-    mutate(noteData.id);
+    deleteNote(noteData.id);
   };
 
   return (
