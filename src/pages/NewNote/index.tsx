@@ -26,7 +26,7 @@ const MOCK_TODO = {
 };
 
 const TITLE_MAX_LENGTH = 30;
-const DURATION = 5;
+const AUTO_SAVE_INTERVAL = 1000 * 60 * 5;
 
 function NewNotePage() {
   const [title, setTitle] = useState('');
@@ -135,12 +135,9 @@ function NewNotePage() {
     }
 
     // 5분마다 저장하기 위함
-    const interval = setInterval(
-      () => {
-        handleSaveDraft();
-      },
-      DURATION * 300 * 1000,
-    );
+    const interval = setInterval(() => {
+      handleSaveDraft();
+    }, AUTO_SAVE_INTERVAL);
 
     return () => clearInterval(interval);
   }, []);

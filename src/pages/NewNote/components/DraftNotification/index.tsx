@@ -12,7 +12,7 @@ function DraftNotification({
 }: DraftNotificationProps) {
   return (
     <div className="mb-6 flex items-center justify-between rounded-[28px] bg-blue-50 py-[10px] pl-4 pr-3 tablet:py-[18px]">
-      <div className="rounded- flex items-center gap-4 font-semibold leading-5 text-blue-500">
+      <div className="flex items-center gap-4 font-semibold leading-5 text-blue-500">
         <CircleDeleteIcon
           className="flex-shrink-0 cursor-pointer fill-blue-500"
           onClick={onCloseDraftNotification}

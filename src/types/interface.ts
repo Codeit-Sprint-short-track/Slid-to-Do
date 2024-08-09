@@ -44,6 +44,6 @@ export interface Note {
 export interface NoteDraft {
   todo: Todo;
   title: string;
-  contente: string;
+  content: string;
   link: string;
 }

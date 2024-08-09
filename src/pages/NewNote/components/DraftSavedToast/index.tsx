@@ -6,7 +6,7 @@ interface DraftSavedToastProps {
   onHide: () => void;
 }
 
-const DURATION = 5;
+const TOAST_DURATION = 5;
 
 function DraftSavedToast({ isVisible, onHide }: DraftSavedToastProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -21,11 +21,11 @@ function DraftSavedToast({ isVisible, onHide }: DraftSavedToastProps) {
     const timer = setTimeout(() => {
       setIsRender(false);
       setTimeout(onHide, 300);
-    }, DURATION * 1000);
+    }, TOAST_DURATION * 1000);
 
     const interval = setInterval(() => {
       setElapsedTime((prevTime) => {
-        if (prevTime >= DURATION - 1) {
+        if (prevTime >= TOAST_DURATION - 1) {
           clearInterval(interval);
           return prevTime;
         }
