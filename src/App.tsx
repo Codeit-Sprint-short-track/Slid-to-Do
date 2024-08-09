@@ -31,22 +31,28 @@ function App() {
     pathname === '/sign-in' ||
     pathname === '/sign-up' ||
     pathname === '/notes/new'
-      ? 'bg-white'
-      : 'bg-slate-200';
+      ? '#fff'
+      : '#E2E8F0';
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (pathname === '/') {
-      navigate('dashboard');
+      if (localStorage.getItem('accessToken') === null) {
+        navigate('sign-in');
+      } else {
+        navigate('dashboard');
+      }
     }
   }, []);
 
+  useEffect(() => {
+    document.body.style.backgroundColor = bgColor;
+  }, [bgColor]);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <div
-        className={`h-dvh w-dvw ${bgColor} font-Pretendard text-base font-normal`}
-      >
+      <div className="h-dvh w-dvw font-Pretendard text-base font-normal">
         {pathname !== '/sign-in' && pathname !== '/sign-up' && <SideBar />}
         <div className="ml-0 tablet:ml-[60px] desktop:ml-0">
           <Outlet />
