@@ -2,14 +2,14 @@ import { ArrowDownIcon, ArrowUpIcon } from '@assets';
 
 interface ToggleButtonProps {
   isToggleOpen: boolean;
-  setIsToggleOpen: (value: boolean) => void;
+  onToggleOpen: (v: boolean) => void;
 }
 
-function ToggleButton({ isToggleOpen, setIsToggleOpen }: ToggleButtonProps) {
+function ToggleButton({ isToggleOpen, onToggleOpen }: ToggleButtonProps) {
   return (
     <button
       type="button"
-      onClick={() => setIsToggleOpen(!isToggleOpen)}
+      onClick={() => onToggleOpen(!isToggleOpen)}
       className="absolute bottom-3 mt-3 flex w-full justify-center"
     >
       <div className="flex h-8 w-[120px] items-center rounded-2xl bg-white">

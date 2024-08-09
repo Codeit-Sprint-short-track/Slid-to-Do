@@ -1,14 +1,16 @@
 import cn from '@utils/cn';
 
-export default function LoadingAnimation({
-  width = 24,
-  height = 24,
-  className,
-}: {
+interface LoadingAnimationProps {
   width?: number;
   height?: number;
   className?: string;
-}) {
+}
+
+function LoadingAnimation({
+  width = 24,
+  height = 24,
+  className,
+}: LoadingAnimationProps) {
   return (
     <div
       className={cn(`h-8 w-8 ${className} animate-spin`)}
@@ -21,3 +23,5 @@ export default function LoadingAnimation({
     </div>
   );
 }
+
+export default LoadingAnimation;

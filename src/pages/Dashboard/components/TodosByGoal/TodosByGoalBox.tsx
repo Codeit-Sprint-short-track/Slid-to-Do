@@ -107,7 +107,7 @@ function TodosByGoalBox({ id, title }: TodosByGoalProps) {
       {(isTodosMoreThanFive || isDonesMoreThanFive) && (
         <ToggleButton
           isToggleOpen={isToggleOpen}
-          setIsToggleOpen={setIsToggleOpen}
+          onToggleOpen={(v) => setIsToggleOpen(v)}
         />
       )}
     </div>
