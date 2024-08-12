@@ -45,7 +45,7 @@ function LinkModal({
     return () => {
       document.removeEventListener('keydown', handleKeyPress);
     };
-  }, [isValid, link.length > 0]);
+  }, [isValid, link]);
 
   return (
     <div
