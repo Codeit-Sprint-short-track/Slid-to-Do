@@ -1,5 +1,4 @@
 import { Goal, Todo } from '@/types/interface';
-import { UpdateTodo } from '@app/api/todosAPI';
 import { DeleteIcon } from '@assets';
 import Button from '@components/Button';
 import LinkModal from '@components/LinkModal';
@@ -105,36 +104,20 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
   };
 
   const handleSave = () => {
-    const updatedTodo = {} as UpdateTodo;
+    const updatedTodo = {
+      ...(title !== todo.title && { title }),
+      ...(goal?.id !== todo.goal?.id && { goalId: goal?.id ?? null }),
+      ...(fileUrl !== todo.fileUrl && { fileUrl }),
+      ...(linkUrl !== todo.linkUrl && { linkUrl }),
+      ...(done !== todo.done && { done }),
+    };
 
-    if (title !== todo.title) {
-      updatedTodo.title = title;
+    if (Object.keys(updatedTodo).length > 0) {
+      editTodo({
+        todoId: todo.id,
+        todo: updatedTodo,
+      });
     }
-
-    if (goal?.id !== todo.goal?.id) {
-      if (goal !== null) {
-        updatedTodo.goalId = goal.id;
-      } else {
-        updatedTodo.goalId = null;
-      }
-    }
-
-    if (fileUrl !== todo.fileUrl) {
-      updatedTodo.fileUrl = fileUrl;
-    }
-
-    if (linkUrl !== todo.linkUrl) {
-      updatedTodo.linkUrl = linkUrl;
-    }
-
-    if (done !== todo.done) {
-      updatedTodo.done = done;
-    }
-
-    editTodo({
-      todoId: todo.id,
-      todo: updatedTodo,
-    });
 
     handleClose();
   };
