@@ -1,9 +1,13 @@
+/* eslint-disable complexity */
+
 import { NoteDraft } from '@/types/interface';
-import Popup from '@components/Popup';
-import { showToast } from '@components/Toast';
+import usePatchNote from '@hooks/api/notesAPI/usePatchNote';
 import usePostNote from '@hooks/api/notesAPI/usePostNote';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import Popup from '@components/Popup';
+import { showToast } from '@components/Toast';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
 import Header from './components/Header';
@@ -33,6 +37,7 @@ function NewNotePage() {
   const [isLinkEmbedOpen, setIsLinkEmbedOpen] = useState(false);
 
   const { mutate: createNoteMutate } = usePostNote();
+  const { mutate: editNoteMutate } = usePatchNote();
   const navigate = useNavigate();
 
   const noteRef = useRef({
@@ -42,6 +47,7 @@ function NewNotePage() {
     contentWithSpaces: 0,
     contentWithoutSpaces: 0,
   });
+
   useEffect(() => {
     noteRef.current = {
       title,
@@ -52,6 +58,14 @@ function NewNotePage() {
     };
     setIsSubmitEnabled(title.trim().length > 0 && content.trim().length > 0);
   }, [title, content, linkUrl]);
+
+  useEffect(() => {
+    if (prevNote) {
+      setTitleCount(prevNote.title.length);
+      setContentWithSpaces(prevNote.content.length);
+      setContentWithoutSpaces(prevNote.content.replace(/\s/g, '').length);
+    }
+  }, [prevNote]);
 
   const handleChangeLink = (newLink: string) => {
     setLinkUrl(newLink);
@@ -101,6 +115,14 @@ function NewNotePage() {
     }
   };
 
+  const handleDeleteDraft = (deleteId: number) => {
+    const drafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
+    const newDrafts = drafts.filter(
+      (draft: NoteDraft) => draft.todoId !== deleteId,
+    );
+    localStorage.setItem('draft-notes', JSON.stringify(newDrafts));
+  };
+
   const handleCloseDraftNotification = () => {
     setIsDraftExist(false);
   };
@@ -121,7 +143,28 @@ function NewNotePage() {
       },
       {
         onSuccess: () => {
+          handleDeleteDraft(todo.id);
           showToast('노트 작성이 완료되었습니다');
+          navigate(-1);
+        },
+      },
+    );
+  };
+
+  const handleClickEditButton = () => {
+    editNoteMutate(
+      {
+        noteId: todo.noteId,
+        note: {
+          title,
+          content,
+          linkUrl: linkUrl || undefined,
+        },
+      },
+      {
+        onSuccess: () => {
+          handleDeleteDraft(todo.id);
+          showToast('노트 수정이 완료되었습니다');
           navigate(-1);
         },
       },
@@ -160,7 +203,9 @@ function NewNotePage() {
               isEditing={prevNote}
               isSubmitEnabled={isSubmitEnabled}
               onClickDraftButton={handleSaveDraft}
-              onClickSaveButton={handleClickSaveButton}
+              onClickSaveButton={
+                prevNote ? handleClickEditButton : handleClickSaveButton
+              }
             />
             {isDraftExist && (
               <DraftNotification
