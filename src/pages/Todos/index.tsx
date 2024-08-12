@@ -111,7 +111,7 @@ function TodosPage() {
                   다음 할 일을 불러오는 중입니다...
                 </div>
               )}
-              <div ref={ref} className="h-1" />
+              <div ref={ref} />
             </div>
           )}
         </div>
