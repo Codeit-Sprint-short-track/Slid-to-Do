@@ -6,6 +6,7 @@ import Popup from '@components/Popup';
 import { showErrorToast } from '@components/Toast';
 import usePostFile from '@hooks/api/filesAPI/usePostFile';
 import usePostTodo from '@hooks/api/todosAPI/usePostTodo';
+import useOutsideClick from '@hooks/useOutsideClick';
 import useVisibility from '@hooks/useVisibility';
 import { AxiosResponse } from 'axios';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
@@ -110,6 +111,9 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
     }
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  useOutsideClick(modalRef, isOpen ? handleConfirmClose : null);
+
   const isTitleValid = title.length <= 30;
   const canSave = isTitleValid && title.length > 0;
 
@@ -121,6 +125,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
         }`}
       >
         <div
+          ref={modalRef}
           className={`relative flex h-full w-full transform flex-col gap-2.5 bg-white p-6 transition-transform duration-300 tablet:h-auto tablet:w-[520px] tablet:overflow-visible tablet:rounded-xl ${isOpen ? 'translate-y-0' : '-translate-y-10'}`}
         >
           <div className="fixed left-0 right-0 top-0 z-10 flex w-full items-center justify-between bg-white p-6 tablet:static tablet:p-0">

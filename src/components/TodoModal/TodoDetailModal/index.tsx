@@ -7,9 +7,10 @@ import { showErrorToast } from '@components/Toast';
 import usePostFile from '@hooks/api/filesAPI/usePostFile';
 import useDeleteTodo from '@hooks/api/todosAPI/useDeleteTodo';
 import usePatchTodo from '@hooks/api/todosAPI/usePatchTodo';
+import useOutsideClick from '@hooks/useOutsideClick';
 import useVisibility from '@hooks/useVisibility';
 import { AxiosResponse } from 'axios';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import FileLinkSection from '../FileLinkSection';
 import GoalSection from '../GoalSection';
 import StatusSection from '../StatusSection';
@@ -139,6 +140,9 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     }
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  useOutsideClick(modalRef, isOpen ? handleConfirmClose : null);
+
   const isTitleValid = title.length <= 30;
   const canSave = isModified && isTitleValid && title.length > 0;
 
@@ -150,6 +154,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
         }`}
       >
         <div
+          ref={modalRef}
           className={`relative flex h-full w-full transform flex-col gap-2.5 bg-white p-6 transition-transform duration-300 tablet:h-auto tablet:w-[520px] tablet:overflow-visible tablet:rounded-xl ${isOpen ? 'translate-y-0' : '-translate-y-10'}`}
         >
           <div className="fixed left-0 right-0 top-0 z-10 flex w-full items-center justify-between bg-white p-6 tablet:static tablet:p-0">
