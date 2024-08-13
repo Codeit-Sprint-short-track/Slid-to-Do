@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-
 import { NoteDraft } from '@/types/interface';
 import usePatchNote from '@hooks/api/notesAPI/usePatchNote';
 import usePostNote from '@hooks/api/notesAPI/usePostNote';
