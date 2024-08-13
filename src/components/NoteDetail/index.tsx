@@ -31,7 +31,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
 
   const handleClose = () => {
     setIsOpen(false);
-    setTimeout(onClose, 300); // 애니메이션이 끝난 후 onClose 호출
+    setTimeout(onClose, 300);
   };
 
   const handleEditNote = () => {
@@ -46,13 +46,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
       id: noteData?.data.todo.id,
     };
 
-    const note = {
-      title: noteData?.data.title,
-      content: noteData?.data.content,
-      linkUrl: noteData?.data.linkUrl,
-    };
-
-    navigate('/notes/new', { state: { todo, note } });
+    navigate('/notes/new', { state: { todo, isEditing: true } });
   };
 
   const handleDeleteNote = () => {
