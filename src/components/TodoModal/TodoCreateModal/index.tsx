@@ -8,7 +8,7 @@ import usePostFile from '@hooks/api/filesAPI/usePostFile';
 import usePostTodo from '@hooks/api/todosAPI/usePostTodo';
 import useVisibility from '@hooks/useVisibility';
 import { AxiosResponse } from 'axios';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import FileLinkSection from '../FileLinkSection';
 import GoalSection from '../GoalSection';
 import TitleSection from '../TitleSection';
@@ -30,6 +30,14 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
 
   const { mutate: uploadFile } = usePostFile();
   const { mutate: addTodo } = usePostTodo();
+
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen && titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+  }, [isOpen]);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -136,6 +144,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
               title={title}
               onTitleChange={handleTitleChange}
               isTitleValid={isTitleValid}
+              inputRef={titleInputRef}
             />
             <GoalSection goal={goal} onGoalChange={handleGoalChange} />
             <FileLinkSection
