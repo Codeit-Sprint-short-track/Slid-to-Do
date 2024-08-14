@@ -9,6 +9,7 @@ import usePostNote from '@hooks/api/notesAPI/usePostNote';
 import Popup from '@components/Popup';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
+import EmbedLink from './components/EmbedLink';
 import Header from './components/Header';
 import InfoSection from './components/InfoSection';
 import LinkDisplay from './components/LinkDisplay';
@@ -202,18 +203,26 @@ function NewNotePage() {
 
   return (
     <>
-      <div className="flex h-screen items-center justify-center desktop:block">
-        {isLinkEmbedOpen && <iframe src={linkUrl} title="link embed" />}
-        <div className="mx-4 h-screen w-full max-w-[792px] desktop:ml-[360px]">
-          <div className="flex h-screen flex-col bg-white">
-            <Header
-              isEditing={isEditing}
-              isSubmitEnabled={isSubmitEnabled}
-              onClickDraftButton={handleSaveDraft}
-              onClickSaveButton={
-                isEditing ? handleClickEditButton : handleClickSaveButton
-              }
-            />
+      <div
+        className={`flex scroll-pl-4 flex-col items-center justify-center px-4 desktop:flex-row desktop:justify-normal ${isLinkEmbedOpen && 'h-screen desktop:h-auto'}`}
+      >
+        {isLinkEmbedOpen && (
+          <EmbedLink link={linkUrl} onClose={() => setIsLinkEmbedOpen(false)} />
+        )}
+        <div
+          className={`flex w-full max-w-[792px] flex-col bg-white ${!isLinkEmbedOpen ? 'h-screen desktop:ml-[360px]' : 'overflow-auto desktop:ml-8 desktop:h-screen'} `}
+        >
+          {/* <div className="flex h-full flex-col overflow-hidden bg-white"> */}
+          <Header
+            title={title}
+            isEditing={isEditing}
+            isSubmitEnabled={isSubmitEnabled}
+            onClickDraftButton={handleSaveDraft}
+            onClickSaveButton={
+              isEditing ? handleClickEditButton : handleClickSaveButton
+            }
+          />
+          <div className="overflow-y-auto">
             {isDraftExist && (
               <DraftNotification
                 onCloseDraftNotification={handleCloseDraftNotification}
@@ -250,13 +259,14 @@ function NewNotePage() {
               onChangeContent={handleChangeContent}
               onChangeLink={handleChangeLink}
             />
-            {isDraftSaved && (
-              <DraftSavedToast
-                isVisible={isDraftSaved}
-                onHide={() => setIsDraftSaved(false)}
-              />
-            )}
           </div>
+          {isDraftSaved && (
+            <DraftSavedToast
+              isVisible={isDraftSaved}
+              onHide={() => setIsDraftSaved(false)}
+            />
+          )}
+          {/* </div> */}
         </div>
       </div>
 
