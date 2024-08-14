@@ -126,7 +126,7 @@ function MobileSideBarContents({
         {goalData.map((item) => (
           <div
             onClick={() => {
-              navigate('/goal-detail');
+              navigate(`/goal-detail/${item.id}`);
               toggleSideBar();
             }}
             key={item.id}

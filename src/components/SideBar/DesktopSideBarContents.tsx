@@ -107,7 +107,7 @@ function DesktopSideBarContents({
         {goalData.map((item) => (
           <div
             onClick={() => {
-              navigate('/goal-detail');
+              navigate(`/goal-detail/${item.id}`);
               if (width < 1920) toggleSideBar();
             }}
             key={item.id}
