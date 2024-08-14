@@ -135,6 +135,7 @@ function DesktopSideBarContents({
                 if (event.key === 'Enter') {
                   setIsEditing(false);
                   mutate(newGoal);
+                  setNewGoal('');
                 }
               }}
             />
