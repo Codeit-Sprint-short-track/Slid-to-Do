@@ -2,7 +2,6 @@ import { Note } from '@/types/interface';
 import { NoteListIcon } from '@assets';
 import Kebab from '@components/Kebab';
 import NoteDetail from '@components/NoteDetail';
-import { showToast } from '@components/Toast';
 import useDeleteNote from '@hooks/api/notesAPI/useDeleteNote';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -40,11 +39,7 @@ function NoteItem({ noteData }: NoteItemProps) {
   };
 
   const handleDeleteNote = () => {
-    deleteNoteMutate(noteData.id, {
-      onSuccess: () => {
-        showToast('노트가 삭제되었습니다');
-      },
-    });
+    deleteNoteMutate(noteData.id);
   };
 
   return (

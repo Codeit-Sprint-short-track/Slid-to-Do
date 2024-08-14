@@ -2,7 +2,6 @@
 
 import { CircleDeleteIcon, DeleteIcon, FlagIcon } from '@assets';
 import Kebab from '@components/Kebab';
-import { showToast } from '@components/Toast';
 import useDeleteNote from '@hooks/api/notesAPI/useDeleteNote';
 import useGetNote from '@hooks/api/notesAPI/useGetNote';
 import formatDate from '@utils/formatDate';
@@ -50,12 +49,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
   };
 
   const handleDeleteNote = () => {
-    deleteNoteMutate(noteId, {
-      onSuccess: () => {
-        showToast('노트가 삭제되었습니다');
-        handleClose();
-      },
-    });
+    deleteNoteMutate(noteId);
   };
 
   return (

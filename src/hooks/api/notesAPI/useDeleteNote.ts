@@ -1,4 +1,5 @@
 import notesAPI from '@app/api/notesAPI';
+import { showToast } from '@components/Toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const useDeleteNote = () => {
@@ -8,6 +9,9 @@ const useDeleteNote = () => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+    onSuccess: () => {
+      showToast('노트가 삭제되었습니다');
     },
   });
 };
