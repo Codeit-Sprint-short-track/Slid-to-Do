@@ -3,7 +3,7 @@ import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import { VALID_URL_REGEX } from '@constants/regex';
 import useVisibility from '@hooks/useVisibility';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 interface LinkModalProps {
   onCancel: () => void;
@@ -24,6 +24,14 @@ function LinkModal({
     handleClose: handleCancel,
     handleConfirm,
   } = useVisibility(onCancel, () => onConfirm(link));
+
+  const linkInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen && linkInputRef.current) {
+      linkInputRef.current.focus();
+    }
+  }, [isOpen]);
 
   const handleLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -52,6 +60,7 @@ function LinkModal({
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
         isOpen ? 'opacity-100' : 'opacity-0'
       }`}
+      onClick={(e) => e.stopPropagation()}
     >
       <div
         className={`flex h-auto flex-col items-start justify-start gap-2.5 rounded-xl bg-white p-6 transition-transform duration-300 ${
@@ -82,6 +91,7 @@ function LinkModal({
               onChange={handleLinkChange}
               placeholder="링크를 입력해주세요."
               isInvalid={!isValid}
+              ref={linkInputRef}
             />
             {!isValid && (
               <div className="mt-1.5 pl-2 text-sm font-normal leading-tight text-red-500">
