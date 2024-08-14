@@ -7,7 +7,6 @@ import usePatchNote from '@hooks/api/notesAPI/usePatchNote';
 import usePostNote from '@hooks/api/notesAPI/usePostNote';
 
 import Popup from '@components/Popup';
-import { showToast } from '@components/Toast';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
 import Header from './components/Header';
@@ -31,9 +30,7 @@ function NewNotePage() {
   const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
 
-  const { data: noteData } = isEditing
-    ? useGetNote(todo.noteId)
-    : { data: null };
+  const { data: noteData } = useGetNote(todo.noteId, isEditing);
 
   useEffect(() => {
     if (isEditing && noteData) {
@@ -156,7 +153,6 @@ function NewNotePage() {
       {
         onSuccess: () => {
           handleDeleteDraft(todo.id);
-          showToast('노트 작성이 완료되었습니다');
           navigate(-1);
         },
       },
@@ -176,7 +172,6 @@ function NewNotePage() {
       {
         onSuccess: () => {
           handleDeleteDraft(todo.id);
-          showToast('노트 수정이 완료되었습니다');
           navigate(-1);
         },
       },
