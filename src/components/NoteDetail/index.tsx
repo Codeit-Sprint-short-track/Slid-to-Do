@@ -2,7 +2,6 @@
 
 import { DeleteIcon, FlagIcon } from '@assets';
 import Kebab from '@components/Kebab';
-import { showToast } from '@components/Toast';
 import useDeleteNote from '@hooks/api/notesAPI/useDeleteNote';
 import useGetNote from '@hooks/api/notesAPI/useGetNote';
 import formatDate from '@utils/formatDate';
@@ -45,7 +44,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
 
   const handleClose = () => {
     setIsOpen(false);
-    setTimeout(onClose, 300); // 애니메이션이 끝난 후 onClose 호출
+    setTimeout(onClose, 300);
   };
 
   const handleEditNote = () => {
@@ -60,22 +59,11 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
       id: noteData?.data.todo.id,
     };
 
-    const note = {
-      title: noteData?.data.title,
-      content: noteData?.data.content,
-      linkUrl: noteData?.data.linkUrl,
-    };
-
-    navigate('/notes/new', { state: { todo, note } });
+    navigate('/notes/new', { state: { todo, isEditing: true } });
   };
 
   const handleDeleteNote = () => {
-    deleteNoteMutate(noteId, {
-      onSuccess: () => {
-        showToast('노트가 삭제되었습니다');
-        handleClose();
-      },
-    });
+    deleteNoteMutate(noteId);
   };
 
   return (
