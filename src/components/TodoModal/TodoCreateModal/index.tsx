@@ -104,6 +104,8 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
   };
 
   const handleConfirmClose = () => {
+    if (!isOpen) return;
+
     if (title || goal || fileUrl || linkUrl) {
       setIsUnsavedChangesPopupVisible(true);
     } else {
@@ -112,7 +114,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
   };
 
   const modalRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(modalRef, isOpen ? handleConfirmClose : null);
+  useOutsideClick(modalRef, () => handleConfirmClose());
 
   const isTitleValid = title.length <= 30;
   const canSave = isTitleValid && title.length > 0;

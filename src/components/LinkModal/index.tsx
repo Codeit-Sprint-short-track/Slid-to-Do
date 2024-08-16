@@ -2,6 +2,7 @@ import { DeleteIcon } from '@assets';
 import Button from '@components/Button';
 import BaseInput from '@components/Input/BaseInput';
 import { VALID_URL_REGEX } from '@constants/regex';
+import useOutsideClick from '@hooks/useOutsideClick';
 import useVisibility from '@hooks/useVisibility';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
@@ -26,6 +27,7 @@ function LinkModal({
   } = useVisibility(onCancel, () => onConfirm(link));
 
   const linkInputRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen && linkInputRef.current) {
@@ -55,14 +57,27 @@ function LinkModal({
     };
   }, [isValid, link]);
 
+  const handleOutsideClose = () => {
+    if (!isOpen) return;
+
+    handleCancel();
+  };
+
+  useOutsideClick(modalRef, () => handleOutsideClose());
+
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
         isOpen ? 'opacity-100' : 'opacity-0'
       }`}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        if (!fullscreen) {
+          e.stopPropagation();
+        }
+      }}
     >
       <div
+        ref={modalRef}
         className={`flex h-auto flex-col items-start justify-start gap-2.5 rounded-xl bg-white p-6 transition-transform duration-300 ${
           fullscreen
             ? 'tablet:w-[520px] tablet:overflow-auto'
