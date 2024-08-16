@@ -1,5 +1,5 @@
 import { DeleteIcon } from '@assets';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface EmbedLinkProps {
   link: string;
@@ -7,46 +7,50 @@ interface EmbedLinkProps {
 }
 
 const DESKTOP_WIDTH = 1920;
+const MIN_WIDTH = 430;
+const MAX_WIDTH = 750;
+const MIN_HEIGHT = 200;
+const MAX_HEIGHT = 600;
 
 function EmbedLink({ link, onClose }: EmbedLinkProps) {
   const [isResizing, setIsResizing] = useState(false);
-  const [initialPosition, setInitialPosition] = useState(0);
   const [dimension, setDimension] = useState({ width: 700, height: 400 });
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const resizerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsResizing(true);
-    setInitialPosition(
-      window.innerWidth >= DESKTOP_WIDTH ? e.clientX : e.clientY,
-    );
   };
 
   const handleMouseUp = () => {
     setIsResizing(false);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isResizing) {
-      const newValue =
-        windowWidth >= DESKTOP_WIDTH
-          ? e.clientX - initialPosition
-          : e.clientY - initialPosition;
-      setInitialPosition(windowWidth >= DESKTOP_WIDTH ? e.clientX : e.clientY);
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isResizing || !containerRef.current) return;
 
-      if (windowWidth >= DESKTOP_WIDTH) {
-        const newWidth = dimension.width + newValue;
-        if (newWidth >= 430 && newWidth <= 800) {
-          setDimension((prev) => ({ ...prev, width: newWidth }));
-        }
+      const isDesktop = windowWidth >= DESKTOP_WIDTH;
+      const containerRect = containerRef.current.getBoundingClientRect();
+
+      if (isDesktop) {
+        const newWidth = e.clientX - containerRect.left;
+        setDimension((prev) => ({
+          ...prev,
+          width: Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, newWidth)),
+        }));
       } else {
-        const newHeight = dimension.height + newValue;
-        if (newHeight >= 200 && newHeight <= 600) {
-          setDimension((prev) => ({ ...prev, height: newHeight }));
-        }
+        const newHeight = e.clientY - containerRect.top;
+        setDimension((prev) => ({
+          ...prev,
+          height: Math.max(MIN_HEIGHT, Math.min(MAX_HEIGHT, newHeight)),
+        }));
       }
-    }
-  };
+    },
+    [isResizing, windowWidth],
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -64,43 +68,45 @@ function EmbedLink({ link, onClose }: EmbedLinkProps) {
     if (isResizing) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-    } else {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
     }
+
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isResizing, handleMouseMove]);
+  }, [isResizing, handleMouseMove, handleMouseUp]);
 
   return (
-    <div className="flex h-screen flex-col items-center overflow-auto bg-blue-50 desktop:flex-row">
-      <div className="flex h-full w-full flex-col desktop:ml-[280px] desktop:w-auto">
-        <div className="flex w-full justify-end p-2">
+    <div className="flex w-full flex-col items-center overflow-auto border-b-2 border-slate-200 bg-blue-50 px-[-16px] tablet:border-none desktop:h-screen desktop:w-auto desktop:flex-row">
+      <div className="flex h-full w-full max-w-[792px] flex-col desktop:ml-[280px] desktop:w-auto">
+        <div className="flex w-full justify-end bg-white p-2">
           <DeleteIcon
             className="cursor-pointer fill-slate-800"
             onClick={onClose}
           />
         </div>
         <div
-          style={{ width: dimension.width, height: dimension.height }}
-          className="mr-2 flex flex-1 items-center"
+          ref={containerRef}
+          style={{
+            width: windowWidth >= DESKTOP_WIDTH ? dimension.width : '100%',
+            height: windowWidth < DESKTOP_WIDTH ? dimension.height : 'auto',
+          }}
+          className="flex h-[350px] items-center tablet:h-auto desktop:flex-1 desktop:justify-center"
         >
           <iframe
             src={link}
             title="link embed"
             className={`${windowWidth >= DESKTOP_WIDTH ? 'aspect-square w-full' : 'h-full w-full'} `}
-            onError={() => console.log('no')}
           />
         </div>
       </div>
       <div
+        ref={resizerRef}
         className={`${
           windowWidth >= DESKTOP_WIDTH
-            ? 'h-full w-1 cursor-col-resize'
-            : 'h-1 w-full cursor-row-resize'
-        } bg-blue-100 hover:bg-blue-500`}
+            ? 'ml-2 h-full w-1 cursor-col-resize'
+            : 'mt-2 h-1 w-full cursor-row-resize'
+        } hidden bg-blue-100 hover:bg-blue-500 tablet:block`}
         onMouseDown={handleMouseDown}
       />
     </div>

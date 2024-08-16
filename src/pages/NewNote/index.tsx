@@ -204,15 +204,14 @@ function NewNotePage() {
   return (
     <>
       <div
-        className={`flex scroll-pl-4 flex-col items-center justify-center px-4 desktop:flex-row desktop:justify-normal ${isLinkEmbedOpen && 'h-screen desktop:h-auto'}`}
+        className={`flex flex-col items-center px-4 desktop:flex-row desktop:justify-normal ${isLinkEmbedOpen && 'h-screen desktop:h-auto'}`}
       >
         {isLinkEmbedOpen && (
           <EmbedLink link={linkUrl} onClose={() => setIsLinkEmbedOpen(false)} />
         )}
         <div
-          className={`flex w-full max-w-[792px] flex-col bg-white ${!isLinkEmbedOpen ? 'h-screen desktop:ml-[360px]' : 'overflow-auto desktop:ml-8 desktop:h-screen'} `}
+          className={`flex w-full max-w-[792px] flex-col bg-white ${isLinkEmbedOpen ? 'flex-1 overflow-auto desktop:ml-8 desktop:h-screen' : 'h-screen desktop:ml-[360px]'} `}
         >
-          {/* <div className="flex h-full flex-col overflow-hidden bg-white"> */}
           <Header
             title={title}
             isEditing={isEditing}
@@ -222,7 +221,7 @@ function NewNotePage() {
               isEditing ? handleClickEditButton : handleClickSaveButton
             }
           />
-          <div className="overflow-y-auto">
+          <div className="tablet:overflow-y-auto">
             {isDraftExist && (
               <DraftNotification
                 onCloseDraftNotification={handleCloseDraftNotification}
@@ -266,7 +265,6 @@ function NewNotePage() {
               onHide={() => setIsDraftSaved(false)}
             />
           )}
-          {/* </div> */}
         </div>
       </div>
 
