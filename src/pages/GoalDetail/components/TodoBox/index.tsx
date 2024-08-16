@@ -23,6 +23,7 @@ type Page = {
 interface TodoBoxProps {
   title: 'To do' | 'Done';
   placeholder: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   todos: any;
   fetchNextPage: () => void;
   hasNextPage: boolean;
