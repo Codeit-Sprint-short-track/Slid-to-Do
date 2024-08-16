@@ -1,6 +1,7 @@
 import { FlagIcon } from '@assets';
 import Kebab from '@components/Kebab';
 import Popup from '@components/Popup';
+import routes from '@constants/routes';
 import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import useGetGoal from '@hooks/api/goalsAPI/useGetGoal';
 import usePatchGoal from '@hooks/api/goalsAPI/usePatchGoal';
@@ -47,7 +48,7 @@ function GoalBox({ goalId }: GoalBoxProps) {
   const handleDelete = () => {
     deleteGoalMutate(goalId, {
       onSuccess: () => {
-        navigate('/dashboard');
+        navigate(routes.dashboard);
       },
     });
   };

@@ -1,5 +1,6 @@
 import { ArrowRightIcon, PlusIcon } from '@assets';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
+import routes from '@constants/routes';
 import useGetProgress from '@hooks/api/todosAPI/useGetProgress';
 import useGetTodos from '@hooks/api/todosAPI/useGetTodos';
 import useWindowWidth from '@hooks/useWindowWidth';
@@ -69,7 +70,7 @@ function TodosByGoalBox({ id, title }: TodosByGoalProps) {
         >
           <div className="flex items-center justify-between">
             <Link
-              to={`/goal-detail/${id}`}
+              to={`${routes.goalDetail}/${id}`}
               className="flex items-center gap-[2px]"
             >
               <div className="text-lg font-bold leading-7 text-slate-800">
