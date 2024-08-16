@@ -51,7 +51,11 @@ function TodosByGoalBox({ id, title }: TodosByGoalProps) {
     setIsDonesMoreThanFive(donesTotalCount >= 5);
   }, [todosTotalCount, donesTotalCount]);
 
-  const height = windowWidth >= 744 ? 300 : 430;
+  const height = windowWidth >= 744 ? 300 : 450;
+  const expandedHeight =
+    windowWidth >= 744
+      ? Math.min(600, 190 + Math.max(todosTotalCount, donesTotalCount) * 29)
+      : 600;
 
   return (
     <>
@@ -59,7 +63,9 @@ function TodosByGoalBox({ id, title }: TodosByGoalProps) {
       <div className="relative mt-4">
         <div
           className={`transition-height flex w-full flex-col overflow-y-auto rounded-[32px] bg-blue-50 p-6 duration-300 ease-in-out first:mt-0 ${(isDonesMoreThanFive || isTodosMoreThanFive) && 'pb-12'}`}
-          style={{ height: isToggleOpen ? `600px` : `${height}px` }}
+          style={{
+            height: isToggleOpen ? `${expandedHeight}px` : `${height}px`,
+          }}
         >
           <div className="flex items-center justify-between">
             <Link
