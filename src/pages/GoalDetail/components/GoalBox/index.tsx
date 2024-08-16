@@ -9,7 +9,11 @@ import ProgressBar from '@ramonak/react-progress-bar';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function GoalBox({ goalId }: { goalId: number }) {
+interface GoalBoxProps {
+  goalId: number;
+}
+
+function GoalBox({ goalId }: GoalBoxProps) {
   const navigate = useNavigate();
   const { data: progressData } = useGetProgress(goalId);
   const { data: goalData } = useGetGoal(goalId);
