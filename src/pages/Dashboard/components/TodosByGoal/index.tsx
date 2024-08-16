@@ -13,7 +13,7 @@ function TodosByGoal() {
     hasNextPage,
   } = useGetGoals();
   const goalsData = goalsInfo?.pages || [];
-  const { totalCount } = goalsData[0]?.data || 0;
+  const totalCount = goalsData[0]?.data?.totalCount ?? 0;
   let content;
 
   if (isLoading) {
