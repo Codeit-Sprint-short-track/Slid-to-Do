@@ -9,10 +9,10 @@ import usePostNote from '@hooks/api/notesAPI/usePostNote';
 import Popup from '@components/Popup';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
-import EmbedLink from './components/EmbedLink';
 import Header from './components/Header';
 import InfoSection from './components/InfoSection';
 import LinkDisplay from './components/LinkDisplay';
+import LinkEmbed from './components/LinkEmbed';
 import TextEditor from './components/TextEditor';
 import TitleInput from './components/TitleInput';
 
@@ -207,7 +207,7 @@ function NewNotePage() {
         className={`flex flex-col items-center px-4 desktop:flex-row desktop:justify-normal ${isLinkEmbedOpen && 'h-screen desktop:h-auto'}`}
       >
         {isLinkEmbedOpen && (
-          <EmbedLink link={linkUrl} onClose={() => setIsLinkEmbedOpen(false)} />
+          <LinkEmbed link={linkUrl} onClose={() => setIsLinkEmbedOpen(false)} />
         )}
         <div
           className={`flex w-full max-w-[792px] flex-col bg-white ${isLinkEmbedOpen ? 'flex-1 overflow-auto desktop:ml-8 desktop:h-screen' : 'h-screen desktop:ml-[360px]'} `}

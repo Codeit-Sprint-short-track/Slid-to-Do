@@ -12,7 +12,7 @@ const MAX_WIDTH = 750;
 const MIN_HEIGHT = 200;
 const MAX_HEIGHT = 600;
 
-function EmbedLink({ link, onClose }: EmbedLinkProps) {
+function LinkEmbed({ link, onClose }: EmbedLinkProps) {
   const [isResizing, setIsResizing] = useState(false);
   const [dimension, setDimension] = useState({ width: 700, height: 400 });
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -113,4 +113,4 @@ function EmbedLink({ link, onClose }: EmbedLinkProps) {
   );
 }
 
-export default EmbedLink;
+export default LinkEmbed;
