@@ -15,7 +15,7 @@ const MAX_HEIGHT = 600;
 function LinkEmbed({ link, onClose }: EmbedLinkProps) {
   const [isResizing, setIsResizing] = useState(false);
   const [dimension, setDimension] = useState({ width: 700, height: 400 });
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(() => window.innerWidth);
   const resizerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
