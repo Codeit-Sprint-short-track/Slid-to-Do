@@ -1,30 +1,18 @@
 import SideBar from '@components/SideBar';
-import useApiError from '@hooks/api/useApiError';
-import {
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-function App() {
-  const { handleError } = useApiError();
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      mutations: {
-        onError: handleError,
-      },
-      queries: {
-        retry: false,
-      },
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
     },
-    queryCache: new QueryCache({
-      onError: handleError,
-    }),
-  });
+  },
+});
+
+function App() {
   const { pathname } = useLocation();
 
   const bgColor =
