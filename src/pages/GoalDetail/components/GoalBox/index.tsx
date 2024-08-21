@@ -1,4 +1,4 @@
-import { FlagIcon } from '@assets';
+import FlagBoxIcon from '@components/FlagBoxIcon';
 import Kebab from '@components/Kebab';
 import Popup from '@components/Popup';
 import routes from '@constants/routes';
@@ -71,9 +71,7 @@ function GoalBox({ goalId }: GoalBoxProps) {
       <div className="flex flex-col rounded-xl border-[1px] border-slate-100 bg-white px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[15px] bg-slate-800">
-              <FlagIcon width={24} height={24} fill="white" />
-            </div>
+            <FlagBoxIcon />
             {isEditing ? (
               <input
                 className="rounded-md border border-slate-300 px-2 py-1 font-semibold leading-6 tablet:text-lg tablet:leading-7"
