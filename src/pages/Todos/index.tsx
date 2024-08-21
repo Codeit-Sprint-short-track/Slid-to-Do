@@ -48,10 +48,14 @@ function TodosPage() {
 
   const todos = data?.pages.flatMap((page) => page.data.todos) || [];
 
-  const tagManagerArgs = {
-    dataLayer: {
-      event: 'click_add_todo',
-    },
+  const addTodoClicked = () => {
+    const addTodoClickedArgs = {
+      dataLayer: {
+        event: 'click_add_todo',
+      },
+    };
+
+    TagManager.dataLayer(addTodoClickedArgs);
   };
 
   return (
@@ -64,7 +68,7 @@ function TodosPage() {
           className="inline-flex cursor-pointer items-center justify-start gap-1 self-stretch"
           onClick={() => {
             setIsTodoCreateModalVisible(true);
-            TagManager.dataLayer(tagManagerArgs);
+            addTodoClicked();
           }}
         >
           <PlusBlueIcon className="relative h-4 w-4" />
