@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect } from 'react';
+import TagManager from 'react-gtm-module';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 function App() {
@@ -49,6 +50,12 @@ function App() {
   useEffect(() => {
     document.body.style.backgroundColor = bgColor;
   }, [bgColor]);
+
+  useEffect(() => {
+    if (process.env.REACT_APP_GTM_ID) {
+      TagManager.initialize({ gtmId: process.env.REACT_APP_GTM_ID });
+    }
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
