@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { NoteDraft } from '@/types/interface';
+import { TAG_REGEX } from '@constants/regex';
 import useGetNote from '@hooks/api/notesAPI/useGetNote';
 import usePatchNote from '@hooks/api/notesAPI/usePatchNote';
 import usePostNote from '@hooks/api/notesAPI/usePostNote';
 
 import Popup from '@components/Popup';
-import { TAG_REGEX } from '@constants/regex';
+import useDraft from '@hooks/useDraft';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
 import Header from './components/Header';
@@ -28,7 +28,6 @@ function NewNotePage() {
   const [content, setContent] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
 
-  const titleCount = title.length;
   const [contentWithSpaces, setContentWithSpaces] = useState(0);
   const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
   const contentText = content.replace(TAG_REGEX, '');
@@ -53,11 +52,18 @@ function NewNotePage() {
     }
   }, [isEditing, noteData]);
 
-  const [isDraftExist, setIsDraftExist] = useState(false);
   const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
-  const [draftTitle, setDraftTitle] = useState('');
   const [isDraftSaved, setIsDraftSaved] = useState(false);
   const [isLinkEmbedOpen, setIsLinkEmbedOpen] = useState(false);
+
+  const {
+    draftTitle,
+    isDraftExist,
+    closeDraftNotification,
+    saveDraft,
+    getDraft,
+    deleteDraft,
+  } = useDraft(todo.id);
 
   const { mutate: createNoteMutate } = usePostNote();
   const { mutate: editNoteMutate } = usePatchNote();
@@ -101,22 +107,13 @@ function NewNotePage() {
   const handleSaveDraft = () => {
     const note = { todoId: todo.id, ...noteRef.current };
 
-    const prevDrafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
-
-    const newDrafts = [
-      note,
-      ...prevDrafts.filter((draft: NoteDraft) => draft.todoId !== todo.id),
-    ];
-    localStorage.setItem('draft-notes', JSON.stringify(newDrafts));
+    saveDraft(note);
 
     setIsDraftSaved(true);
   };
 
   const handleGetDraft = () => {
-    const drafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
-    const currentDraft = drafts.find(
-      (draft: NoteDraft) => draft.todoId === todo.id,
-    );
+    const currentDraft = getDraft();
 
     if (currentDraft) {
       setTitle(currentDraft.title);
@@ -127,16 +124,8 @@ function NewNotePage() {
     }
   };
 
-  const handleDeleteDraft = (deleteId: number) => {
-    const drafts = JSON.parse(localStorage.getItem('draft-notes') || '[]');
-    const newDrafts = drafts.filter(
-      (draft: NoteDraft) => draft.todoId !== deleteId,
-    );
-    localStorage.setItem('draft-notes', JSON.stringify(newDrafts));
-  };
-
-  const handleCloseDraftNotification = () => {
-    setIsDraftExist(false);
+  const handleDeleteDraft = () => {
+    deleteDraft();
   };
 
   const handleOpenDraftModal = (value: boolean) => {
@@ -155,7 +144,7 @@ function NewNotePage() {
       },
       {
         onSuccess: () => {
-          handleDeleteDraft(todo.id);
+          handleDeleteDraft();
           navigate(-1);
         },
       },
@@ -174,7 +163,7 @@ function NewNotePage() {
       },
       {
         onSuccess: () => {
-          handleDeleteDraft(todo.id);
+          handleDeleteDraft();
           navigate(-1);
         },
       },
@@ -182,19 +171,6 @@ function NewNotePage() {
   };
 
   useEffect(() => {
-    const drafts = localStorage.getItem('draft-notes');
-
-    // 임시 저장 불러올 때 제목을 보여주기 위함
-    if (drafts) {
-      const currentDraft = JSON.parse(drafts).find(
-        (draft: NoteDraft) => draft.todoId === todo.id,
-      );
-      if (currentDraft) {
-        setIsDraftExist(true);
-        setDraftTitle(currentDraft.title);
-      }
-    }
-
     // 5분마다 저장하기 위함
     const interval = setInterval(() => {
       handleSaveDraft();
@@ -226,7 +202,7 @@ function NewNotePage() {
           <div className="tablet:overflow-y-auto">
             {isDraftExist && (
               <DraftNotification
-                onCloseDraftNotification={handleCloseDraftNotification}
+                onCloseDraftNotification={closeDraftNotification}
                 onOpenDraftModal={handleOpenDraftModal}
               />
             )}
@@ -238,7 +214,6 @@ function NewNotePage() {
             <TitleInput
               title={title}
               onChange={handleChangeTitle}
-              titleCount={titleCount}
               maxLength={TITLE_MAX_LENGTH}
             />
             <div className="mb-2 mt-3 text-xs font-medium text-slate-800">
@@ -278,7 +253,7 @@ function NewNotePage() {
           onConfirm={() => {
             handleGetDraft();
             handleOpenDraftModal(false);
-            handleCloseDraftNotification();
+            closeDraftNotification();
           }}
         />
       )}
