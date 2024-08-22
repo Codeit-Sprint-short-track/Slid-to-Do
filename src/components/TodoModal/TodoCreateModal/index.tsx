@@ -106,7 +106,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
   const handleConfirmClose = () => {
     if (!isOpen) return;
 
-    if (title || goal || fileUrl || linkUrl) {
+    if (title || fileUrl || linkUrl) {
       setIsUnsavedChangesPopupVisible(true);
     } else {
       handleClose();
