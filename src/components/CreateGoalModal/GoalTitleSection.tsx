@@ -1,11 +1,11 @@
 import BaseInput from '@components/Input/BaseInput';
-import { ChangeEvent, RefObject } from 'react';
+import { ChangeEvent, KeyboardEvent, RefObject } from 'react';
 
 interface GoalTitleSectionProps {
   title: string;
   onTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   inputRef?: RefObject<HTMLInputElement>;
-  onKeyPress: any;
+  onKeyPress: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 function GoalTitleSection({
