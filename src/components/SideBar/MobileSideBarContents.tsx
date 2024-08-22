@@ -124,24 +124,6 @@ function MobileSideBarContents({
         </Button>
       </div>
       <ul>
-        {goalData.map((item) => (
-          <div
-            onClick={() => {
-              navigate(`${routes.goalDetail}/${item.id}`);
-              toggleSideBar();
-            }}
-            key={item.id}
-          >
-            <li className="cursor-pointer p-2 text-sm font-medium text-slate-700">
-              • {item.title}
-            </li>
-          </div>
-        ))}
-        {isPending && (
-          <li className="p-2 text-sm font-medium text-slate-700">
-            • {newGoal}
-          </li>
-        )}
         {isEditing && (
           <li className="flex items-center p-2 text-sm font-medium text-slate-700">
             <span>•</span>
@@ -161,6 +143,24 @@ function MobileSideBarContents({
             />
           </li>
         )}
+        {isPending && (
+          <li className="p-2 text-sm font-medium text-slate-700">
+            • {newGoal}
+          </li>
+        )}
+        {goalData.map((item) => (
+          <div
+            onClick={() => {
+              navigate(`${routes.goalDetail}/${item.id}`);
+              toggleSideBar();
+            }}
+            key={item.id}
+          >
+            <li className="cursor-pointer p-2 text-sm font-medium text-slate-700">
+              • {item.title}
+            </li>
+          </div>
+        ))}
       </ul>
     </div>
   );
