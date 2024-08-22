@@ -8,6 +8,7 @@ import usePostNote from '@hooks/api/notesAPI/usePostNote';
 
 import Popup from '@components/Popup';
 import useDraft from '@hooks/useDraft';
+import countHtmlCharacters from '@utils/countHtmlCharacters';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
 import Header from './components/Header';
@@ -30,10 +31,10 @@ function NewNotePage() {
 
   const [contentWithSpaces, setContentWithSpaces] = useState(0);
   const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
+
   const contentText = content.replace(TAG_REGEX, '');
 
-  const isSubmitEnabled =
-    title.trim().length > 0 && contentText.trim().length > 0;
+  const isSubmitEnabled = title.trim().length > 0 && contentText.length > 0;
 
   const { data: noteData } = useGetNote(todo.noteId, isEditing);
 
@@ -42,13 +43,13 @@ function NewNotePage() {
       const prevTitle = noteData?.data.title;
       const prevContent = noteData?.data.content;
       const prevLinkUrl = noteData?.data.linkUrl;
-      const prevContentText = prevContent.replace(TAG_REGEX, '');
+      const { withSpaces, withoutSpaces } = countHtmlCharacters(prevContent);
 
       setTitle(prevTitle);
       setContent(prevContent);
       setLinkUrl(prevLinkUrl);
-      setContentWithSpaces(prevContentText.length);
-      setContentWithoutSpaces(prevContentText.replace(/\s/g, '').length);
+      setContentWithSpaces(withSpaces);
+      setContentWithoutSpaces(withoutSpaces);
     }
   }, [isEditing, noteData]);
 
