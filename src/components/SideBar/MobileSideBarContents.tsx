@@ -17,6 +17,7 @@ interface MobileSideBarContentsProps {
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
   handleShowTodoModal: () => void;
+  handleShowDeletePopup: (goalId: number) => void;
 }
 
 function MobileSideBarContents({
@@ -24,6 +25,7 @@ function MobileSideBarContents({
   goalData,
   toggleSideBar,
   handleShowTodoModal,
+  handleShowDeletePopup,
 }: MobileSideBarContentsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
@@ -156,8 +158,20 @@ function MobileSideBarContents({
             }}
             key={item.id}
           >
-            <li className="cursor-pointer p-2 text-sm font-medium text-slate-700">
-              • {item.title}
+            <li className="flex cursor-pointer flex-row justify-between p-2 text-sm font-medium text-slate-700">
+              <div>• {item.title}</div>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShowDeletePopup(item.id);
+                }}
+              >
+                <PlusIcon
+                  width={15}
+                  height={15}
+                  className="rotate-45 stroke-slate-400"
+                />
+              </div>
             </li>
           </div>
         ))}

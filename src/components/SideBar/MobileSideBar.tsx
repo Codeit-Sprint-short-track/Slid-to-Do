@@ -1,5 +1,7 @@
 import { FoldIcon, HamburgerIcon } from '@assets';
+import Popup from '@components/Popup';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
+import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import { useState } from 'react';
 import MobileSideBarContents from './MobileSideBarContents';
 
@@ -17,8 +19,22 @@ function MobileSideBar({
   goalData,
 }: MobileSideBarProps) {
   const [showTodoModal, setShowTodoModal] = useState(false);
+  const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
+  const [goalId, setGoalId] = useState<number>(0);
+  const { mutate: deleteGoalMutate } = useDeleteGoal();
   const handleShowTodoModal = () => setShowTodoModal(true);
-
+  const handleShowDeletePopup = (id: number) => {
+    setIsDeletePopupVisible(true);
+    setGoalId(id);
+  };
+  const handleDelete = () => {
+    deleteGoalMutate(goalId, {
+      onSuccess: () => {
+        setIsDeletePopupVisible(false);
+        setGoalId(0);
+      },
+    });
+  };
   return (
     <>
       <div className="h-12 w-full bg-white">
@@ -50,6 +66,7 @@ function MobileSideBar({
             goalData={goalData}
             toggleSideBar={toggleSideBar}
             handleShowTodoModal={handleShowTodoModal}
+            handleShowDeletePopup={handleShowDeletePopup}
           />
         )}
       </div>
@@ -59,6 +76,13 @@ function MobileSideBar({
             setShowTodoModal(false);
             toggleSideBar();
           }}
+        />
+      )}
+      {isDeletePopupVisible && (
+        <Popup
+          message="정말 삭제하시겠어요?"
+          onCancel={() => setIsDeletePopupVisible(false)}
+          onConfirm={handleDelete}
         />
       )}
     </>
