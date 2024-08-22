@@ -7,6 +7,7 @@ import usePatchNote from '@hooks/api/notesAPI/usePatchNote';
 import usePostNote from '@hooks/api/notesAPI/usePostNote';
 
 import Popup from '@components/Popup';
+import { TAG_REGEX } from '@constants/regex';
 import DraftNotification from './components/DraftNotification';
 import DraftSavedToast from './components/DraftSavedToast';
 import Header from './components/Header';
@@ -26,10 +27,14 @@ function NewNotePage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
-  const [titleCount, setTitleCount] = useState(0);
+
+  const titleCount = title.length;
   const [contentWithSpaces, setContentWithSpaces] = useState(0);
   const [contentWithoutSpaces, setContentWithoutSpaces] = useState(0);
-  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+  const contentText = content.replace(TAG_REGEX, '');
+
+  const isSubmitEnabled =
+    title.trim().length > 0 && contentText.trim().length > 0;
 
   const { data: noteData } = useGetNote(todo.noteId, isEditing);
 
@@ -38,13 +43,13 @@ function NewNotePage() {
       const prevTitle = noteData?.data.title;
       const prevContent = noteData?.data.content;
       const prevLinkUrl = noteData?.data.linkUrl;
+      const prevContentText = prevContent.replace(TAG_REGEX, '');
 
       setTitle(prevTitle);
       setContent(prevContent);
       setLinkUrl(prevLinkUrl);
-      setTitleCount(prevTitle.length);
-      setContentWithSpaces(prevContent.length);
-      setContentWithoutSpaces(prevContent.replace(/\s/g, '').length);
+      setContentWithSpaces(prevContentText.length);
+      setContentWithoutSpaces(prevContentText.replace(/\s/g, '').length);
     }
   }, [isEditing, noteData]);
 
@@ -74,7 +79,6 @@ function NewNotePage() {
       contentWithSpaces,
       contentWithoutSpaces,
     };
-    setIsSubmitEnabled(title.trim().length > 0 && content.trim().length > 0);
   }, [title, content, linkUrl]);
 
   const handleChangeLink = (newLink: string) => {
@@ -85,7 +89,6 @@ function NewNotePage() {
     const { value: newTitle } = e.target;
     if (newTitle.length <= TITLE_MAX_LENGTH) {
       setTitle(newTitle);
-      setTitleCount(newTitle.length);
     }
   };
 
@@ -119,7 +122,6 @@ function NewNotePage() {
       setTitle(currentDraft.title);
       setContent(currentDraft.content);
       setLinkUrl(currentDraft.linkUrl);
-      setTitleCount(currentDraft.title.length);
       setContentWithSpaces(currentDraft.contentWithSpaces);
       setContentWithoutSpaces(currentDraft.contentWithoutSpaces);
     }
