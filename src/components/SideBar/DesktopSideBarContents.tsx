@@ -100,29 +100,26 @@ function DesktopSideBarContents({
         <div className="ml-2 text-lg font-medium text-slate-800">대시보드</div>
       </div>
       <div className="absolute left-0 w-full border-b-[1px]"> </div>
-      <div className="my-4 mt-8 flex h-8 flex-row items-center">
-        <FlagIcon width={24} height={24} fill="#1E293B" />
-        <div className="ml-2 text-lg font-medium text-slate-800">목표</div>
+      <div className="my-4 mt-8 flex h-8 flex-row items-center justify-between">
+        <div className="flex flex-row">
+          <FlagIcon width={24} height={24} fill="#1E293B" />
+          <div className="ml-2 text-lg font-medium text-slate-800">목표</div>
+        </div>
+        <Button
+          shape="outlined"
+          size="xs"
+          onClick={handleAddGoalBtn}
+          disabled={isEditing}
+        >
+          <PlusIcon
+            width={20}
+            height={20}
+            className={`${isEditing ? 'stroke-slate-400' : 'stroke-blue-500'}`}
+          />
+          <span className="mr-2 text-sm font-semibold">새 목표</span>
+        </Button>
       </div>
       <ul>
-        {goalData.map((item) => (
-          <div
-            onClick={() => {
-              navigate(`${routes.goalDetail}/${item.id}`);
-              if (width < 1920) toggleSideBar();
-            }}
-            key={item.id}
-          >
-            <li className="cursor-pointer p-2 text-sm font-medium text-slate-700">
-              • {item.title}
-            </li>
-          </div>
-        ))}
-        {isPending && (
-          <li className="p-2 text-sm font-medium text-slate-700">
-            • {newGoal}
-          </li>
-        )}
         {isEditing && (
           <li className="flex items-center p-2 text-sm font-medium text-slate-700">
             <span>•</span>
@@ -142,24 +139,25 @@ function DesktopSideBarContents({
             />
           </li>
         )}
+        {isPending && (
+          <li className="p-2 text-sm font-medium text-slate-700">
+            • {newGoal}
+          </li>
+        )}
+        {goalData.map((item) => (
+          <div
+            onClick={() => {
+              navigate(`${routes.goalDetail}/${item.id}`);
+              if (width < 1920) toggleSideBar();
+            }}
+            key={item.id}
+          >
+            <li className="cursor-pointer p-2 text-sm font-medium text-slate-700">
+              • {item.title}
+            </li>
+          </div>
+        ))}
       </ul>
-
-      <div className="mt-6 flex justify-center">
-        <Button
-          shape="outlined"
-          size="sm"
-          additionalClass="w-full"
-          onClick={handleAddGoalBtn}
-          disabled={isEditing}
-        >
-          <PlusIcon
-            width={24}
-            height={24}
-            className={`mr-2 ${isEditing ? 'stroke-slate-400' : 'stroke-blue-500'}`}
-          />
-          <span className="mr-2 text-base font-semibold">새 목표</span>
-        </Button>
-      </div>
     </div>
   );
 }
