@@ -142,6 +142,18 @@ function DesktopSideBarContents({
                   }
                 }}
               />
+              <Button
+                shape="solid"
+                size="xs"
+                onClick={() => {
+                  setIsEditing(false);
+                  mutate(newGoal);
+                  setNewGoal('');
+                }}
+                additionalClass="w-6 h-6 ml-2"
+              >
+                <PlusIcon width={16} height={16} className="stroke-white" />
+              </Button>
             </li>
           )}
           {isPending && (
