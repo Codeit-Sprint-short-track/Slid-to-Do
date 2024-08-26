@@ -142,10 +142,10 @@ function TodoItem({
       {isModalOpen && (
         <TodoDetailModal todo={todo} onClose={() => setIsModalOpen(false)} />
       )}
-      {isNoteDetailOpen && (
+      {isNoteDetailOpen && todo.noteId && (
         <NoteDetail
           onClose={() => setIsNoteDetailOpen(false)}
-          noteId={todo.noteId ? todo.noteId : 0}
+          noteId={todo.noteId}
         />
       )}
     </>
