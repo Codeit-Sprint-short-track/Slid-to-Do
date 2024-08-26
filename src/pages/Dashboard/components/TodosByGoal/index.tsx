@@ -63,6 +63,7 @@ function TodosByGoal() {
             </div>
           </div>
           <button
+            id="add-goal-button-dashboard"
             type="button"
             className="flex items-center"
             onClick={() => setIsModalOpen(true)}
