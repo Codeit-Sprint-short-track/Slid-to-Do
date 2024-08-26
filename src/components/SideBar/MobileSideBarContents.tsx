@@ -139,9 +139,9 @@ function MobileSideBarContents({
               className="ml-1 h-8 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
               placeholder="새 목표를 입력해주세요"
               value={newGoal}
-              onChange={(event) => setNewGoal(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
+              onChange={(e) => setNewGoal(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
                   handleAddPostGoal();
                 }
               }}
