@@ -16,26 +16,33 @@ interface MobileSideBarContentsProps {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  handleShowTodoModal: () => void;
-  handleShowDeletePopup: (goalId: number) => void;
+  onShowTodoModal: () => void;
+  onShowDeletePopup: (goalId: number) => void;
 }
 
 function MobileSideBarContents({
   userData,
   goalData,
   toggleSideBar,
-  handleShowTodoModal,
-  handleShowDeletePopup,
+  onShowTodoModal,
+  onShowDeletePopup,
 }: MobileSideBarContentsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   useOutsideClick(inputRef, () => setIsEditing(false));
+  const { mutate: postMutate, isPending } = usePostGoal();
 
   const handleAddGoalBtn = () => {
     setTimeout(() => setIsEditing(true), 0);
+  };
+
+  const handleAddPostGoal = () => {
+    setIsEditing(false);
+    postMutate(newGoal);
+    setNewGoal('');
   };
 
   useEffect(() => {
@@ -43,8 +50,6 @@ function MobileSideBarContents({
       inputRef.current.focus();
     }
   }, [isEditing]);
-
-  const { mutate, isPending } = usePostGoal();
 
   return (
     <div className="flex-col">
@@ -98,7 +103,7 @@ function MobileSideBarContents({
             대시보드
           </div>
         </div>
-        <Button shape="solid" size="xs" onClick={handleShowTodoModal}>
+        <Button shape="solid" size="xs" onClick={onShowTodoModal}>
           <PlusIcon width={16} height={16} className="stroke-white" />
           <span className="ml-0.5 text-sm font-semibold">새 할 일</span>
         </Button>
@@ -134,12 +139,10 @@ function MobileSideBarContents({
               className="ml-1 h-8 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
               placeholder="새 목표를 입력해주세요"
               value={newGoal}
-              onChange={(e) => setNewGoal(e.target.value)}
+              onChange={(event) => setNewGoal(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') {
-                  setIsEditing(false);
-                  mutate(newGoal);
-                  setNewGoal('');
+                  handleAddPostGoal();
                 }
               }}
             />
@@ -147,11 +150,7 @@ function MobileSideBarContents({
             <Button
               shape="solid"
               size="xs"
-              onClick={() => {
-                setIsEditing(false);
-                mutate(newGoal);
-                setNewGoal('');
-              }}
+              onClick={handleAddPostGoal}
               additionalClass="w-6 h-6 ml-2"
             >
               <PlusIcon width={16} height={16} className="stroke-white" />
@@ -173,18 +172,15 @@ function MobileSideBarContents({
           >
             <li className="flex cursor-pointer flex-row justify-between p-2 text-sm font-medium text-slate-700">
               <div>• {item.title}</div>
-              <div
+              <PlusIcon
+                width={15}
+                height={15}
+                className="rotate-45 stroke-slate-400"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleShowDeletePopup(item.id);
+                  onShowDeletePopup(item.id);
                 }}
-              >
-                <PlusIcon
-                  width={15}
-                  height={15}
-                  className="rotate-45 stroke-slate-400"
-                />
-              </div>
+              />
             </li>
           </div>
         ))}

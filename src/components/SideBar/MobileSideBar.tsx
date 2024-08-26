@@ -22,8 +22,8 @@ function MobileSideBar({
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [goalId, setGoalId] = useState<number>(0);
   const { mutate: deleteGoalMutate } = useDeleteGoal();
-  const handleShowTodoModal = () => setShowTodoModal(true);
-  const handleShowDeletePopup = (id: number) => {
+  const onShowTodoModal = () => setShowTodoModal(true);
+  const onShowDeletePopup = (id: number) => {
     setIsDeletePopupVisible(true);
     setGoalId(id);
   };
@@ -65,8 +65,8 @@ function MobileSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
-            handleShowTodoModal={handleShowTodoModal}
-            handleShowDeletePopup={handleShowDeletePopup}
+            onShowTodoModal={onShowTodoModal}
+            onShowDeletePopup={onShowDeletePopup}
           />
         )}
       </div>

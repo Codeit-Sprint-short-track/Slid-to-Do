@@ -31,8 +31,8 @@ function DesktopSideBar({
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [goalId, setGoalId] = useState<number>(0);
   const { mutate: deleteGoalMutate } = useDeleteGoal();
-  const handleShowTodoModal = () => setShowTodoModal(true);
-  const handleShowDeletePopup = (id: number) => {
+  const onShowTodoModal = () => setShowTodoModal(true);
+  const onShowDeletePopup = (id: number) => {
     setIsDeletePopupVisible(true);
     setGoalId(id);
   };
@@ -82,8 +82,8 @@ function DesktopSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
-            handleShowTodoModal={handleShowTodoModal}
-            handleShowDeletePopup={handleShowDeletePopup}
+            onShowTodoModal={onShowTodoModal}
+            onShowDeletePopup={onShowDeletePopup}
             width={width}
           />
         )}
