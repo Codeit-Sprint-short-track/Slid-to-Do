@@ -120,4 +120,50 @@ describe('TodoDetailModal hooks and functions', () => {
 
     expect(mockDeleteTodo).toHaveBeenCalledWith(sampleTodo.id);
   });
+
+  test('isModified updates correctly based on changes', () => {
+    const { result } = renderHook(() => useTodoDetail(sampleTodo));
+
+    expect(result.current.isModified).toBe(false);
+
+    act(() => {
+      result.current.setTitle('Updated Title');
+    });
+    expect(result.current.isModified).toBe(true);
+
+    act(() => {
+      result.current.setTitle(sampleTodo.title);
+    });
+    expect(result.current.isModified).toBe(false);
+
+    act(() => {
+      result.current.setGoal({ id: 2, title: 'New Goal' });
+    });
+    expect(result.current.isModified).toBe(true);
+
+    act(() => {
+      result.current.setGoal(sampleTodo.goal);
+    });
+    expect(result.current.isModified).toBe(false);
+
+    act(() => {
+      result.current.setFileUrl('https://new-file.com/file.png');
+    });
+    expect(result.current.isModified).toBe(true);
+
+    act(() => {
+      result.current.setFileUrl(sampleTodo.fileUrl);
+    });
+    expect(result.current.isModified).toBe(false);
+
+    act(() => {
+      result.current.setDone(!sampleTodo.done);
+    });
+    expect(result.current.isModified).toBe(true);
+
+    act(() => {
+      result.current.setDone(sampleTodo.done);
+    });
+    expect(result.current.isModified).toBe(false);
+  });
 });
