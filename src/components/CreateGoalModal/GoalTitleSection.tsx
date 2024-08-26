@@ -26,7 +26,7 @@ function GoalTitleSection({
           size="lg"
           value={title}
           onChange={onTitleChange}
-          placeholder="목표 입력해주세요."
+          placeholder="목표를 입력해주세요."
           onKeyDown={onKeyPress}
           ref={inputRef}
         />
