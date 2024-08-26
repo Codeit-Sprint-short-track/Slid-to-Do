@@ -7,11 +7,11 @@ import useVisibility from '@hooks/useVisibility';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import GoalTitleSection from './GoalTitleSection';
 
-interface TodoCreateModalProps {
+interface CreateGoalModalProps {
   onClose: () => void;
 }
 
-function CreateGoalModal({ onClose }: TodoCreateModalProps) {
+function CreateGoalModal({ onClose }: CreateGoalModalProps) {
   const { isVisible: isOpen, handleClose } = useVisibility(onClose);
   const [title, setTitle] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -43,7 +43,7 @@ function CreateGoalModal({ onClose }: TodoCreateModalProps) {
     }, 300);
   };
 
-  const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && e.nativeEvent.isComposing === false) {
       handleSave();
     }
@@ -95,7 +95,7 @@ function CreateGoalModal({ onClose }: TodoCreateModalProps) {
               title={title}
               onTitleChange={handleTitleChange}
               inputRef={titleInputRef}
-              onKeyPress={onKeyPress}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <div className="fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center gap-x-2 bg-white px-6 py-3 tablet:static tablet:mt-8 tablet:p-0">
