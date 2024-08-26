@@ -1,6 +1,7 @@
 import { Goal, Todo } from '@/types/interface';
 import { DeleteIcon } from '@assets';
 import Button from '@components/Button';
+import CreateGoalModal from '@components/CreateGoalModal';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
 import { showErrorToast } from '@components/Toast';
@@ -38,6 +39,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     setLinkUrl,
   } = useTodoDetail(todo);
 
+  const [isGoalModalVisible, setIsGoalModalVisible] = useState(false);
   const [isLinkModalVisible, setIsLinkModalVisible] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [isUnsavedChangesPopupVisible, setIsUnsavedChangesPopupVisible] =
@@ -57,6 +59,11 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     } else {
       setGoal(null);
     }
+  };
+
+  const handleGoalCreate = (newGoal: Goal) => {
+    setGoal(newGoal);
+    setIsGoalModalVisible(false);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -181,7 +188,11 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
               onTitleChange={handleTitleChange}
               isTitleValid={isTitleValid}
             />
-            <GoalSection goal={goal} onGoalChange={handleGoalChange} />
+            <GoalSection
+              goal={goal}
+              onGoalChange={handleGoalChange}
+              setIsGoalModalVisible={setIsGoalModalVisible}
+            />
             <FileLinkSection
               fileUrl={fileUrl}
               linkUrl={linkUrl}
@@ -212,6 +223,16 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
           </div>
         </div>
       </div>
+      {isGoalModalVisible && (
+        <CreateGoalModal
+          onClose={() => setIsGoalModalVisible(false)}
+          onSave={(newGoal: Goal) => {
+            handleGoalCreate(newGoal);
+            setIsGoalModalVisible(false);
+          }}
+          fullscreen={false}
+        />
+      )}
       {isLinkModalVisible && (
         <LinkModal
           onCancel={() => setIsLinkModalVisible(false)}

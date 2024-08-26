@@ -1,6 +1,7 @@
 import { Goal } from '@/types/interface';
 import { DeleteIcon } from '@assets';
 import Button from '@components/Button';
+import CreateGoalModal from '@components/CreateGoalModal';
 import LinkModal from '@components/LinkModal';
 import Popup from '@components/Popup';
 import { showErrorToast } from '@components/Toast';
@@ -25,6 +26,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
   const [goal, setGoal] = useState<Goal | null>(initialGoal || null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [linkUrl, setLinkUrl] = useState<string | null>(null);
+  const [isGoalModalVisible, setIsGoalModalVisible] = useState(false);
   const [isLinkModalVisible, setIsLinkModalVisible] = useState(false);
   const [isUnsavedChangesPopupVisible, setIsUnsavedChangesPopupVisible] =
     useState(false);
@@ -46,6 +48,11 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
 
   const handleGoalChange = (selectedOption: Goal | null) => {
     setGoal(selectedOption);
+  };
+
+  const handleGoalCreate = (newGoal: Goal) => {
+    setGoal(newGoal);
+    setIsGoalModalVisible(false);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -153,7 +160,11 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
               isTitleValid={isTitleValid}
               inputRef={titleInputRef}
             />
-            <GoalSection goal={goal} onGoalChange={handleGoalChange} />
+            <GoalSection
+              goal={goal}
+              onGoalChange={handleGoalChange}
+              setIsGoalModalVisible={setIsGoalModalVisible}
+            />
             <FileLinkSection
               fileUrl={fileUrl}
               linkUrl={linkUrl}
@@ -177,6 +188,16 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
           </div>
         </div>
       </div>
+      {isGoalModalVisible && (
+        <CreateGoalModal
+          onClose={() => setIsGoalModalVisible(false)}
+          onSave={(newGoal: Goal) => {
+            handleGoalCreate(newGoal);
+            setIsGoalModalVisible(false);
+          }}
+          fullscreen={false}
+        />
+      )}
       {isLinkModalVisible && (
         <LinkModal
           onCancel={() => setIsLinkModalVisible(false)}
