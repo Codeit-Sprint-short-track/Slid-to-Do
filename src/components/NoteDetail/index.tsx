@@ -24,7 +24,7 @@ function NoteDetail({ onClose, noteId }: NoteDetailProps) {
 
   useEffect(() => {
     if (noteData) {
-      // 애니메이션 효과를 위해 일정 시간 후에 isOpen을 true로 변경 (안그러면 애니메이션이 제대로 적용이 안됨)
+      // 애니메이션 효과를 위해 일정 시간 후에 isOpen을 true로 변경
       setTimeout(() => setIsOpen(true), 10);
     }
   }, [noteData]);
