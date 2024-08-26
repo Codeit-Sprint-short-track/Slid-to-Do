@@ -26,6 +26,7 @@ function CreateGoalModal({
     useState(false);
 
   const { mutate: createGoal } = usePostGoal();
+
   const titleInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -39,9 +40,12 @@ function CreateGoalModal({
   };
 
   const handleSave = () => {
-    if (isSaving || title.trim().length === 0) return;
+    if (isSaving) return;
 
     setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+    }, 300);
 
     /* eslint-disable no-shadow */
     createGoal(title, {
@@ -52,9 +56,6 @@ function CreateGoalModal({
         }
 
         handleClose();
-      },
-      onSettled: () => {
-        setIsSaving(false);
       },
     });
   };
@@ -68,7 +69,7 @@ function CreateGoalModal({
   const handleConfirmClose = () => {
     if (!isOpen) return;
 
-    if (title) {
+    if (title && fullscreen) {
       setIsUnsavedChangesPopupVisible(true);
     } else {
       handleClose();
@@ -76,9 +77,9 @@ function CreateGoalModal({
   };
 
   const modalRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(modalRef, handleConfirmClose);
+  useOutsideClick(modalRef, () => handleConfirmClose());
 
-  const canSave = title.trim().length > 0;
+  const canSave = title.length > 0;
 
   return (
     <>
