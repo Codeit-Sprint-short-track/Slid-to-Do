@@ -69,7 +69,7 @@ function TodosByGoal() {
             onClick={() => setIsModalOpen(true)}
           >
             <PlusIcon width={24} height={24} className="mr-1 stroke-blue-500" />
-            <span className="mr-1 text-lg font-semibold text-blue-500">
+            <span className="mr-1 text-base font-semibold text-blue-500 desktop:text-lg">
               새 목표
             </span>
           </button>
