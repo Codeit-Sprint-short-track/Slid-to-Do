@@ -1,7 +1,12 @@
 import { Todo } from '@/types/interface';
-import { renderHook } from '@testing-library/react';
-import { act, ChangeEvent } from 'react';
+import useDeleteTodo from '@hooks/api/todosAPI/useDeleteTodo';
+import usePatchTodo from '@hooks/api/todosAPI/usePatchTodo';
+import { act, renderHook } from '@testing-library/react';
+import { ChangeEvent } from 'react';
 import useTodoDetail from './useTodoDetail';
+
+jest.mock('@hooks/api/todosAPI/useDeleteTodo');
+jest.mock('@hooks/api/todosAPI/usePatchTodo');
 
 describe('TodoDetailModal hooks and functions', () => {
   const sampleTodo: Todo = {
@@ -17,6 +22,14 @@ describe('TodoDetailModal hooks and functions', () => {
     createdAt: '2023-01-01T00:00:00Z',
     updatedAt: '2023-01-01T00:00:00Z',
   };
+
+  const mockPatchTodo = jest.fn();
+  const mockDeleteTodo = jest.fn();
+
+  beforeEach(() => {
+    (usePatchTodo as jest.Mock).mockReturnValue({ mutate: mockPatchTodo });
+    (useDeleteTodo as jest.Mock).mockReturnValue({ mutate: mockDeleteTodo });
+  });
 
   test('handleTitleChange updates the title state', () => {
     const { result } = renderHook(() => useTodoDetail(sampleTodo));
@@ -58,7 +71,7 @@ describe('TodoDetailModal hooks and functions', () => {
     expect(result.current.done).toBe(false);
   });
 
-  test('handleSave updates the todo correctly', () => {
+  test('handleSave calls editTodo API correctly', () => {
     const { result } = renderHook(() => useTodoDetail(sampleTodo));
 
     act(() => {
@@ -70,32 +83,41 @@ describe('TodoDetailModal hooks and functions', () => {
     });
 
     const updatedTodo = {
-      title:
-        result.current.title !== sampleTodo.title
-          ? result.current.title
-          : undefined,
-      goalId:
-        result.current.goal?.id !== sampleTodo.goal?.id
-          ? result.current.goal?.id
-          : undefined,
-      fileUrl:
-        result.current.fileUrl !== sampleTodo.fileUrl
-          ? result.current.fileUrl
-          : undefined,
-      linkUrl:
-        result.current.linkUrl !== sampleTodo.linkUrl
-          ? result.current.linkUrl
-          : undefined,
-      done:
-        result.current.done !== sampleTodo.done
-          ? result.current.done
-          : undefined,
+      ...(result.current.title !== sampleTodo.title && {
+        title: result.current.title,
+      }),
+      ...(result.current.goal?.id !== sampleTodo.goal?.id && {
+        goalId: result.current.goal?.id ?? null,
+      }),
+      ...(result.current.fileUrl !== sampleTodo.fileUrl && {
+        fileUrl: result.current.fileUrl,
+      }),
+      ...(result.current.linkUrl !== sampleTodo.linkUrl && {
+        linkUrl: result.current.linkUrl,
+      }),
+      ...(result.current.done !== sampleTodo.done && {
+        done: result.current.done,
+      }),
     };
 
-    expect(updatedTodo.title).toBe('Updated Title');
-    expect(updatedTodo.goalId).toBe(2);
-    expect(updatedTodo.fileUrl).toBe('https://new-file.com/file.png');
-    expect(updatedTodo.linkUrl).toBe('https://new-link.com');
-    expect(updatedTodo.done).toBe(true);
+    act(() => {
+      mockPatchTodo({
+        todoId: sampleTodo.id,
+        todo: updatedTodo,
+      });
+    });
+
+    expect(mockPatchTodo).toHaveBeenCalledWith({
+      todoId: sampleTodo.id,
+      todo: updatedTodo,
+    });
+  });
+
+  test('handleDelete calls removeTodo API correctly', () => {
+    act(() => {
+      mockDeleteTodo(sampleTodo.id);
+    });
+
+    expect(mockDeleteTodo).toHaveBeenCalledWith(sampleTodo.id);
   });
 });

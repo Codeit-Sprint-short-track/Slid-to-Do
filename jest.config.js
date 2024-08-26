@@ -13,4 +13,10 @@ module.exports = {
       tsconfig: 'tsconfig.json',
     },
   },
+  moduleNameMapper: {
+    '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
+    '^@/api/(.*)$': '<rootDir>/src/app/api/$1',
+    '^@components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/types/(.*)$': '<rootDir>/src/types/$1',
+  },
 };
