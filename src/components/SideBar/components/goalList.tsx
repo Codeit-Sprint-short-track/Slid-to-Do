@@ -37,7 +37,7 @@ export default function GoalList({
           <span>•</span>
           <input
             ref={inputRef}
-            className="ml-1 h-8 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
+            className="ml-1 h-6 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
             placeholder="새 목표를 입력해주세요"
             value={newGoal}
             onChange={(e) => setNewGoal(e.target.value)}
@@ -51,7 +51,7 @@ export default function GoalList({
             shape="solid"
             size="xs"
             onClick={handleAddPostGoal}
-            additionalClass="w-6 h-6 ml-2"
+            additionalClass="w-max h-max ml-2"
           >
             <PlusIcon width={16} height={16} className="stroke-white" />
           </Button>
