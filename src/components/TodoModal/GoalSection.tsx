@@ -5,13 +5,13 @@ import Dropdown from './Dropdown';
 interface GoalSectionProps {
   goal: Goal | null;
   onGoalChange: (selectedOption: Goal | null) => void;
-  setIsGoalModalVisible: (visible: boolean) => void;
+  onGoalModalOpen: () => void;
 }
 
 function GoalSection({
   goal,
   onGoalChange,
-  setIsGoalModalVisible,
+  onGoalModalOpen,
 }: GoalSectionProps) {
   return (
     <div className="flex flex-col items-start justify-start gap-3 self-stretch">
@@ -21,7 +21,7 @@ function GoalSection({
         </div>
         <div
           className="inline-flex cursor-pointer items-center gap-1 text-gray-500"
-          onClick={() => setIsGoalModalVisible(true)}
+          onClick={onGoalModalOpen}
         >
           <PlusIcon className="h-4 w-4 stroke-gray-500" />
           <span className="mt-0.5 text-sm font-semibold">새 목표</span>

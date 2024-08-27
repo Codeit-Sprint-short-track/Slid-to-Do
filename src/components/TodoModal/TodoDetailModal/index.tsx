@@ -61,6 +61,10 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
     }
   };
 
+  const handleGoalModalOpen = () => {
+    setIsGoalModalVisible(true);
+  };
+
   const handleGoalCreate = (newGoal: Goal) => {
     setGoal(newGoal);
     setIsGoalModalVisible(false);
@@ -93,6 +97,10 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
         },
       });
     }
+  };
+
+  const handleLinkModalOpen = () => {
+    setIsLinkModalVisible(true);
   };
 
   const handleLinkChange = (newLink: string) => {
@@ -191,7 +199,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
             <GoalSection
               goal={goal}
               onGoalChange={handleGoalChange}
-              setIsGoalModalVisible={setIsGoalModalVisible}
+              onGoalModalOpen={handleGoalModalOpen}
             />
             <FileLinkSection
               fileUrl={fileUrl}
@@ -199,7 +207,7 @@ function TodoDetailModal({ todo, onClose }: TodoDetailModalProps) {
               onFileChange={handleFileChange}
               onFileDelete={handleFileDelete}
               onLinkDelete={handleLinkDelete}
-              setIsLinkModalVisible={setIsLinkModalVisible}
+              onLinkModalOpen={handleLinkModalOpen}
             />
           </div>
           <div className="fixed bottom-0 left-0 right-0 z-10 flex w-full justify-center gap-x-2 bg-white px-6 py-3 tablet:static tablet:mt-8 tablet:p-0">

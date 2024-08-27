@@ -43,21 +43,20 @@ function CreateGoalModal({
     if (isSaving) return;
 
     setIsSaving(true);
+
+    createGoal(title, {
+      onSuccess: (response) => {
+        const { title: newTitle, id: newId } = response.data;
+        if (onSave) {
+          onSave({ title: newTitle, id: newId });
+        }
+      },
+    });
+
+    handleClose();
     setTimeout(() => {
       setIsSaving(false);
     }, 300);
-
-    /* eslint-disable no-shadow */
-    createGoal(title, {
-      onSuccess: (response) => {
-        const { title, id } = response.data;
-        if (onSave) {
-          onSave({ title, id });
-        }
-
-        handleClose();
-      },
-    });
   };
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {

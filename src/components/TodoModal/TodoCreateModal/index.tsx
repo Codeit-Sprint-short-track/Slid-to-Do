@@ -50,6 +50,10 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
     setGoal(selectedOption);
   };
 
+  const handleGoalModalOpen = () => {
+    setIsGoalModalVisible(true);
+  };
+
   const handleGoalCreate = (newGoal: Goal) => {
     setGoal(newGoal);
     setIsGoalModalVisible(false);
@@ -82,6 +86,10 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
         },
       });
     }
+  };
+
+  const handleLinkModalOpen = () => {
+    setIsLinkModalVisible(true);
   };
 
   const handleLinkChange = (newLink: string) => {
@@ -163,7 +171,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
             <GoalSection
               goal={goal}
               onGoalChange={handleGoalChange}
-              setIsGoalModalVisible={setIsGoalModalVisible}
+              onGoalModalOpen={handleGoalModalOpen}
             />
             <FileLinkSection
               fileUrl={fileUrl}
@@ -171,7 +179,7 @@ function TodoCreateModal({ onClose, initialGoal }: TodoCreateModalProps) {
               onFileChange={handleFileChange}
               onFileDelete={handleFileDelete}
               onLinkDelete={handleLinkDelete}
-              setIsLinkModalVisible={setIsLinkModalVisible}
+              onLinkModalOpen={handleLinkModalOpen}
             />
           </div>
 
