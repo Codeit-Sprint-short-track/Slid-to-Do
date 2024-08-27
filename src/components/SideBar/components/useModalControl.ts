@@ -22,7 +22,7 @@ export default function useModalControl() {
           location.pathname === `/${routes.goalDetail}/${goalId}`||
           location.pathname === `/notes/${goalId}`
         ) {
-          navigate('/dashboard');
+          navigate(`/${routes.dashboard}`);
         }
         setGoalId(0);
       },
