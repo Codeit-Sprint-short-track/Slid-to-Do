@@ -19,10 +19,10 @@ export default function useModalControl() {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
         if (
-          location.pathname === `/goal-detail/${goalId}` ||
+          location.pathname === `/${routes.goalDetail}/${goalId}`||
           location.pathname === `/notes/${goalId}`
         ) {
-          navigate('/dashboard');
+          navigate(`/${routes.dashboard}`);
         }
         setGoalId(0);
       },
