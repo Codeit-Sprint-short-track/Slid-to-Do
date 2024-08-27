@@ -6,6 +6,7 @@ import useOutsideClick from '@hooks/useOutsideClick';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
+import GoalList from './components/goalList';
 
 interface MobileSideBarContentsProps {
   userData: { name: string; email: string };
@@ -92,61 +93,17 @@ function MobileSideBarContents({
           <span className="ml-0.5 text-sm font-semibold">새 목표</span>
         </Button>
       </div>
-      <ul>
-        {isEditing && (
-          <li className="flex items-center p-2 text-sm font-medium text-slate-700">
-            <span>•</span>
-            <input
-              ref={inputRef}
-              className="ml-1 h-8 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
-              placeholder="새 목표를 입력해주세요"
-              value={newGoal}
-              onChange={(e) => setNewGoal(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleAddPostGoal();
-                }
-              }}
-            />
-
-            <Button
-              shape="solid"
-              size="xs"
-              onClick={handleAddPostGoal}
-              additionalClass="w-6 h-6 ml-2"
-            >
-              <PlusIcon width={16} height={16} className="stroke-white" />
-            </Button>
-          </li>
-        )}
-        {isPending && (
-          <li className="p-2 text-sm font-medium text-slate-700">
-            • {newGoal}
-          </li>
-        )}
-        {goalData.map((item) => (
-          <div
-            onClick={() => {
-              navigate(`${routes.goalDetail}/${item.id}`);
-              toggleSideBar();
-            }}
-            key={item.id}
-          >
-            <li className="flex cursor-pointer flex-row justify-between p-2 text-sm font-medium text-slate-700">
-              <div>• {item.title}</div>
-              <PlusIcon
-                width={15}
-                height={15}
-                className="rotate-45 stroke-slate-400"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onShowDeletePopup(item.id);
-                }}
-              />
-            </li>
-          </div>
-        ))}
-      </ul>
+      <GoalList
+        isEditing={isEditing}
+        inputRef={inputRef}
+        newGoal={newGoal}
+        setNewGoal={setNewGoal}
+        handleAddPostGoal={handleAddPostGoal}
+        isPending={isPending}
+        goalData={goalData}
+        toggleSideBar={toggleSideBar}
+        onShowDeletePopup={onShowDeletePopup}
+      />
     </div>
   );
 }
