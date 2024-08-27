@@ -20,8 +20,8 @@ function MobileSideBar({
   const {
     showTodoModal,
     isDeletePopupVisible,
-    onShowTodoModal,
-    onShowDeletePopup,
+    handleShowTodoModal,
+    handleShowDeletePopup,
     handleDelete,
     setShowTodoModal,
     setIsDeletePopupVisible,
@@ -57,8 +57,8 @@ function MobileSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
-            onShowTodoModal={onShowTodoModal}
-            onShowDeletePopup={onShowDeletePopup}
+            handleShowTodoModal={handleShowTodoModal}
+            handleShowDeletePopup={handleShowDeletePopup}
           />
         )}
       </div>

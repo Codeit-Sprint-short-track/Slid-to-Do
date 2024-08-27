@@ -11,16 +11,16 @@ interface MobileSideBarContentsProps {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  onShowTodoModal: () => void;
-  onShowDeletePopup: (goalId: number) => void;
+  handleShowTodoModal: () => void;
+  handleShowDeletePopup: (goalId: number) => void;
 }
 
 function MobileSideBarContents({
   userData,
   goalData,
   toggleSideBar,
-  onShowTodoModal,
-  onShowDeletePopup,
+  handleShowTodoModal,
+  handleShowDeletePopup,
 }: MobileSideBarContentsProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ function MobileSideBarContents({
             대시보드
           </div>
         </div>
-        <Button shape="solid" size="xs" onClick={onShowTodoModal}>
+        <Button shape="solid" size="xs" onClick={handleShowTodoModal}>
           <PlusIcon width={16} height={16} className="stroke-white" />
           <span className="ml-0.5 text-sm font-semibold">새 할 일</span>
         </Button>
@@ -88,7 +88,7 @@ function MobileSideBarContents({
         isPending={isPending}
         goalData={goalData}
         toggleSideBar={toggleSideBar}
-        onShowDeletePopup={onShowDeletePopup}
+        handleShowDeletePopup={handleShowDeletePopup}
       />
     </div>
   );

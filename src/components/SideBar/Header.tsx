@@ -26,7 +26,7 @@ function LogoutBtn() {
   );
 }
 
-export default function Header({ userData, toggleSideBar }: HeaderProps) {
+function Header({ userData, toggleSideBar }: HeaderProps) {
   const navigate = useNavigate();
   const width = useWindowWidth();
 
@@ -70,3 +70,5 @@ export default function Header({ userData, toggleSideBar }: HeaderProps) {
     </>
   );
 }
+
+export default Header;

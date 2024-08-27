@@ -2,7 +2,7 @@ import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { RefObject, useEffect, useState } from 'react';
 
-export default function usePostControl(inputRef: RefObject<HTMLInputElement>) {
+const usePostControl = (inputRef: RefObject<HTMLInputElement>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newGoal, setNewGoal] = useState('');
   const { mutate: postMutate, isPending } = usePostGoal();
@@ -31,4 +31,6 @@ export default function usePostControl(inputRef: RefObject<HTMLInputElement>) {
     setNewGoal,
     isPending,
   };
-}
+};
+
+export default usePostControl;

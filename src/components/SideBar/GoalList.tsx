@@ -14,10 +14,10 @@ interface GoalListProps {
   isPending: boolean;
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  onShowDeletePopup: (goalId: number) => void;
+  handleShowDeletePopup: (goalId: number) => void;
 }
 
-export default function GoalList({
+function GoalList({
   isEditing,
   inputRef,
   newGoal,
@@ -26,7 +26,7 @@ export default function GoalList({
   isPending,
   goalData,
   toggleSideBar,
-  onShowDeletePopup,
+  handleShowDeletePopup,
 }: GoalListProps) {
   const navigate = useNavigate();
   const width = useWindowWidth();
@@ -77,7 +77,7 @@ export default function GoalList({
               className="rotate-45 stroke-slate-400"
               onClick={(e) => {
                 e.stopPropagation();
-                onShowDeletePopup(item.id);
+                handleShowDeletePopup(item.id);
               }}
             />
           </li>
@@ -86,3 +86,5 @@ export default function GoalList({
     </ul>
   );
 }
+
+export default GoalList;

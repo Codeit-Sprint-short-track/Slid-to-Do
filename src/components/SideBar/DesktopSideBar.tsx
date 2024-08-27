@@ -29,8 +29,8 @@ function DesktopSideBar({
   const {
     showTodoModal,
     isDeletePopupVisible,
-    onShowTodoModal,
-    onShowDeletePopup,
+    handleShowTodoModal,
+    handleShowDeletePopup,
     handleDelete,
     setShowTodoModal,
     setIsDeletePopupVisible,
@@ -73,8 +73,8 @@ function DesktopSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
-            onShowTodoModal={onShowTodoModal}
-            onShowDeletePopup={onShowDeletePopup}
+            handleShowTodoModal={handleShowTodoModal}
+            handleShowDeletePopup={handleShowDeletePopup}
             width={width}
           />
         )}

@@ -12,17 +12,17 @@ interface DesktopSideBarContentsProps {
   userData: { name: string; email: string };
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  onShowTodoModal: () => void;
-  onShowDeletePopup: (goalId: number) => void;
+  handleShowTodoModal: () => void;
+  handleShowDeletePopup: (goalId: number) => void;
 }
 
 function DesktopSideBarContents({
   userData,
   goalData,
   toggleSideBar,
-  onShowTodoModal,
+  handleShowTodoModal,
   width,
-  onShowDeletePopup,
+  handleShowDeletePopup,
 }: DesktopSideBarContentsProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ function DesktopSideBarContents({
             shape="solid"
             size="sm"
             additionalClass="w-full"
-            onClick={onShowTodoModal}
+            onClick={handleShowTodoModal}
           >
             <PlusIcon width={24} height={24} className="mr-2 stroke-white" />
             <span className="mr-2 text-base font-semibold">새 할 일</span>
@@ -93,7 +93,7 @@ function DesktopSideBarContents({
           isPending={isPending}
           goalData={goalData}
           toggleSideBar={toggleSideBar}
-          onShowDeletePopup={onShowDeletePopup}
+          handleShowDeletePopup={handleShowDeletePopup}
         />
       </div>
     </>

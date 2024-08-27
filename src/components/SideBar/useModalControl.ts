@@ -3,13 +3,13 @@ import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function useModalControl() {
+const useModalControl = () => {
   const [showTodoModal, setShowTodoModal] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [goalId, setGoalId] = useState<number>(0);
   const { mutate: deleteGoalMutate } = useDeleteGoal();
-  const onShowTodoModal = () => setShowTodoModal(true);
-  const onShowDeletePopup = (id: number) => {
+  const handleShowTodoModal = () => setShowTodoModal(true);
+  const handleShowDeletePopup = (id: number) => {
     setIsDeletePopupVisible(true);
     setGoalId(id);
   };
@@ -33,10 +33,12 @@ export default function useModalControl() {
   return {
     showTodoModal,
     isDeletePopupVisible,
-    onShowTodoModal,
-    onShowDeletePopup,
+    handleShowTodoModal,
+    handleShowDeletePopup,
     handleDelete,
     setShowTodoModal,
     setIsDeletePopupVisible,
   };
-}
+};
+
+export default useModalControl;
