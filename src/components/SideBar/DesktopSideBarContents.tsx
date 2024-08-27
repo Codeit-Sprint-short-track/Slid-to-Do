@@ -3,8 +3,8 @@ import Button from '@components/Button';
 import routes from '@constants/routes';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GoalList from './components/GoalList';
 import Header from './components/Header';
-import GoalList from './components/goalList2';
 import usePostControl from './components/usePostControl';
 
 interface DesktopSideBarContentsProps {
