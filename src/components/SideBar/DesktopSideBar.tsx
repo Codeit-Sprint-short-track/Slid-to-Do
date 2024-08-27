@@ -43,7 +43,10 @@ function DesktopSideBar({
     deleteGoalMutate(goalId, {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
-        if (location.pathname === `/goal-detail/${goalId}`) {
+        if (
+          location.pathname === `/goal-detail/${goalId}` ||
+          location.pathname === `/notes/${goalId}`
+        ) {
           navigate('/dashboard');
         }
         setGoalId(0);

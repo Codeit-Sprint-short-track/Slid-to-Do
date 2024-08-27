@@ -3,6 +3,7 @@ import Popup from '@components/Popup';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MobileSideBarContents from './MobileSideBarContents';
 
 interface MobileSideBarProps {
@@ -18,6 +19,8 @@ function MobileSideBar({
   userData,
   goalData,
 }: MobileSideBarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showTodoModal, setShowTodoModal] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [goalId, setGoalId] = useState<number>(0);
@@ -31,6 +34,12 @@ function MobileSideBar({
     deleteGoalMutate(goalId, {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
+        if (
+          location.pathname === `/goal-detail/${goalId}` ||
+          location.pathname === `/notes/${goalId}`
+        ) {
+          navigate('/dashboard');
+        }
         setGoalId(0);
       },
     });
