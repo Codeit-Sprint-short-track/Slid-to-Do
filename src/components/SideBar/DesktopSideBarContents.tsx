@@ -1,12 +1,11 @@
 import { FlagIcon, HomeIcon, PlusIcon } from '@assets';
 import Button from '@components/Button';
 import routes from '@constants/routes';
-import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
-import useOutsideClick from '@hooks/useOutsideClick';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import GoalList from './components/goalList';
+import usePostControl from './components/usePostControl';
 
 interface DesktopSideBarContentsProps {
   width: number;
@@ -25,29 +24,16 @@ function DesktopSideBarContents({
   width,
   onShowDeletePopup,
 }: DesktopSideBarContentsProps) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [newGoal, setNewGoal] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-
   const navigate = useNavigate();
-  useOutsideClick(inputRef, () => setIsEditing(false));
-  const { mutate: postMutate, isPending } = usePostGoal();
-
-  const handleAddGoalBtn = () => {
-    setTimeout(() => setIsEditing(true), 0);
-  };
-
-  const handleAddPostGoal = () => {
-    setIsEditing(false);
-    postMutate(newGoal);
-    setNewGoal('');
-  };
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditing]);
+  const {
+    handleAddGoalBtn,
+    handleAddPostGoal,
+    isEditing,
+    newGoal,
+    setNewGoal,
+    isPending,
+  } = usePostControl(inputRef);
 
   return (
     <>
