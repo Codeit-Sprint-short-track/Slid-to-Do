@@ -1,3 +1,4 @@
+import routes from '@constants/routes';
 import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ export default function useModalControl() {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
         if (
-          location.pathname === `/${routes.goalDetail}/${goalId}`||
+          location.pathname === `/${routes.goalDetail}/${goalId}` ||
           location.pathname === `/notes/${goalId}`
         ) {
           navigate(`/${routes.dashboard}`);
