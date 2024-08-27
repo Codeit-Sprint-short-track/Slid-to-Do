@@ -2,7 +2,7 @@ import { FoldIcon, HamburgerIcon } from '@assets';
 import Popup from '@components/Popup';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import MobileSideBarContents from './MobileSideBarContents';
-import useModalControl from './components/useModalControl';
+import useModalControl from './useModalControl';
 
 interface MobileSideBarProps {
   isOpen: boolean;

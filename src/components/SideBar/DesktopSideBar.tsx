@@ -3,7 +3,7 @@ import Popup from '@components/Popup';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import { useNavigate } from 'react-router-dom';
 import DesktopSideBarContents from './DesktopSideBarContents';
-import useModalControl from './components/useModalControl';
+import useModalControl from './useModalControl';
 
 interface SideBarProps {
   isOpen: boolean;

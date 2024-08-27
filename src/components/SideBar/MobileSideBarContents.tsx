@@ -3,9 +3,9 @@ import Button from '@components/Button';
 import routes from '@constants/routes';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GoalList from './components/GoalList';
-import Header from './components/Header';
-import usePostControl from './components/usePostControl';
+import GoalList from './GoalList';
+import Header from './Header';
+import usePostControl from './usePostControl';
 
 interface MobileSideBarContentsProps {
   userData: { name: string; email: string };
