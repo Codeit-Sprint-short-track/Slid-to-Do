@@ -17,7 +17,7 @@ function TodosByGoal() {
     isLoading,
     fetchNextPage,
     hasNextPage,
-  } = useGetGoals(3);
+  } = useGetGoals(3, 'newest');
   const goalsData = goalsInfo?.pages || [];
   const totalCount = goalsData[0]?.data?.totalCount ?? 0;
   let content;
@@ -38,7 +38,11 @@ function TodosByGoal() {
         <div className="mt-4">
           {goalsData.map((page) =>
             page.data.goals.map((goal: Goal) => (
-              <TodosByGoalBox key={goal.id} id={goal.id} title={goal.title} />
+              <TodosByGoalBox
+                key={goal.id}
+                goalId={goal.id}
+                title={goal.title}
+              />
             )),
           )}
         </div>
