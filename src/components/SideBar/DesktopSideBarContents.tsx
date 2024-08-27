@@ -4,7 +4,7 @@ import routes from '@constants/routes';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
-import GoalList from './components/goalList';
+import GoalList from './components/goalList2';
 import usePostControl from './components/usePostControl';
 
 interface DesktopSideBarContentsProps {
