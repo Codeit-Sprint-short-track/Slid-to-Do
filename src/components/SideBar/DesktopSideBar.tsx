@@ -3,7 +3,7 @@ import Popup from '@components/Popup';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
 import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DesktopSideBarContents from './DesktopSideBarContents';
 
 interface SideBarProps {
@@ -27,6 +27,8 @@ function DesktopSideBar({
   userData,
   goalData,
 }: SideBarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showTodoModal, setShowTodoModal] = useState(false);
   const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
   const [goalId, setGoalId] = useState<number>(0);
@@ -36,15 +38,18 @@ function DesktopSideBar({
     setIsDeletePopupVisible(true);
     setGoalId(id);
   };
+
   const handleDelete = () => {
     deleteGoalMutate(goalId, {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
+        if (location.pathname === `/goal-detail/${goalId}`) {
+          navigate('/dashboard');
+        }
         setGoalId(0);
       },
     });
   };
-  const navigate = useNavigate();
   return (
     <>
       {isOpen && width < 1920 && (
