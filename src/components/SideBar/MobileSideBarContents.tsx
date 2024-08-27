@@ -1,16 +1,11 @@
-import {
-  FlagIcon,
-  HomeIcon,
-  PlusIcon,
-  ProfileIcon,
-  TextLogoIcon,
-} from '@assets';
+import { FlagIcon, HomeIcon, PlusIcon } from '@assets';
 import Button from '@components/Button';
 import routes from '@constants/routes';
 import usePostGoal from '@hooks/api/goalsAPI/usePostGoal';
 import useOutsideClick from '@hooks/useOutsideClick';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from './components/Header';
 
 interface MobileSideBarContentsProps {
   userData: { name: string; email: string };
@@ -53,40 +48,7 @@ function MobileSideBarContents({
 
   return (
     <div className="flex-col">
-      <TextLogoIcon
-        className="cursor-pointer"
-        onClick={() => {
-          navigate(`${routes.dashboard}`);
-          toggleSideBar();
-        }}
-      />
-      <div className="mb-6 mt-4 flex flex-row justify-between">
-        <div className="flex flex-row">
-          <ProfileIcon width={32} height={32} />
-          <div className="ml-3 flex flex-col items-start justify-between">
-            <div className="h-4 text-xs font-semibold leading-5 text-slate-800">
-              {userData.name}
-            </div>
-            <div className="h-4 text-xs font-medium leading-5 text-slate-600">
-              {userData.email}
-            </div>
-          </div>
-        </div>
-        <div className="flex items-end">
-          <button
-            type="button"
-            onClick={() => {
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-              navigate(`${routes.signIn}`);
-            }}
-          >
-            <span className="text-xs font-normal leading-4 text-slate-400">
-              로그아웃
-            </span>
-          </button>
-        </div>
-      </div>
+      <Header userData={userData} toggleSideBar={toggleSideBar} />
 
       <div className="absolute left-0 w-full border-b-[1px]" />
 
