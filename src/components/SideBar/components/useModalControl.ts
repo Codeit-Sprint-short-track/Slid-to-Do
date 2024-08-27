@@ -1,5 +1,6 @@
 import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function useModalControl() {
   const [showTodoModal, setShowTodoModal] = useState(false);
@@ -11,10 +12,18 @@ export default function useModalControl() {
     setIsDeletePopupVisible(true);
     setGoalId(id);
   };
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleDelete = () => {
     deleteGoalMutate(goalId, {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
+        if (
+          location.pathname === `/goal-detail/${goalId}` ||
+          location.pathname === `/notes/${goalId}`
+        ) {
+          navigate('/dashboard');
+        }
         setGoalId(0);
       },
     });
