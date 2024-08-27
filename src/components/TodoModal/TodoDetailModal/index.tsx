@@ -12,9 +12,9 @@ import useOutsideClick from '@hooks/useOutsideClick';
 import useVisibility from '@hooks/useVisibility';
 import { AxiosResponse } from 'axios';
 import { ChangeEvent, useRef, useState } from 'react';
-import FileLinkSection from '../components/FileLinkSection';
-import GoalSection from '../components/GoalSection';
-import TitleSection from '../components/TitleSection';
+import FileLinkSection from '../FileLinkSection';
+import GoalSection from '../GoalSection';
+import TitleSection from '../TitleSection';
 import StatusSection from './StatusSection';
 import useTodoDetail from './useTodoDetail';
 
