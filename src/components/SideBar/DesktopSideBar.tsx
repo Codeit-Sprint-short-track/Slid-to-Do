@@ -1,10 +1,9 @@
 import { FoldIcon, LogoIcon } from '@assets';
 import Popup from '@components/Popup';
 import TodoCreateModal from '@components/TodoModal/TodoCreateModal';
-import useDeleteGoal from '@hooks/api/goalsAPI/useDeleteGoal';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DesktopSideBarContents from './DesktopSideBarContents';
+import useModalControl from './components/useModalControll';
 
 interface SideBarProps {
   isOpen: boolean;
@@ -27,23 +26,15 @@ function DesktopSideBar({
   userData,
   goalData,
 }: SideBarProps) {
-  const [showTodoModal, setShowTodoModal] = useState(false);
-  const [isDeletePopupVisible, setIsDeletePopupVisible] = useState(false);
-  const [goalId, setGoalId] = useState<number>(0);
-  const { mutate: deleteGoalMutate } = useDeleteGoal();
-  const onShowTodoModal = () => setShowTodoModal(true);
-  const onShowDeletePopup = (id: number) => {
-    setIsDeletePopupVisible(true);
-    setGoalId(id);
-  };
-  const handleDelete = () => {
-    deleteGoalMutate(goalId, {
-      onSuccess: () => {
-        setIsDeletePopupVisible(false);
-        setGoalId(0);
-      },
-    });
-  };
+  const {
+    showTodoModal,
+    isDeletePopupVisible,
+    onShowTodoModal,
+    onShowDeletePopup,
+    handleDelete,
+    setShowTodoModal,
+    setIsDeletePopupVisible,
+  } = useModalControl();
   const navigate = useNavigate();
   return (
     <>
