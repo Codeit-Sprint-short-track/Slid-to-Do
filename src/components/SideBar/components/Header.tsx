@@ -46,10 +46,16 @@ export default function Header({ userData, toggleSideBar }: HeaderProps) {
             height={width < 744 ? 32 : 64}
           />
           <div className="ml-3 flex flex-col items-start justify-between">
-            <div className="h-4 text-xs font-semibold leading-5 text-slate-800 tablet:text-sm">
+            <div
+              id="name"
+              className="h-4 text-xs font-semibold leading-5 text-slate-800 tablet:text-sm"
+            >
               {userData.name}
             </div>
-            <div className="h-4 text-xs font-medium leading-5 text-slate-600 tablet:text-sm">
+            <div
+              id="email"
+              className="h-4 text-xs font-medium leading-5 text-slate-600 tablet:text-sm"
+            >
               {userData.email}
             </div>
             {width >= 744 && <LogoutBtn />}
