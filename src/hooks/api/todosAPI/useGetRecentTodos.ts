@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 const useGetRecentTodos = () =>
   useQuery({
     queryKey: ['recentTodos'],
-    queryFn: () => todosAPI.getTodos(undefined, undefined, undefined, 4),
+    queryFn: () => todosAPI.getTodos({ size: 4 }),
   });
 
 export default useGetRecentTodos;
