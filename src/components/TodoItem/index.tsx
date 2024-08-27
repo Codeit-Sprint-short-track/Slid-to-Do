@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 
 export interface TodoItemProps {
   todo: Todo;
+  goalId?: number;
   showGoals?: boolean;
   showIcons?: boolean;
   hoverBgColor?: string;
@@ -83,13 +84,14 @@ function IconButtons({ todo, setIsNoteDetailOpen }: IconButtonsProps) {
 
 function TodoItem({
   todo,
+  goalId,
   showGoals = false,
   showIcons = false,
   hoverBgColor = 'hover:bg-slate-100',
 }: TodoItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNoteDetailOpen, setIsNoteDetailOpen] = useState(false);
-  const { mutate: toggleDone } = usePatchDone();
+  const { mutate: toggleDone } = usePatchDone(goalId);
 
   return (
     <>
@@ -99,15 +101,14 @@ function TodoItem({
         onClick={() => setIsModalOpen(true)}
         role="button"
         tabIndex={0}
-        onKeyDown={() => setIsModalOpen(true)}
       >
         <div className="flex w-full items-start space-x-2 overflow-hidden">
           <button
             type="button"
             className="flex h-6 w-6 flex-shrink-0 items-center justify-center"
             onClick={(e) => {
-              e.stopPropagation();
               toggleDone(todo);
+              e.stopPropagation();
             }}
             aria-label={todo.done ? 'Mark as incomplete' : 'Mark as complete'}
           >
