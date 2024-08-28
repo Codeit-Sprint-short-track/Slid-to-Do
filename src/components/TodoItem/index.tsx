@@ -69,7 +69,7 @@ function IconButtons({ todo, setIsNoteDetailOpen }: IconButtonsProps) {
         </button>
       ) : (
         <Link
-          to={`${routes.newNote}/${todo.goal?.id || ''}`}
+          to={`${routes.newNote}${todo.goal?.id ? `/${todo.goal.id}` : ''}`}
           state={{ todo }}
           className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50"
           onClick={(e) => {
