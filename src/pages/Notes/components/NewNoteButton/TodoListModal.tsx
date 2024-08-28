@@ -1,5 +1,6 @@
 import { Todo } from '@/types/interface';
 import { CheckIcon, DeleteIcon, NoteViewIcon, NoteWriteIcon } from '@assets';
+import routes from '@constants/routes';
 import useGetTodos from '@hooks/api/todosAPI/useGetTodos';
 import useOutsideClick from '@hooks/useOutsideClick';
 import useVisibility from '@hooks/useVisibility';
@@ -96,7 +97,9 @@ function TodoListModal({ goalId, onClose }: TodoListModalProps) {
   useOutsideClick(modalRef, () => handleClose());
 
   const handleClickTodo = (todo: Todo) => {
-    navigate('/notes/new', { state: { todo, isEditing: !!todo.noteId } });
+    navigate(`${routes.newNote}/${todo.goal?.id}`, {
+      state: { todo, isEditing: !!todo.noteId },
+    });
   };
 
   return (
