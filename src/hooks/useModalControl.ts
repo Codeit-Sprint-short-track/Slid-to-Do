@@ -22,10 +22,11 @@ const useModalControl = () => {
       onSuccess: () => {
         setIsDeletePopupVisible(false);
         if (
-          location.pathname === `/${routes.goalDetail}/${goalId}` ||
-          location.pathname === `/notes/${goalId}`
+          location.pathname === `${routes.goalDetail}/${goalId}` ||
+          location.pathname === `${routes.notes}/${goalId}` ||
+          location.pathname === `${routes.newNote}/${goalId}`
         ) {
-          navigate(`/${routes.dashboard}`);
+          navigate(`${routes.dashboard}`);
         }
         setGoalId(0);
       },
