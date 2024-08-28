@@ -73,8 +73,8 @@ function DesktopSideBar({
             userData={userData}
             goalData={goalData}
             toggleSideBar={toggleSideBar}
-            handleShowTodoModal={handleShowTodoModal}
-            handleShowDeletePopup={handleShowDeletePopup}
+            onShowTodoModal={handleShowTodoModal}
+            onShowDeletePopup={handleShowDeletePopup}
             width={width}
           />
         )}
