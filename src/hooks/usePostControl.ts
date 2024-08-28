@@ -7,14 +7,17 @@ const usePostControl = (inputRef: RefObject<HTMLInputElement>) => {
   const [newGoal, setNewGoal] = useState('');
   const { mutate: postMutate, isPending } = usePostGoal();
   useOutsideClick(inputRef, () => setIsEditing(false));
+
   const handleAddGoalBtn = () => {
     setTimeout(() => setIsEditing(true), 0);
   };
-
   const handleAddPostGoal = () => {
     setIsEditing(false);
     postMutate(newGoal);
     setNewGoal('');
+  };
+  const handleGoalState = (v: string) => {
+    setNewGoal(v);
   };
 
   useEffect(() => {
@@ -28,7 +31,7 @@ const usePostControl = (inputRef: RefObject<HTMLInputElement>) => {
     handleAddPostGoal,
     isEditing,
     newGoal,
-    setNewGoal,
+    handleGoalState,
     isPending,
   };
 };

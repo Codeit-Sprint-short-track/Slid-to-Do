@@ -13,6 +13,8 @@ const useModalControl = () => {
     setIsDeletePopupVisible(true);
     setGoalId(id);
   };
+  const handleCloseTodoModal = () => setShowTodoModal(false);
+  const handleCloseDeletePopup = () => setIsDeletePopupVisible(false);
   const navigate = useNavigate();
   const location = useLocation();
   const handleDelete = () => {
@@ -36,8 +38,8 @@ const useModalControl = () => {
     handleShowTodoModal,
     handleShowDeletePopup,
     handleDelete,
-    setShowTodoModal,
-    setIsDeletePopupVisible,
+    handleCloseTodoModal,
+    handleCloseDeletePopup,
   };
 };
 

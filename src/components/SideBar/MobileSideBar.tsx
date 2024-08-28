@@ -23,8 +23,8 @@ function MobileSideBar({
     handleShowTodoModal,
     handleShowDeletePopup,
     handleDelete,
-    setShowTodoModal,
-    setIsDeletePopupVisible,
+    handleCloseTodoModal,
+    handleCloseDeletePopup,
   } = useModalControl();
 
   return (
@@ -62,18 +62,11 @@ function MobileSideBar({
           />
         )}
       </div>
-      {showTodoModal && (
-        <TodoCreateModal
-          onClose={() => {
-            setShowTodoModal(false);
-            toggleSideBar();
-          }}
-        />
-      )}
+      {showTodoModal && <TodoCreateModal onClose={handleCloseTodoModal} />}
       {isDeletePopupVisible && (
         <Popup
           message="정말 삭제하시겠어요?"
-          onCancel={() => setIsDeletePopupVisible(false)}
+          onCancel={handleCloseDeletePopup}
           onConfirm={handleDelete}
         />
       )}

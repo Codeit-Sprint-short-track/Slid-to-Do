@@ -29,7 +29,7 @@ function MobileSideBarContents({
     handleAddPostGoal,
     isEditing,
     newGoal,
-    setNewGoal,
+    handleGoalState,
     isPending,
   } = usePostControl(inputRef);
 
@@ -83,7 +83,7 @@ function MobileSideBarContents({
         isEditing={isEditing}
         inputRef={inputRef}
         newGoal={newGoal}
-        setNewGoal={setNewGoal}
+        handleGoalState={handleGoalState}
         handleAddPostGoal={handleAddPostGoal}
         isPending={isPending}
         goalData={goalData}

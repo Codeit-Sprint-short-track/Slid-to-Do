@@ -2,14 +2,14 @@ import { PlusIcon } from '@assets';
 import Button from '@components/Button';
 import routes from '@constants/routes';
 import useWindowWidth from '@hooks/useWindowWidth';
-import { Dispatch, Ref, SetStateAction } from 'react';
+import { Ref } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface GoalListProps {
   isEditing: boolean;
   inputRef: Ref<HTMLInputElement>;
   newGoal: string;
-  setNewGoal: Dispatch<SetStateAction<string>>;
+  handleGoalState: (v: string) => void;
   handleAddPostGoal: () => void;
   isPending: boolean;
   goalData: { title: string; id: number }[];
@@ -21,7 +21,7 @@ function GoalList({
   isEditing,
   inputRef,
   newGoal,
-  setNewGoal,
+  handleGoalState,
   handleAddPostGoal,
   isPending,
   goalData,
@@ -40,7 +40,7 @@ function GoalList({
             className="ml-1 h-6 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
             placeholder="새 목표를 입력해주세요"
             value={newGoal}
-            onChange={(e) => setNewGoal(e.target.value)}
+            onChange={(e) => handleGoalState(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleAddPostGoal();

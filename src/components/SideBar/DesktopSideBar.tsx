@@ -32,8 +32,8 @@ function DesktopSideBar({
     handleShowTodoModal,
     handleShowDeletePopup,
     handleDelete,
-    setShowTodoModal,
-    setIsDeletePopupVisible,
+    handleCloseTodoModal,
+    handleCloseDeletePopup,
   } = useModalControl();
   const navigate = useNavigate();
   return (
@@ -79,13 +79,11 @@ function DesktopSideBar({
           />
         )}
       </div>
-      {showTodoModal && (
-        <TodoCreateModal onClose={() => setShowTodoModal(false)} />
-      )}
+      {showTodoModal && <TodoCreateModal onClose={handleCloseTodoModal} />}
       {isDeletePopupVisible && (
         <Popup
           message="정말 삭제하시겠어요?"
-          onCancel={() => setIsDeletePopupVisible(false)}
+          onCancel={handleCloseDeletePopup}
           onConfirm={handleDelete}
         />
       )}
