@@ -26,7 +26,7 @@ function TodoItem({ todo, onClick }: TodoItemProps) {
       className="mt-2 flex cursor-pointer items-center justify-between rounded-xl px-3 py-1 hover:bg-blue-50"
       onClick={onClick}
     >
-      <div className="flex gap-2">
+      <div className="mr-2 flex gap-2">
         <CheckIcon />
         {todo.title}
       </div>
