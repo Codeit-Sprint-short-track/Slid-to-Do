@@ -9,24 +9,24 @@ interface GoalListProps {
   isEditing: boolean;
   inputRef: Ref<HTMLInputElement>;
   newGoal: string;
-  handleGoalState: (v: string) => void;
-  handleAddPostGoal: () => void;
+  onGoalState: (v: string) => void;
+  onAddPostGoal: () => void;
   isPending: boolean;
   goalData: { title: string; id: number }[];
   toggleSideBar: () => void;
-  handleShowDeletePopup: (goalId: number) => void;
+  onShowDeletePopup: (goalId: number) => void;
 }
 
 function GoalList({
   isEditing,
   inputRef,
   newGoal,
-  handleGoalState,
-  handleAddPostGoal,
+  onGoalState,
+  onAddPostGoal,
   isPending,
   goalData,
   toggleSideBar,
-  handleShowDeletePopup,
+  onShowDeletePopup,
 }: GoalListProps) {
   const navigate = useNavigate();
   const width = useWindowWidth();
@@ -40,17 +40,17 @@ function GoalList({
             className="ml-1 h-6 w-max flex-grow rounded-md border border-gray-300 p-2 text-sm"
             placeholder="새 목표를 입력해주세요"
             value={newGoal}
-            onChange={(e) => handleGoalState(e.target.value)}
+            onChange={(e) => onGoalState(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleAddPostGoal();
+                onAddPostGoal();
               }
             }}
           />
           <Button
             shape="solid"
             size="xs"
-            onClick={handleAddPostGoal}
+            onClick={onAddPostGoal}
             additionalClass="w-max h-max ml-2"
           >
             <PlusIcon width={16} height={16} className="stroke-white" />
@@ -77,7 +77,7 @@ function GoalList({
               className="rotate-45 stroke-slate-400"
               onClick={(e) => {
                 e.stopPropagation();
-                handleShowDeletePopup(item.id);
+                onShowDeletePopup(item.id);
               }}
             />
           </li>

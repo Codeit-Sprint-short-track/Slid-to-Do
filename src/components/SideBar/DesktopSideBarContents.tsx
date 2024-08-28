@@ -88,12 +88,12 @@ function DesktopSideBarContents({
           isEditing={isEditing}
           inputRef={inputRef}
           newGoal={newGoal}
-          handleGoalState={handleGoalState}
-          handleAddPostGoal={handleAddPostGoal}
+          onGoalState={handleGoalState}
+          onAddPostGoal={handleAddPostGoal}
           isPending={isPending}
           goalData={goalData}
           toggleSideBar={toggleSideBar}
-          handleShowDeletePopup={handleShowDeletePopup}
+          onShowDeletePopup={handleShowDeletePopup}
         />
       </div>
     </>
